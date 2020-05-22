@@ -6,8 +6,8 @@ var blocks: Array
 var tress: Array
 var a_side: int
 var b_side: int
-var min_height: int
-var max_height: int
+var min_height: float
+var max_height: float
 
 func _init(data: Dictionary) -> void:
 	blocks = data.blocks

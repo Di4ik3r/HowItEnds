@@ -11,7 +11,8 @@ func _init(_map_export: MapExport, _BlocksMM: MultiMeshInstance, _TreesMM: Multi
 	TreesMM = _TreesMM
 
 func generate_map() -> void:
-	var blocks = map_export.blocks
+	print(map_export)
+#	var blocks = map_export.blocks
 #	for i in range(blocks.size()):
 #		_place_block()
 
