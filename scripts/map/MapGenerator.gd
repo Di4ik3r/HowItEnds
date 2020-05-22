@@ -31,6 +31,7 @@ func change_parameter(parameter: String, value) -> void:
 
 var min_height
 var max_height
+var block_color: Color
 func _generate(isTragic: bool) -> void:
 	var forest_blocks = Array()
 	var blocks = Array()
@@ -53,22 +54,20 @@ func _generate(isTragic: bool) -> void:
 	var instance: int = 0
 	for a in range(0, MapVars.a_side):
 		for b in range(0, MapVars.b_side):
-			var block_color: Color
-			
 			var noise = MapVars.noise.get_noise_2d(a, b) * MapVars.NOISE_MULTIPLIER
 			var height_compare = noise + MapVars.HEIGHT_ADDITION
 			var height = MapVars.BLOCK_HEIGHT_MULTIPLIER * MapVars.noise.get_noise_2d(a, b)
 
 			if height_compare < MapVars.WATER_COMPARISON:
-				height = _generate_water(noise, instance, block_color)
+				height = _generate_water(noise, instance)
 			elif height_compare < MapVars.SAND_COMPARISON:
-				_generate_sand(noise, instance, block_color)
+				_generate_sand(noise, instance)
 			elif height_compare > 7 - MapVars.MOUNTAIN_COMPARISON && MapVars.generate_mountain:
-				height = _generate_mountain(min_height, height, noise, instance, block_color)
+				height = _generate_mountain(min_height, height, noise, instance)
 			elif height_compare > 8 - MapVars.forest_comparison:
 				forest_blocks.append(_generate_tree(a, b, min_height, height, noise, instance))
 			else:
-				_generate_grass(noise, instance, block_color)
+				_generate_grass(noise, instance)
 			
 			blocks.append({
 				"transform": _place_block(a, b, min_height, height, noise, instance),
@@ -97,24 +96,24 @@ func _generate(isTragic: bool) -> void:
 #	pass
 
 # ######################################################################################## BLOCK GEN
-func _generate_water(noise: float, instance: int, color: Color) -> float:
-	color = Color(MapVars.COLOR_WATER.to_html()).linear_interpolate(MapVars.COLOR_WATER_INTERPOLATION,
+func _generate_water(noise: float, instance: int) -> float:
+	block_color = Color(MapVars.COLOR_WATER.to_html()).linear_interpolate(MapVars.COLOR_WATER_INTERPOLATION,
 		Tools.noise_float_lerp(noise) * noise + 1)
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 	return MapVars.WATER_HEIGHT - MapVars.BLOCK_HEIGHT_MULTIPLIER / 1.89
 
-func _generate_sand(noise: float, instance: int, color: Color) -> void:
-	color = Color(MapVars.COLOR_SAND.to_html()).linear_interpolate(MapVars.COLOR_SAND_INTERPOLATE,
+func _generate_sand(noise: float, instance: int) -> void:
+	block_color = Color(MapVars.COLOR_SAND.to_html()).linear_interpolate(MapVars.COLOR_SAND_INTERPOLATE,
 		Tools.noise_float_lerp(noise) + 0.2)
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 
-func _generate_mountain(min_height: float, height: float, noise:float, instance: int, color: Color) -> float:
-	color = Color(MapVars.COLOR_MOUNTAIN.to_html()).linear_interpolate(MapVars.COLOR_MOUNTAIN_INTERPOLATION,
+func _generate_mountain(min_height: float, height: float, noise:float, instance: int) -> float:
+	block_color = Color(MapVars.COLOR_MOUNTAIN.to_html()).linear_interpolate(MapVars.COLOR_MOUNTAIN_INTERPOLATION,
 		Tools.noise_float_lerp(noise) * 5 - 10)
 	height *= noise * MapVars.MOUNTAIN_COMPARISON / 1.5
 	height -= MapVars.BLOCK_HEIGHT_MULTIPLIER / 2
 	
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 
 	return height
 
@@ -133,10 +132,10 @@ func _generate_tree(a: int, b: int, min_height: float, height: float, noise: flo
 
 	return pos
 
-func _generate_grass(noise, instance, color: Color) -> void:
-	color = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
+func _generate_grass(noise, instance) -> void:
+	block_color = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
 		Tools.noise_float_lerp(noise) )
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 
 func _place_block(a: int, b: int, min_height:float, height: float,  noise: float, instance: int) -> Transform:
 	var pos = Vector3(a, (height + abs(min_height) + MapVars.CUBE_SIZE / 2), b)

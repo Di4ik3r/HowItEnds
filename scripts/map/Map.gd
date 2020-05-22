@@ -11,7 +11,6 @@ onready var TreesMM = get_node(TreesMMPath)
 
 func _ready():
 	pass
-	
 
 func _set_resource(value: MapExport) -> void:
 	resource = value

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/map/Map.gd" type="Script" id=1]
+[ext_resource path="res://meshes/map/blocks_mm.tres" type="MultiMesh" id=2]
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 1 )
@@ -8,5 +9,6 @@ BlocksMMPath = NodePath("BlocksMM")
 TreesMMPath = NodePath("TressMM")
 
 [node name="BlocksMM" type="MultiMeshInstance" parent="."]
+multimesh = ExtResource( 2 )
 
 [node name="TressMM" type="MultiMeshInstance" parent="."]
