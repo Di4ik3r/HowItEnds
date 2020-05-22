@@ -170,5 +170,11 @@ func update_Terrain(isTragic: bool = false) -> void:
 func randomize() -> void:
 	MapVars.randomize()
 
-func export_map() -> Array:
-	return map_blocks
+func export_map() -> Dictionary:
+	return {
+		"blocks": map_blocks,
+		"a_side": MapVars.a_side,
+		"b_side": MapVars.b_side,
+		"min_height": min_height,
+		"max_height": max_height,
+	}

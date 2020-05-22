@@ -9,12 +9,24 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "MapBuilder",
+"language": "GDScript",
+"path": "res://scripts/map/MapBuilder.gd"
+}, {
+"base": "Resource",
+"class": "MapExport",
+"language": "GDScript",
+"path": "res://scripts/map/resources/MapExport.gd"
+}, {
 "base": "Node",
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/map/MapGenerator.gd"
 } ]
 _global_script_class_icons={
+"MapBuilder": "",
+"MapExport": "",
 "MapGenerator": ""
 }
 
