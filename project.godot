@@ -25,7 +25,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Tools="*res://scripts/Tools.gd"
+Tools="*res://scripts/global/Tools.gd"
+SceneSwitcher="*res://scripts/global/SceneSwitcher.gd"
 
 [display]
 
