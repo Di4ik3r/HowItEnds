@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Bots3D"
+config/name="HowItEnds"
 run/main_scene="res://scenes/main_menu/MainMenu.tscn"
 config/icon="res://icon.png"
 
