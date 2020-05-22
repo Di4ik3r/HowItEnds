@@ -25,7 +25,7 @@ func goto_scene(scene):
 		SCENES.MainMenu:
 			path = "res://scenes/main_menu/MainMenu.tscn"
 		SCENES.Simulation:
-			path = "res://scenes/..."
+			path = "res://scenes/simulation/Simulation.tscn"
 		_:
 			path = "res://scenes/main_menu/MainMenu.tscn"
 	 

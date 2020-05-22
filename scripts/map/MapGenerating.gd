@@ -88,6 +88,7 @@ func _on_MapGeneratingUI_back_button_pressed():
 func _on_MapGeneratingUI_randomize_button_pressed():
 	mapGenerator.randomize()
 func _on_MapGeneratingUI_start_button_pressed():
+	SceneSwitcher.goto_scene(SceneSwitcher.SCENES.Simulation)
 	pass # Replace with function body.
 func _on_MapGeneratingUI_generate_button_pressed():
 	mapGenerator.update_Terrain(true)
