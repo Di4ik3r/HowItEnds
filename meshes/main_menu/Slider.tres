@@ -1,0 +1,9 @@
+[gd_resource type="QuadMesh" load_steps=2 format=2]
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_transparent = true
+albedo_color = Color( 0.188235, 0.533333, 0.0627451, 0.411765 )
+
+[resource]
+material = SubResource( 7 )
+size = Vector2( 1, 1.8 )

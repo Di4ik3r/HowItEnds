@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/map/ui/MapGenPanelGroupTech.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/map/ui/MapGenPanelGroupEnv.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/map/ui/MapGenUI.gd" type="Script" id=3]
+[ext_resource path="res://scenes/map/ui/MapGenPanelGroupControl.tscn" type="PackedScene" id=4]
+
+[node name="MapGeneratingUI" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 10
+custom_constants/margin_left = 5
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+TechPanelPath = NodePath("HBoxContainer/MapGenPanelGroupTech")
+ControlPanelPath = NodePath("HBoxContainer/MapGenPanelGroup")
+EnvPanelPath = NodePath("HBoxContainer/MapGenPanelGroupEnv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 5.0
+margin_top = 338.0
+margin_right = 1019.0
+margin_bottom = 600.0
+size_flags_vertical = 8
+
+[node name="MapGenPanelGroupTech" parent="HBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 206.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+
+[node name="Expander" type="Control" parent="HBoxContainer"]
+visible = false
+margin_left = 225.0
+margin_right = 446.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+
+[node name="Expander2" type="Control" parent="HBoxContainer"]
+visible = false
+margin_left = 352.0
+margin_right = 524.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+
+[node name="MapGenPanelGroup" parent="HBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 210.0
+margin_top = 96.0
+margin_right = 802.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+size_flags_stretch_ratio = 2.87
+
+[node name="Expander3" type="Control" parent="HBoxContainer"]
+visible = false
+margin_left = 418.0
+margin_right = 714.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+
+[node name="MapGenPanelGroupEnv" parent="HBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 806.0
+margin_right = 1014.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+[connection signal="length_changed" from="HBoxContainer/MapGenPanelGroupTech" to="." method="_on_length_changed"]
+[connection signal="seed_changed" from="HBoxContainer/MapGenPanelGroupTech" to="." method="_on_seed_changed"]
+[connection signal="width_changed" from="HBoxContainer/MapGenPanelGroupTech" to="." method="_on_width_changed"]
+[connection signal="back_button_pressed" from="HBoxContainer/MapGenPanelGroup" to="." method="_on_MapGenPanelGroup_back_button_pressed"]
+[connection signal="generate_button_pressed" from="HBoxContainer/MapGenPanelGroup" to="." method="_on_MapGenPanelGroup_generate_button_pressed"]
+[connection signal="randomize_button_pressed" from="HBoxContainer/MapGenPanelGroup" to="." method="_on_MapGenPanelGroup_randomize_button_pressed"]
+[connection signal="start_button_pressed" from="HBoxContainer/MapGenPanelGroup" to="." method="_on_MapGenPanelGroup_start_button_pressed"]
+[connection signal="forest_comparison_chanded" from="HBoxContainer/MapGenPanelGroupEnv" to="." method="_on_forest_comparison_chanded"]
+[connection signal="forest_percent_chanded" from="HBoxContainer/MapGenPanelGroupEnv" to="." method="_on_forest_percent_chanded"]
+[connection signal="forest_period_chanded" from="HBoxContainer/MapGenPanelGroupEnv" to="." method="_on_forest_period_chanded"]

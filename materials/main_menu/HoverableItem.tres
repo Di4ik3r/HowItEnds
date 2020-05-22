@@ -1,0 +1,14 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[sub_resource type="ViewportTexture" id=1]
+flags = 4
+viewport_path = NodePath("GUI3D/Viewport")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 1
+flags_transparent = true
+flags_unshaded = true
+flags_albedo_tex_force_srgb = true
+albedo_texture = SubResource( 1 )
+uv1_offset = Vector3( 0, -0.1, 0 )
