@@ -14,6 +14,7 @@ export(Resource) var MapVars = preload("res://resources/map/MapVars.tres")
 var Terrain: MultiMeshInstance
 var Trees: MultiMeshInstance
 var map_blocks: Array
+var map_trees: Array
 
 func _init() -> void:
 	MapVars.connect("refresh_ui", self, "_on_refresh_ui")
@@ -35,7 +36,7 @@ var block_color: Color
 func _generate(isTragic: bool) -> void:
 	var forest_blocks = Array()
 	var blocks = Array()
-	var tress = Array()
+	var trees = Array()
 	
 	if isTragic or not min_height or not max_height:
 		min_height = 999
@@ -88,11 +89,19 @@ func _generate(isTragic: bool) -> void:
 	Trees.multimesh.instance_count = count
 	for i in range(count):
 		var vector = array[i]
-		Trees.multimesh.set_instance_color(i, Color(0.2, 0.1, 0))
-		Trees.multimesh.set_instance_transform(i, 
-			Transform(Basis(), vector))
+		var tree_transform = Transform(Basis(), vector)
+		var tree_color = Color(0.2, 0.1, 0)
+		
+		trees.append({
+			"transform": tree_transform,
+			"color": tree_color,
+		})
+		
+		Trees.multimesh.set_instance_color(i, tree_color)
+		Trees.multimesh.set_instance_transform(i, tree_transform)
 	
 	map_blocks = blocks
+	map_trees = trees
 #	pass
 
 # ######################################################################################## BLOCK GEN
@@ -118,10 +127,10 @@ func _generate_mountain(min_height: float, height: float, noise:float, instance:
 	return height
 
 func _generate_tree(a: int, b: int, min_height: float, height: float, noise: float, instance: int) -> Vector3:
-	var color: = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
+	block_color = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
 		Tools.noise_float_lerp(noise))
 	
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 
 #	var calc: float = (abs(min_height) + height) * MapVars.BLOCK_HEIGHT_MULTIPLIER / (MapVars.BLOCK_HEIGHT_MULTIPLIER / 2) + 1
 	var calc: float = (abs(min_height) + height) * 2 + 1
@@ -172,6 +181,7 @@ func randomize() -> void:
 func export_map() -> Dictionary:
 	return {
 		"blocks": map_blocks,
+		"trees": map_trees,
 		"a_side": MapVars.a_side,
 		"b_side": MapVars.b_side,
 		"min_height": min_height,
