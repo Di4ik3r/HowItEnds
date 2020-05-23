@@ -118,10 +118,10 @@ func _generate_mountain(min_height: float, height: float, noise:float, instance:
 	return height
 
 func _generate_tree(a: int, b: int, min_height: float, height: float, noise: float, instance: int) -> Vector3:
-	var color: = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
+	block_color = Color(MapVars.COLOR_GRASS.to_html()).linear_interpolate(MapVars.COLOR_GRASS_INTERPOLATION,
 		Tools.noise_float_lerp(noise))
 	
-	Terrain.multimesh.set_instance_color(instance, color)
+	Terrain.multimesh.set_instance_color(instance, block_color)
 
 #	var calc: float = (abs(min_height) + height) * MapVars.BLOCK_HEIGHT_MULTIPLIER / (MapVars.BLOCK_HEIGHT_MULTIPLIER / 2) + 1
 	var calc: float = (abs(min_height) + height) * 2 + 1

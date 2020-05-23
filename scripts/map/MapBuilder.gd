@@ -17,8 +17,6 @@ func generate_map() -> void:
 	BlocksMM.multimesh.instance_count = a_side * b_side
 	
 	for i in range(blocks.size()):
-		if i == 500:
-			print(blocks[i].color)
 		_place_block(blocks[i].transform, blocks[i].color, i)
 #	var instance = 0
 #	for a in range(a_side):

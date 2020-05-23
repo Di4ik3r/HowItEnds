@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/stuff/CircleCamera.gd" type="Script" id=1]
+
+[node name="CircleCamera" type="Spatial"]
+script = ExtResource( 1 )
+InterpolatedCameraPath = NodePath("InterpolatedCamera")
+PositionFollowPath = NodePath("PositionFollow")
+PositionCenterPath = NodePath("PositionCenter")
+
+[node name="InterpolatedCamera" type="InterpolatedCamera" parent="."]
+far = 8192.0
+target = NodePath("../PositionFollow")
+enabled = true
+
+[node name="PositionFollow" type="Position3D" parent="."]
+
+[node name="PositionCenter" type="Position3D" parent="."]
