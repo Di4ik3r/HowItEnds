@@ -89,7 +89,10 @@ func _generate(isTragic: bool) -> void:
 	Trees.multimesh.instance_count = count
 	for i in range(count):
 		var vector = array[i]
-		var tree_transform = Transform(Basis(), vector)
+		var tree_basis = Basis()
+		tree_basis = tree_basis.rotated(Vector3(0, 1, 0), PI * (randi() + 1))
+#		var tree_transform = Transform(Basis(), vector)
+		var tree_transform = Transform(tree_basis, vector)
 		var tree_color = Color(0.2, 0.1, 0)
 		
 		trees.append({
@@ -136,8 +139,8 @@ func _generate_tree(a: int, b: int, min_height: float, height: float, noise: flo
 	var calc: float = (abs(min_height) + height) * 2 + 1
 	var x_offset = rand_range(-0.3, 0.3)
 	var z_offset = rand_range(-0.3, 0.3)
-	var pos = Vector3(a, calc + 0.5, b)
-#	var pos = Vector3(a + x_offset, calc + 0.5, b + z_offset)
+#	var pos = Vector3(a, calc + 0.5, b)
+	var pos = Vector3(a + x_offset, calc + 0.5, b + z_offset)
 
 	return pos
 
