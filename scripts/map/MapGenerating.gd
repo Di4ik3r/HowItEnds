@@ -4,7 +4,7 @@ extends Spatial
 signal map_back_button_pressed
 signal refresh_ui
 
-const CAMERA_HEIGHT = 12
+const CAMERA_HEIGHT = 45
 
 var mapGenerator: MapGenerator = MapGenerator.new()
 var mapVars: Resource = mapGenerator.MapVars
@@ -16,12 +16,13 @@ var circle_radius: float = 1
 onready var CameraFollowPos: = $"CameraFollowPos" as Position3D
 onready var CenterPos: = $"CenterPos" as Position3D
 onready var Terrain = $Terrain
-onready var Trees = $Trees
+onready var Trees1 = $Trees1
+onready var Trees2 = $Trees2
 
 onready var UI = $MapGeneratingUI
 
 func _ready() -> void:
-	mapGenerator.set_mminstance(Terrain, Trees)
+	mapGenerator.set_mminstance(Terrain, Trees1, Trees2)
 	_update()
 	mapGenerator.update_Terrain()
 	_include_signals()
@@ -38,7 +39,7 @@ func _update() -> void:
 	var min_side: = min(a, b) as int
 	circle_radius = max_side / 2 + min_side / 2
 	
-	circle_center = Vector3(a / 2, 10 / 2, b / 2)
+	circle_center = Vector3(a / 2, -20, b / 2)
 	CenterPos.translation = circle_center
 
 func _physics_process(delta: float) -> void:

@@ -8,11 +8,12 @@ extends Node
 signal refresh_ui(values)
 
 export(NodePath) var TerrainPath
-export(NodePath) var TreesPath
+export(NodePath) var Trees1Path
 export(Resource) var MapVars = preload("res://resources/map/MapVars.tres")
 
 var Terrain: MultiMeshInstance
-var Trees: MultiMeshInstance
+var Trees1: MultiMeshInstance
+var Trees2: MultiMeshInstance
 var map_blocks: Array
 var map_trees: Array
 
@@ -23,10 +24,11 @@ func _init() -> void:
 #	MapVars.connect("forest_percent_changed", self, "_on_forest_percent_changed")
 #	MapVars.connect("forest_period_changed", self, "_on_forest_period_changed")
 
-func set_mminstance(_Terrain: MultiMeshInstance, _Trees: MultiMeshInstance) -> void:
+func set_mminstance(_Terrain: MultiMeshInstance, _Trees1: MultiMeshInstance, _Trees2: MultiMeshInstance) -> void:
 	Terrain = _Terrain
-	Trees = _Trees
-	
+	Trees1 = _Trees1
+	Trees2 = _Trees2
+
 func change_parameter(parameter: String, value) -> void:
 	MapVars[parameter] = value
 
@@ -79,23 +81,45 @@ func _generate(isTragic: bool) -> void:
 	var count: int = forest_blocks.size()
 	var forest_percent_count = ((count as float * MapVars.forest_percent)) as int
 	var array = Array()
+	var trees1_count = 0
+	var trees2_count = 0
+	var t_min = 999
+	var t_max = -999
 	for i in range(count):
 		var vector = forest_blocks[i]
 		var noise = MapVars.noise_tree.get_noise_2d(vector.x, vector.z) + MapVars.forest_percent * 2 - 0.9
 		if noise > 0:
-			array.append(vector)
+			if noise >= 0.5:
+				trees2_count += 1
+				array.append({
+					"vector": vector,
+					"type": 2,
+				})
+			else:
+				trees1_count += 1
+				array.append({
+					"vector": vector,
+					"type": 1,
+				})
+#		t_min = min(t_min, noise)
+#		t_max = max(t_max, noise)
+#	print("Trees mim nax: ", t_min, "; ", t_max)
+	print("Trees counts: ", trees1_count, "; ", trees2_count)
 
 	count = array.size()
-	Trees.multimesh.instance_count = count
+	Trees1.multimesh.instance_count = trees1_count
+	Trees2.multimesh.instance_count = trees2_count
+	var trees1_indexer = 0
+	var trees2_indexer = 0
 	for i in range(count):
-		var vector = array[i]
-		var tree_basis = Basis()
+		var vector = array[i].vector
+		var type = array[i].type
 		
+		var tree_basis = Basis()
 		tree_basis = tree_basis.rotated(Vector3(0, 1, 0), PI * (randi() + 1))
 		var scale = randi() % 8 + 7
 		tree_basis = tree_basis.scaled(Vector3(scale, scale, scale))
 #		var tree_transform = Transform(Basis(), vector)
-		
 		var tree_transform = Transform(tree_basis, vector)
 		var tree_color = Color(0.2, 0.1, 0)
 		
@@ -104,8 +128,15 @@ func _generate(isTragic: bool) -> void:
 			"color": tree_color,
 		})
 		
-		Trees.multimesh.set_instance_color(i, tree_color)
-		Trees.multimesh.set_instance_transform(i, tree_transform)
+		match(type):
+			1:
+				Trees1.multimesh.set_instance_color(trees1_indexer, tree_color)
+				Trees1.multimesh.set_instance_transform(trees1_indexer, tree_transform)
+				trees1_indexer += 1
+			2:
+				Trees2.multimesh.set_instance_color(trees2_indexer, tree_color)
+				Trees2.multimesh.set_instance_transform(trees2_indexer, tree_transform)
+				trees2_indexer += 1
 	
 	map_blocks = blocks
 	map_trees = trees
