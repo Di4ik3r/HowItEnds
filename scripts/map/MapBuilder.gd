@@ -40,5 +40,6 @@ func _place_block(transform: Transform, color: Color, instance: int) -> void:
 	BlocksMM.multimesh.set_instance_transform(instance, transform)
 
 func _place_tree(data: Dictionary, instance: int) -> void:
+	var transform: = data.transform as Transform
 	TreesMM.multimesh.set_instance_color(instance, data.color)
-	TreesMM.multimesh.set_instance_transform(instance, data.transform)
+	TreesMM.multimesh.set_instance_transform(instance, transform)
