@@ -1,14 +1,20 @@
 class_name MapBuilder
 
 var map_export: MapExport
-var BlocksMM: MultiMeshInstance
-var TreesMM: MultiMeshInstance
 var mapVars = preload("res://resources/map/MapVars.tres")
 
-func _init(_map_export: MapExport, _BlocksMM: MultiMeshInstance, _TreesMM: MultiMeshInstance) -> void:
+var BlocksMM: MultiMeshInstance
+var TreesMM1: MultiMeshInstance
+var TreesMM2: MultiMeshInstance
+
+var tree1_counter = 0
+var tree2_counter = 0
+
+func _init(_map_export: MapExport, _BlocksMM: MultiMeshInstance, _TreesMM1: MultiMeshInstance, _TreesMM2: MultiMeshInstance) -> void:
 	map_export = _map_export
 	BlocksMM = _BlocksMM
-	TreesMM = _TreesMM
+	TreesMM1 = _TreesMM1
+	TreesMM2 = _TreesMM2
 
 func generate_map() -> void:
 	var a_side = map_export.a_side
@@ -16,14 +22,24 @@ func generate_map() -> void:
 	var blocks = map_export.blocks
 	var trees = map_export.trees
 	
+	var tree1_count = 0
+	var tree2_count = 0
+	for tree in trees:
+		match(tree.type):
+			1:
+				tree1_count += 1
+			2:
+				tree2_count += 1
+	
 	BlocksMM.multimesh.instance_count = blocks.size()
-	TreesMM.multimesh.instance_count = trees.size()
+	TreesMM1.multimesh.instance_count = tree1_count
+	TreesMM2.multimesh.instance_count = tree2_count
 	
 	for i in range(blocks.size()):
 		_place_block(blocks[i].transform, blocks[i].color, i)
 	
-	for i in range(trees.size()):
-		_place_tree(trees[i], i)
+	for tree in trees:
+		_place_tree(tree)
 #	var instance = 0
 #	for a in range(a_side):
 #		for b in range(b_side):
@@ -39,7 +55,14 @@ func _place_block(transform: Transform, color: Color, instance: int) -> void:
 	BlocksMM.multimesh.set_instance_color(instance, color)
 	BlocksMM.multimesh.set_instance_transform(instance, transform)
 
-func _place_tree(data: Dictionary, instance: int) -> void:
-	var transform: = data.transform as Transform
-	TreesMM.multimesh.set_instance_color(instance, data.color)
-	TreesMM.multimesh.set_instance_transform(instance, transform)
+func _place_tree(tree: Dictionary) -> void:
+	var transform: = tree.transform as Transform
+	match(tree.type):
+		1:
+			TreesMM1.multimesh.set_instance_transform(tree1_counter, transform)
+			tree1_counter += 1
+		2:
+			TreesMM2.multimesh.set_instance_transform(tree2_counter, transform)
+			tree2_counter += 1
+#	TreesMM.multimesh.set_instance_color(instance, data.color)
+#	TreesMM.multimesh.set_instance_transform(instance, transform)

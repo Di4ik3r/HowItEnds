@@ -72,9 +72,13 @@ func _generate(isTragic: bool) -> void:
 			else:
 				_generate_grass(noise, instance)
 			
+			var transform: = _place_block(a, b, min_height, height, noise, instance) as Transform
+			var top_pos = transform.origin + Vector3(0, ((abs(min_height) + height) * 2 + 1) / 2, 0)
+			
 			blocks.append({
-				"transform": _place_block(a, b, min_height, height, noise, instance),
+				"transform": transform,
 				"color": block_color,
+				"top_pos": top_pos,
 			})
 			instance += 1
 
@@ -89,7 +93,7 @@ func _generate(isTragic: bool) -> void:
 		var vector = forest_blocks[i]
 		var noise = MapVars.noise_tree.get_noise_2d(vector.x, vector.z) + MapVars.forest_percent * 2 - 0.9
 		if noise > 0:
-			if noise >= 0.5:
+			if noise >= 0.2:
 				trees2_count += 1
 				array.append({
 					"vector": vector,
@@ -104,7 +108,7 @@ func _generate(isTragic: bool) -> void:
 #		t_min = min(t_min, noise)
 #		t_max = max(t_max, noise)
 #	print("Trees mim nax: ", t_min, "; ", t_max)
-	print("Trees counts: ", trees1_count, "; ", trees2_count)
+#	print("Trees counts: ", trees1_count, "; ", trees2_count)
 
 	count = array.size()
 	Trees1.multimesh.instance_count = trees1_count
@@ -126,6 +130,7 @@ func _generate(isTragic: bool) -> void:
 		trees.append({
 			"transform": tree_transform,
 			"color": tree_color,
+			"type": type,
 		})
 		
 		match(type):
@@ -190,13 +195,15 @@ func _generate_grass(noise, instance) -> void:
 		Tools.noise_float_lerp(noise) )
 	Terrain.multimesh.set_instance_color(instance, block_color)
 
-func _place_block(a: int, b: int, min_height:float, height: float,  noise: float, instance: int) -> Transform:
+func _place_block(a: int, b: int, min_height: float, height: float,  noise: float, instance: int) -> Transform:
 	var pos = Vector3(a, (height + abs(min_height) + MapVars.CUBE_SIZE / 2), b)
 	var basis = Basis()
 	var calc: float = (abs(min_height) + height) * 2 + 1
 	basis = basis.scaled(Vector3(1, calc, 1))
 	var transform: Transform = Transform(basis, pos)
+	
 	Terrain.multimesh.set_instance_transform(instance, transform)
+	
 	return transform
 #func _on_noise_seed_changed(value: int) -> void:
 #	emit_signal("noise_changed", value)

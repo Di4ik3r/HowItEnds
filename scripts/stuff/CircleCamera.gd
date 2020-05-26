@@ -1,7 +1,7 @@
 extends Spatial
 
 
-const CAMERA_HEIGHT = 45
+var CAMERA_HEIGHT = 45
 
 export(NodePath) var InterpolatedCameraPath
 export(NodePath) var PositionFollowPath
@@ -12,6 +12,7 @@ export(NodePath) var PositionCenterPath
 var current_angle = 0
 var circle_radius: float = 1
 var circle_center: Vector3 = Vector3.ZERO
+var rotate: bool = true
 
 onready var Cam: = get_node(InterpolatedCameraPath) as InterpolatedCamera
 onready var PositionFollow: = get_node(PositionFollowPath) as Position3D
@@ -21,10 +22,11 @@ func _ready():
 	pass
 
 func _physics_process(delta: float) -> void:
-	current_angle += delta / 10
-	PositionFollow.translation = _circle_equation(current_angle)
-	PositionFollow.look_at(PositionCenter.translation, Vector3.UP)
-	PositionCenter.look_at(Cam.translation, Vector3.UP)
+	if rotate:
+		current_angle += delta / 10
+		PositionFollow.translation = _circle_equation(current_angle)
+		PositionFollow.look_at(PositionCenter.translation, Vector3.UP)
+		PositionCenter.look_at(Cam.translation, Vector3.UP)
 
 func _circle_equation(angle: float) -> Vector3:
 	var x = circle_center.x + circle_radius * cos(angle)

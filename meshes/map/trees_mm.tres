@@ -1,6 +1,6 @@
 [gd_resource type="MultiMesh" load_steps=2 format=2]
 
-[ext_resource path="res://meshes/map/tree.tres" type="ArrayMesh" id=1]
+[ext_resource path="res://meshes/map/confier_tree.tres" type="ArrayMesh" id=1]
 
 [resource]
 color_format = 1
