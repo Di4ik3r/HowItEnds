@@ -5,6 +5,7 @@ enum Direction {
 	N, NE, E, ES, S, SW, W, WN
 }
 
+var manager
 var cardinal = Direction.W setget _set_cardinal
 var look_at_pos: Vector3 = Vector3(1, 0, 0)
 
@@ -13,9 +14,10 @@ func _ready() -> void:
 	_set_cardinal(Direction.W)
 	pass
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLICvo
 func move() -> void:
-	translation += look_at_pos
+	manager.move_bot(self)
+#	translation += look_at_pos
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE
 func _set_cardinal(value) -> void:

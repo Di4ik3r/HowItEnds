@@ -12,3 +12,9 @@ CircleCameraPath = NodePath("CircleCamera")
 [node name="Map" parent="." instance=ExtResource( 1 )]
 
 [node name="CircleCamera" parent="." instance=ExtResource( 3 )]
+
+[node name="BotHolder" type="Spatial" parent="."]
+
+[node name="BotTimer" type="Timer" parent="."]
+autostart = true
+[connection signal="timeout" from="BotTimer" to="." method="_on_BotTimer_timeout"]
