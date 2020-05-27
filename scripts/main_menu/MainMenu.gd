@@ -6,7 +6,6 @@ onready var ItemPlay = $Options/ItemPlay
 onready var ItemExit = $Options/ItemExit
 onready var TransitionCamera = $Options/TransitionCamera
 onready var OptionsCamera = $Options/OptionsCamera
-onready var FpsGameCamera = $FirstPerson/Head/FpsGameCamera
 
 onready var TransitionCameraTimer: Timer = $Options/TransitionCamera/Timer as Timer
 onready var MapGenCamera: InterpolatedCamera = $MapGenerating/InterpolatedCamera as InterpolatedCamera

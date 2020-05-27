@@ -16,4 +16,4 @@ func _ready():
 func _set_resource(value: MapExport) -> void:
 	resource = value
 	Map.resource = resource
-#	CircleCamera.update(resource)
+	#CircleCamera.update(resource)
