@@ -6,6 +6,8 @@ onready var ItemPlay = $Options/ItemPlay
 onready var ItemExit = $Options/ItemExit
 onready var TransitionCamera = $Options/TransitionCamera
 onready var OptionsCamera = $Options/OptionsCamera
+onready var FpsGameCamera = $FirstPerson/Head/FpsGameCamera
+
 onready var TransitionCameraTimer: Timer = $Options/TransitionCamera/Timer as Timer
 onready var MapGenCamera: InterpolatedCamera = $MapGenerating/InterpolatedCamera as InterpolatedCamera
 onready var MapGenUI = $MapGenerating/MapGeneratingUI
@@ -22,7 +24,14 @@ func _on_ItemPlay_pressed():
 	TransitionCamera.current = true
 	TransitionCamera.enabled = true
 	TransitionCameraTimer.start()
-
+#	TransitionCamera.target =FpsGameCamera.get_path()
+#	TransitionCamera.current = true
+#	TransitionCamera.enabled = true
+#	TransitionCameraTimer.start()
+#	FpsGameCamera.target = FpsGameCamera.get_path()
+#	FpsGameCamera.current = true
+#	FpsGameCamera.enabled = true
+	
 func _on_ItemExit_pressed():
 	get_tree().quit()
 #	ItemExit.disable()
