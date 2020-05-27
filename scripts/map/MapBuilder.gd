@@ -1,7 +1,7 @@
 class_name MapBuilder
 
 var map_export: MapExport
-var mapVars = preload("res://resources/map/MapVars.tres")
+var MapVars = preload("res://resources/map/MapVars.tres")
 
 var BlocksMM: MultiMeshInstance
 var TreesMM1: MultiMeshInstance
@@ -15,6 +15,20 @@ func _init(_map_export: MapExport, _BlocksMM: MultiMeshInstance, _TreesMM1: Mult
 	BlocksMM = _BlocksMM
 	TreesMM1 = _TreesMM1
 	TreesMM2 = _TreesMM2
+
+func gen_2dim_map() -> Array:
+	var blocks = map_export.blocks
+	var divider = map_export.b_side
+	var result: Array = Array()
+	
+	var col: Array = Array()
+	for i in range(blocks.size()):
+		col.append(blocks[i].top_pos)
+		if (i + 1) % divider == 0:
+			result.append(col.duplicate())
+			col.clear()
+	
+	return result
 
 func generate_map() -> void:
 	var a_side = map_export.a_side
@@ -47,7 +61,7 @@ func generate_map() -> void:
 #			instance += 1
 
 func _place_block(transform: Transform, color: Color, instance: int) -> void:
-#	var pos = Vector3(a, (height + abs(map_export.min_height) + mapVars.CUBE_SIZE / 2), b)
+#	var pos = Vector3(a, (height + abs(map_export.min_height) + MapVars.CUBE_SIZE / 2), b)
 #	var basis = Basis()
 #	var calc: float = (abs(map_export.min_height) + height) * 2 + 1
 #	basis = basis.scaled(Vector3(1, calc, 1))
@@ -66,3 +80,4 @@ func _place_tree(tree: Dictionary) -> void:
 			tree2_counter += 1
 #	TreesMM.multimesh.set_instance_color(instance, data.color)
 #	TreesMM.multimesh.set_instance_transform(instance, transform)
+
