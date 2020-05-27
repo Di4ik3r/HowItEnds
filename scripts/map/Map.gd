@@ -7,6 +7,7 @@ export(NodePath) var TreesMM2Path
 
 var resource: MapExport = null setget _set_resource
 var mapBuilder: MapBuilder
+var map: Array
 
 onready var BlocksMM = get_node(BlocksMMPath)
 onready var TreesMM1 = get_node(TreesMM1Path)
@@ -19,6 +20,7 @@ func _set_resource(value: MapExport) -> void:
 	resource = value
 	mapBuilder = MapBuilder.new(resource, BlocksMM, TreesMM1, TreesMM2)
 	mapBuilder.generate_map()
+	map = mapBuilder.gen_2dim_map()
 	
 	export_map_to_csv()
 
