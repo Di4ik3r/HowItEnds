@@ -23,13 +23,11 @@ func _on_ItemPlay_pressed():
 	TransitionCamera.current = true
 	TransitionCamera.enabled = true
 	TransitionCameraTimer.start()
-#	TransitionCamera.target =FpsGameCamera.get_path()
-#	TransitionCamera.current = true
-#	TransitionCamera.enabled = true
-#	TransitionCameraTimer.start()
-#	FpsGameCamera.target = FpsGameCamera.get_path()
-#	FpsGameCamera.current = true
-#	FpsGameCamera.enabled = true
+#TransitionCamera.target =FpsGameCamera.get_path()
+#TransitionCamera.current = true
+#TransitionCamera.enabled = true
+#TransitionCameraTimer.start()
+
 	
 func _on_ItemExit_pressed():
 	get_tree().quit()
