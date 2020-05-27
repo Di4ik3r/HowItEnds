@@ -7,6 +7,10 @@ extends Node
 #signal forest_period_changed(value)
 signal refresh_ui(values)
 
+enum BlockType {
+	WATER, SAND, GRASS, FOREST, MOUNTAIN
+}
+
 export(NodePath) var TerrainPath
 export(NodePath) var Trees1Path
 export(Resource) var MapVars = preload("res://resources/map/MapVars.tres")
@@ -57,26 +61,38 @@ func _generate(isTragic: bool) -> void:
 	var instance: int = 0
 	for a in range(0, MapVars.a_side):
 		for b in range(0, MapVars.b_side):
+			var type
 			var noise = MapVars.noise.get_noise_2d(a, b) * MapVars.NOISE_MULTIPLIER
 			var height_compare = noise + MapVars.HEIGHT_ADDITION
 			var height = MapVars.BLOCK_HEIGHT_MULTIPLIER * MapVars.noise.get_noise_2d(a, b)
 
 			if height_compare < MapVars.WATER_COMPARISON:
 				height = _generate_water(noise, instance)
+				type = BlockType.WATER
 			elif height_compare < MapVars.SAND_COMPARISON:
 				_generate_sand(noise, instance)
+				type = BlockType.SAND
 			elif height_compare > 7 - MapVars.MOUNTAIN_COMPARISON && MapVars.generate_mountain:
 				height = _generate_mountain(min_height, height, noise, instance)
+				type = BlockType.MOUNTAIN
 			elif height_compare > 8 - MapVars.forest_comparison:
-				forest_blocks.append(_generate_tree(a, b, min_height, height, noise, instance))
+				forest_blocks.append(
+					{
+						"transform": _generate_tree(a, b, min_height, height, noise, instance),
+						"i": instance,
+					})
+				type = BlockType.FOREST
 			else:
 				_generate_grass(noise, instance)
+				type = BlockType.GRASS
 			
 			var transform: = _place_block(a, b, min_height, height, noise, instance) as Transform
 			var top_pos = transform.origin + Vector3(0, ((abs(min_height) + height) * 2 + 1) / 2, 0)
 			
 			blocks.append({
+#				"i": instance,
 				"transform": transform,
+				"type": type,
 				"color": block_color,
 				"top_pos": top_pos,
 			})
@@ -90,7 +106,7 @@ func _generate(isTragic: bool) -> void:
 	var t_min = 999
 	var t_max = -999
 	for i in range(count):
-		var vector = forest_blocks[i]
+		var vector = forest_blocks[i].transform
 		var noise = MapVars.noise_tree.get_noise_2d(vector.x, vector.z) + MapVars.forest_percent * 2 - 0.9
 		if noise > 0:
 			if noise >= 0.2:
@@ -105,6 +121,12 @@ func _generate(isTragic: bool) -> void:
 					"vector": vector,
 					"type": 1,
 				})
+		else:
+			var ind = forest_blocks[i].i
+			var block: Dictionary = _find_forest_block(blocks, ind)
+			block.type = BlockType.GRASS
+#			print(block, "; ", ind, "; ", blocks.size())
+
 #		t_min = min(t_min, noise)
 #		t_max = max(t_max, noise)
 #	print("Trees mim nax: ", t_min, "; ", t_max)
@@ -238,3 +260,8 @@ func export_map() -> Dictionary:
 		"min_height": min_height,
 		"max_height": max_height,
 	}
+
+func _find_forest_block(blocks: Array, index) -> Dictionary:
+	if blocks[index].empty():
+		print("block - ", blocks[index])
+	return blocks[index]
