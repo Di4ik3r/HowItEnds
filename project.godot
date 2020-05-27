@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/simulation/bot/Bot.gd"
 }, {
+"base": "Node",
+"class": "BotManager",
+"language": "GDScript",
+"path": "res://scripts/simulation/bot/BotManager.gd"
+}, {
 "base": "Reference",
 "class": "MapBuilder",
 "language": "GDScript",
@@ -41,6 +46,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Bot": "",
+"BotManager": "",
 "MapBuilder": "",
 "MapExport": "",
 "MapGenerator": "",
@@ -58,6 +64,7 @@ config/icon="res://icon.png"
 
 Tools="*res://scripts/global/Tools.gd"
 SceneSwitcher="*res://scripts/global/SceneSwitcher.gd"
+Variables="*res://scripts/global/Variables.gd"
 
 [display]
 

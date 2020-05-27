@@ -1,5 +1,6 @@
 extends Spatial
 
+
 export(NodePath) var BlocksMMPath
 export(NodePath) var TreesMM1Path
 export(NodePath) var TreesMM2Path
@@ -7,12 +8,13 @@ export(NodePath) var TreesMM2Path
 
 var resource: MapExport = null setget _set_resource
 var mapBuilder: MapBuilder
-var map: Array
+var map_pos: Array
+var map_type: Array
 
 onready var BlocksMM = get_node(BlocksMMPath)
 onready var TreesMM1 = get_node(TreesMM1Path)
 onready var TreesMM2 = get_node(TreesMM2Path)
-onready var Debug = $DebugInstance
+onready var Debug = $Debug
 
 func _ready():
 	pass
@@ -21,8 +23,9 @@ func _set_resource(value: MapExport) -> void:
 	resource = value
 	mapBuilder = MapBuilder.new(resource, BlocksMM, TreesMM1, TreesMM2)
 	mapBuilder.generate_map()
-	map = mapBuilder.gen_2dim_map()
 	
+	map_pos = mapBuilder.gen_2dim_map_pos()
+	map_type = mapBuilder.gen_2dim_map_type()
 	
 	export_map_to_csv()
 
@@ -37,7 +40,6 @@ func export_map_to_csv() -> void:
 	for i in range(blocks.size()):
 		buff.append(str(blocks[i].type) + ",")
 		if (i + 1) % divider == 0:
-			print(buff)
 			file.store_csv_line(PoolStringArray(buff))
 			buff.clear()
 	

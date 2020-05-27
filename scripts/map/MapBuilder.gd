@@ -16,7 +16,21 @@ func _init(_map_export: MapExport, _BlocksMM: MultiMeshInstance, _TreesMM1: Mult
 	TreesMM1 = _TreesMM1
 	TreesMM2 = _TreesMM2
 
-func gen_2dim_map() -> Array:
+func gen_2dim_map_type() -> Array:
+	var blocks = map_export.blocks
+	var divider = map_export.b_side
+	var result: Array = Array()
+	
+	var col: Array = Array()
+	for i in range(blocks.size()):
+		col.append(blocks[i].type)
+		if (i + 1) % divider == 0:
+			result.append(col.duplicate())
+			col.clear()
+	
+	return result
+
+func gen_2dim_map_pos() -> Array:
 	var blocks = map_export.blocks
 	var divider = map_export.b_side
 	var result: Array = Array()

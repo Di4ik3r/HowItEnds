@@ -7,10 +7,6 @@ extends Node
 #signal forest_period_changed(value)
 signal refresh_ui(values)
 
-enum BlockType {
-	WATER, SAND, GRASS, FOREST, MOUNTAIN
-}
-
 export(NodePath) var TerrainPath
 export(NodePath) var Trees1Path
 export(Resource) var MapVars = preload("res://resources/map/MapVars.tres")
@@ -68,23 +64,23 @@ func _generate(isTragic: bool) -> void:
 
 			if height_compare < MapVars.WATER_COMPARISON:
 				height = _generate_water(noise, instance)
-				type = BlockType.WATER
+				type = Variables.BlockType.WATER
 			elif height_compare < MapVars.SAND_COMPARISON:
 				_generate_sand(noise, instance)
-				type = BlockType.SAND
+				type = Variables.BlockType.SAND
 			elif height_compare > 7 - MapVars.MOUNTAIN_COMPARISON && MapVars.generate_mountain:
 				height = _generate_mountain(min_height, height, noise, instance)
-				type = BlockType.MOUNTAIN
+				type = Variables.BlockType.MOUNTAIN
 			elif height_compare > 8 - MapVars.forest_comparison:
 				forest_blocks.append(
 					{
 						"transform": _generate_tree(a, b, min_height, height, noise, instance),
 						"i": instance,
 					})
-				type = BlockType.FOREST
+				type = Variables.BlockType.FOREST
 			else:
 				_generate_grass(noise, instance)
-				type = BlockType.GRASS
+				type = Variables.BlockType.GRASS
 			
 			var transform: = _place_block(a, b, min_height, height, noise, instance) as Transform
 			var top_pos = transform.origin + Vector3(0, ((abs(min_height) + height) * 2 + 1) / 2, 0)
@@ -124,7 +120,7 @@ func _generate(isTragic: bool) -> void:
 		else:
 			var ind = forest_blocks[i].i
 			var block: Dictionary = _find_forest_block(blocks, ind)
-			block.type = BlockType.GRASS
+			block.type = Variables.BlockType.GRASS
 #			print(block, "; ", ind, "; ", blocks.size())
 
 #		t_min = min(t_min, noise)
