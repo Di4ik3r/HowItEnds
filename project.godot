@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Spatial",
+"class": "Bot",
+"language": "GDScript",
+"path": "res://scripts/simulation/bot/Bot.gd"
+}, {
 "base": "Reference",
 "class": "MapBuilder",
 "language": "GDScript",
@@ -23,11 +28,24 @@ _global_script_classes=[ {
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/map/MapGenerator.gd"
+}, {
+"base": "Spatial",
+"class": "SimManager",
+"language": "GDScript",
+"path": "res://scripts/simulation/SimManager.gd"
+}, {
+"base": "Resource",
+"class": "SimStats",
+"language": "GDScript",
+"path": "res://scripts/simulation/SimStats.gd"
 } ]
 _global_script_class_icons={
+"Bot": "",
 "MapBuilder": "",
 "MapExport": "",
-"MapGenerator": ""
+"MapGenerator": "",
+"SimManager": "",
+"SimStats": ""
 }
 
 [application]

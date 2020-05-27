@@ -1,7 +1,6 @@
 extends Spatial
 
 
-
 export(NodePath) var MapPath
 export(NodePath) var CircleCameraPath
 

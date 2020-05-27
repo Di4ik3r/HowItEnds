@@ -1,0 +1,354 @@
+
+#const A_SIDE: int = 26
+#const B_SIDE: int = 18
+
+#const A_SIDE: int = 6
+#const B_SIDE: int = 6
+
+const UNIT = 32
+enum Genes {
+	MOVE,
+	STAY,
+	EAT,
+	EAT_BOT,
+	REPRODUCE,
+	SENSE,
+	ROTATE_E,
+	ROTATE_ES,
+	ROTATE_S,
+	ROTATE_WS,
+	ROTATE_W,
+	ROTATE_WN,
+	ROTATE_N,
+	ROTATE_EN,
+	SKIP1,
+	SKIP2,
+	SKIP3,
+	SKIP4,
+	SKIP5,
+	SKIP6,
+	SKIP7,
+	SKIP8,
+	SKIP9,
+	SKIP10,
+}
+
+enum Rotation {
+	E,
+	ES,
+	S,
+	WS,
+	W,
+	WN,
+	N,
+	EN,
+}
+
+enum BlockType {
+	EMPTY = 0,
+	FOOD = 1,
+	BOT = 2,
+	IMPASSABLE = -1,
+}
+
+enum GenTransition {
+	EMPTY = 2,
+	FOOD = 3,
+	BOT = 4,
+	IMPASSABLE = 5,
+}
+
+var A_SIDE: int = 38
+var B_SIDE: int = 19
+
+var map: Dictionary
+var bots: Dictionary
+var last_bots: Array
+var foods: Dictionary
+
+var running = false
+var sim_stats: SimStats = preload("res://resources/simulation/SimStats.tres")
+
+onready var parent: Node = get_node("../Simulation")
+
+func _ready() -> void:
+	pass
+
+const TEST_BOT_AMOUNT = 15
+const TEST_BOT_BOUND = 10
+const TEST_BOT_MULTIPLIER = 5
+
+func start() -> void:
+#	bots.append(spawn_bot())
+	if sim_stats.genotypes.size() == 0:
+		print("empty")
+		for i in range(0, TEST_BOT_AMOUNT * TEST_BOT_MULTIPLIER):
+			spawn_bot()
+	else:
+		print("loading")
+		var amount = sim_stats.genotypes.size()
+		for i in range(0, amount):
+			spawn_bot_with_genotype(sim_stats.genotypes[i])
+		
+	for i in range(0, 200):
+		spawn_food()
+	running = true
+
+func resume() -> void:
+	running = true
+
+func stop() -> void:
+	running = false
+
+var restart_count = 0
+func restart() -> void:
+	restart_count += 1
+	
+	print("restart #%d : %s" % [restart_count, str(OS.get_time())])
+	
+	sim_stats.auto_write_data(last_bots)
+	
+	for i in range(0, last_bots.size()):
+		var bot: Bot = last_bots.pop_back()
+		var amount_of_copy = randi() % (TEST_BOT_MULTIPLIER + 3)
+		for j in range(0, amount_of_copy):
+			var bot_copy = bot.last_duplicate()
+			spawn_bot(bot_copy)
+		spawn_bot(bot)
+#	print(bots.size())
+
+func save_genotypes(file_name: String = "") -> int:
+	return sim_stats.write_data(file_name, bots)
+func read_genotypes(file_name: String = "_backup") -> int:
+	return sim_stats.read(file_name)
+
+
+func spawn_last_bot() -> void:
+#	spawn_bot(last_bot)
+	pass
+
+#func print_bot_gene() -> void:
+#	(bots[0] as Bot).print_current_gen()
+
+func move_bot(pos: Vector2, rotation: Vector2) -> void:
+#	var pos = _pos / UNIT
+	map[pos] = BlockType.EMPTY
+	var next_pos = pos + rotation
+	map[next_pos] = BlockType.BOT
+
+func spawn_food() -> void:
+	var map_size = A_SIDE * B_SIDE
+#	var bound = map_size - (map_size / 2)
+	var bound = round(map_size / 5)
+	if foods.size() >= bound:
+		return
+	var food = load("res://scenes/Food.tscn").instance()
+	var pos = _get_random_free_indexies()
+	_place_node(food, pos)
+	parent.get_child(0).add_child(food)
+#	var pos = _pos / UNIT
+	foods[pos] = food
+	map[pos] = BlockType.FOOD
+
+func eat_bot(bot_pos: Vector2) -> int:
+	var bot = get_bot_by_pos(bot_pos)
+#	if !bot:
+#		return 0
+	var _energy = bot.energy
+	kill_bot(bot)
+	return _energy
+
+func get_bot_by_pos(bot_pos: Vector2) -> Bot:
+	for bot in bots:
+		if bot.position == bot_pos:
+			return bot
+	return null
+
+func kill_bot(bot: Bot) -> void:
+#	var pos = bot.position / UNIT
+
+	last_bots.push_back(bot.last_duplicate())
+	if last_bots.size() > TEST_BOT_BOUND:
+		var bot_to_remove = last_bots.pop_front()
+		bot_to_remove.queue_free()
+
+#		last_bots.pop_front()
+	
+#	print("kill: ", bot)
+	
+	var pos = bot.position
+	map[pos] = BlockType.EMPTY
+	var result = bots.erase(bot)
+	parent.get_child(1).remove_child(bot)
+#	bot.queue_free()
+#	breakpoint
+	bot.kill()
+	
+#	print(result)
+#	for bot in bots:
+#		print(bot)
+#	print("endkill\n")
+	
+	if bots.size() == 0:
+		restart()
+
+
+func is_block_ahead(block: int, pos: Vector2, rotation: Vector2) -> bool:
+#	var pos = _pos / UNIT
+	pos += rotation
+	if map[pos] == block:
+#		print("requested block: %d; result: %d" % [block, map[pos]])
+#		print("%s; %s; %s" % [str(pos), str(rotation), str(pos + rotation)])
+		return true
+	return false
+
+func remove_food(_pos: Vector2, rotation: Vector2 = Vector2.INF) -> void:
+#	var pos = (_pos / UNIT) + rotation
+#	var pos = (_pos) + rotation
+	var pos = _pos
+	if rotation != Vector2.INF:
+		pos += rotation
+	parent.get_child(0).remove_child(foods[pos])
+	foods[pos].queue_free()
+	foods.erase(pos)
+	map[pos] = BlockType.EMPTY
+
+func bot_cycle() -> void:
+#	var _bots = bots.values()
+#	for i in range(0, _bots.size()):
+#		_bots[i].make_choice()
+	for bot in bots:
+		bot.make_choice()
+
+#		bots[i].make_choice()
+
+func print_genes() -> void:
+	print("\n\n ---- -- - - - - - -GENES")
+	var bot = bots.values()[0]
+	for bot in bots:
+		print(bot, ":")
+		for i in range(0, bot.genotype.size()):
+			print("%d: %s (%d)" % [i, SimManager.Genes.keys()[bot.genotype[i]], SimManager.Genes.values()[bot.genotype[i]]])
+
+func print_bot_info(i: int) -> void:
+	var bot = bots.values()[0]
+	for i in range(0, bot.genotype.size()):
+		print("%d: %s" % [i, SimManager.Genes.keys()[bot.genotype[i]]])
+
+func get_type(pos: Vector2, rotation: Vector2) -> int:
+#	var pos = _pos / UNIT
+	pos += rotation
+#	print("%s + %s = %s" % [str(_pos/UNIT), str(rotation), str(pos)])
+	if pos.x < 0 or pos.y < 0 or pos.x >= A_SIDE * UNIT or pos.y >= B_SIDE * UNIT:
+		return BlockType.IMPASSABLE
+	
+#	print(map[pos])
+	return map[pos]
+
+func reproduce_bot(reproduced_bot: Bot, pos: Vector2) -> void:
+#	spawn_bot(reproduced_bot, pos * UNIT)
+	if map[pos] == BlockType.FOOD:
+		remove_food(pos)
+		spawn_bot(reproduced_bot, pos)
+#		print("removed food - ", pos)
+		reproduced_bot.energy += Bot.FOOD_COST
+	else:
+		spawn_bot(reproduced_bot, pos)
+
+func get_block_for_reproduce(pos: Vector2) -> Vector2:
+#	pos /= UNIT
+	for x in range(pos.x - UNIT, pos.x + (UNIT * 2), UNIT):
+		for y in range(pos.y - UNIT, pos.y + (UNIT * 2), UNIT):
+			var block = Vector2(x, y)
+			if _is_block_reproduce_valid(block):
+				return block
+	return Vector2.INF
+
+func _is_block_reproduce_valid(pos) -> bool:
+	if _block_in_range(pos):
+		var value = map[pos]
+		if value == BlockType.EMPTY || value == BlockType.FOOD:
+			return true
+	return false
+
+func _block_in_range(pos: Vector2) -> bool:
+#	var map_x_max = map.size() * UNIT
+#	var map_y_max = map[0].size() * UNIT
+	var bound = map.keys()[map.size() - 1]
+#	map[0].size()
+	if pos.x >= 0 and pos.y >= 0 and pos.x <= bound.x and pos.y <= bound.y:
+		return true
+	return false
+
+func spawn_bot_with_genotype(genotype: Array) -> void:
+	var bot = load("res://scenes/Bot.tscn").instance()
+	var pos = _get_random_free_indexies()
+	
+	bot.genotype = genotype.duplicate()
+	
+	_place_bot(bot, pos)
+	parent.get_child(1).add_child(bot)
+	bots[bot] = bot
+	
+	map[pos] = BlockType.BOT
+
+func spawn_bot(bot: Bot = null, pos: Vector2 = Vector2.INF) -> void:
+	randomize()
+	if bot == null:
+		bot = load("res://scenes/Bot.tscn").instance()
+#	else:
+#		bot.position = Vector2(0, 0)
+	if pos == Vector2.INF:
+		pos = _get_random_free_indexies()
+	_place_bot(bot, pos)
+	parent.get_child(1).add_child(bot)
+	bots[bot] = bot
+	
+#	pos /= UNIT
+	map[pos] = BlockType.BOT
+
+func print_map() -> void:
+	print("- - - - - - - -  M A P :")
+	for y in range(0, B_SIDE * UNIT, UNIT):
+		var string = ""
+		for x in range(0, A_SIDE * UNIT, UNIT):
+			var value
+			match map[Vector2(x, y)]:
+				-1:
+					value = "#"
+				1:
+					value = "T"
+				2:
+					value = "b"
+				_:
+					value = "_"
+#			string += "%+2d" % map[Vector2(x, y)]
+			string += "%+2s" % value
+		print(string)
+#	for y in range(0, B_SIDE):
+#		var string = ""
+#		for x in range(0, A_SIDE):
+#			string += "%+2d" % map[x][y]
+#		print(string)
+
+func _place_bot(bot: Bot, pos: Vector2) -> void:
+	bot.position = pos
+
+func _place_node(node: Node2D, pos: Vector2) -> void:
+	node.translate(pos)
+	
+func _get_random_free_indexies() -> Vector2:
+	randomize()
+	var cell: Vector2
+	var x = (randi() % A_SIDE) * UNIT
+	var y = (randi() % B_SIDE) * UNIT
+	var vector = Vector2(x, y)
+	while true:
+		if map[vector] == 0:
+			break;
+		else:
+			x = (randi() % A_SIDE) * UNIT
+			y = (randi() % B_SIDE) * UNIT
+			vector = Vector2(x, y)
+	return vector
+
