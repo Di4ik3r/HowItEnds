@@ -259,7 +259,7 @@ func _rotate_en() -> void:
 func _init_genotype() -> void:
 	if genotype.size() == 0:
 		randomize()
-		generate_my_genotype()
+		generate_genotype()
 #		generate_genotype()
 
 func _get_category_bounds(category: int) -> Array:

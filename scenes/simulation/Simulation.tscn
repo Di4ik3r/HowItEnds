@@ -24,7 +24,7 @@ wait_time = 0.034
 autostart = true
 
 [node name="BotSpawnTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 7.0
 autostart = true
 [connection signal="eat_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_bot_pressed"]
 [connection signal="eat_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_pressed"]
