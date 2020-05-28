@@ -40,7 +40,7 @@ func update(resource: MapExport) -> void:
 	var max_side: = max(a, b) as int
 	var min_side: = min(a, b) as int
 	circle_radius = max_side / 2 + min_side / 2
-	circle_radius -= circle_radius / 3
+	circle_radius -= circle_radius / 5
 	
 	circle_center = Vector3(a / 2, -20, b / 2)
 	PositionCenter.translation = circle_center

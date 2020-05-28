@@ -258,6 +258,6 @@ func export_map() -> Dictionary:
 	}
 
 func _find_forest_block(blocks: Array, index) -> Dictionary:
-	if blocks[index].empty():
-		print("block - ", blocks[index])
+#	if blocks[index].empty():
+#		print("block - ", blocks[index])
 	return blocks[index]

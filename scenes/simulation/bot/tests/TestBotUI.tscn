@@ -1,0 +1,388 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/simulation/bot/tests/TestBotUI.gd" type="Script" id=1]
+
+[node name="TestBotUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_top = 408.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 92.0
+
+[node name="PanelRotation" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 172.0
+margin_right = 338.0
+margin_bottom = 92.0
+size_flags_horizontal = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 159.0
+margin_bottom = 85.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 147.0
+margin_bottom = 73.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer"]
+margin_right = 142.0
+margin_bottom = 20.0
+
+[node name="ButtonRotateWS" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 46.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_WS"
+
+[node name="ButtonRotateW" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 50.0
+margin_right = 89.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_W"
+
+[node name="ButtonRotateWN" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 93.0
+margin_right = 142.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_WN"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 142.0
+margin_bottom = 44.0
+
+[node name="ButtonRotateS" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 44.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_S"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 48.0
+margin_right = 92.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ButtonRotateN" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 96.0
+margin_right = 142.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_N"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 142.0
+margin_bottom = 68.0
+
+[node name="ButtonRotateES" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_right = 44.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_ES"
+
+[node name="ButtonRotateE" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 48.0
+margin_right = 92.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_E"
+
+[node name="ButtonRotateEN" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 96.0
+margin_right = 142.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "R_EN"
+
+[node name="PanelSpecs" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 514.0
+margin_top = 48.0
+margin_right = 1024.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 503.0
+margin_bottom = 37.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="ButtonSpawnBot" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 491.0
+margin_bottom = 25.0
+text = "Spawn bot"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 96.0
+margin_right = 1024.0
+margin_bottom = 164.0
+
+[node name="PanelGeneral" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 510.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 503.0
+margin_bottom = 61.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 491.0
+margin_bottom = 49.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer"]
+margin_right = 486.0
+margin_bottom = 20.0
+
+[node name="ButtonSense" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2"]
+margin_right = 159.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Sense"
+
+[node name="ButtonMove" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2"]
+margin_left = 163.0
+margin_right = 322.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Move"
+
+[node name="ButtonStay" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2"]
+margin_left = 326.0
+margin_right = 486.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Stay"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer"]
+margin_top = 24.0
+margin_right = 486.0
+margin_bottom = 44.0
+
+[node name="ButtonReproduce" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer"]
+margin_right = 159.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Reproduce"
+
+[node name="ButtonEatBot" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer"]
+margin_left = 163.0
+margin_right = 322.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Eat bot"
+
+[node name="ButtonEat" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer"]
+margin_left = 326.0
+margin_right = 486.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Eat"
+
+[node name="PanelSkip" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 503.0
+margin_bottom = 61.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 491.0
+margin_bottom = 49.0
+
+[node name="ButtonSkip1" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_right = 45.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S1"
+
+[node name="ButtonSkip2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 49.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S2"
+
+[node name="ButtonSkip3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 98.0
+margin_right = 143.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S3"
+
+[node name="ButtonSkip4" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 147.0
+margin_right = 192.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S4"
+
+[node name="ButtonSkip5" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 196.0
+margin_right = 241.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S5"
+
+[node name="ButtonSkip6" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 245.0
+margin_right = 290.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S6"
+
+[node name="ButtonSkip7" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 294.0
+margin_right = 339.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S7"
+
+[node name="ButtonSkip8" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 343.0
+margin_right = 388.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S8"
+
+[node name="ButtonSkip9" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 392.0
+margin_right = 437.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S9"
+
+[node name="ButtonSkip10" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer"]
+margin_left = 441.0
+margin_right = 486.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 9
+text = "S10"
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 168.0
+margin_right = 1024.0
+margin_bottom = 192.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 17.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="GenContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1005.0
+margin_bottom = 5.0
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer/ButtonRotateWS" to="." method="_on_ButtonRotateWS_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer/ButtonRotateW" to="." method="_on_ButtonRotateW_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer/ButtonRotateWN" to="." method="_on_ButtonRotateWN_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer2/ButtonRotateS" to="." method="_on_ButtonRotateS_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer2/ButtonRotateN" to="." method="_on_ButtonRotateN_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateES" to="." method="_on_ButtonRotateES_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateE" to="." method="_on_ButtonRotateE_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateEN" to="." method="_on_ButtonRotateEN_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/ButtonSpawnBot" to="." method="_on_ButtonSpawnBot_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonSense" to="." method="_on_ButtonSense_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonMove" to="." method="_on_ButtonMove_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonStay" to="." method="_on_ButtonStay_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer/ButtonReproduce" to="." method="_on_ButtonReproduce_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer/ButtonEatBot" to="." method="_on_ButtonEatBot_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer/ButtonEat" to="." method="_on_ButtonEat_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip1" to="." method="_on_ButtonSkip1_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip2" to="." method="_on_ButtonSkip2_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip3" to="." method="_on_ButtonSkip3_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip4" to="." method="_on_ButtonSkip4_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip5" to="." method="_on_ButtonSkip5_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip6" to="." method="_on_ButtonSkip6_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip7" to="." method="_on_ButtonSkip7_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip8" to="." method="_on_ButtonSkip8_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip9" to="." method="_on_ButtonSkip9_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelSkip/MarginContainer3/HBoxContainer/ButtonSkip10" to="." method="_on_ButtonSkip10_pressed"]
