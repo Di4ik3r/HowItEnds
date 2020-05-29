@@ -27,6 +27,7 @@ signal skip_9_pressed
 signal skip_10_pressed
 
 signal spawn_bot_pressed
+signal spawn_food_pressed
 
 
 func _on_ButtonMove_pressed():
@@ -79,3 +80,5 @@ func _on_ButtonSkip10_pressed():
 	emit_signal("skip_10_pressed")
 func _on_ButtonSpawnBot_pressed():
 	emit_signal("spawn_bot_pressed")
+func _on_ButtonSpawnBot2_pressed():
+	emit_signal("spawn_food_pressed")

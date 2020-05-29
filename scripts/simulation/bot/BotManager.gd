@@ -8,6 +8,7 @@ var bot_holder: Spatial
 var bots: Array
 
 var map_manager: MapManager
+var FoodManager = null
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
 func _init() -> void:
@@ -15,9 +16,11 @@ func _init() -> void:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
+
 func cycle() -> void:
 	for bot in bots:
 		(bot as Bot).make_choice()
+
 
 func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	if !bot:
@@ -33,6 +36,7 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	map_bots[Vector3(pos.x, 0, pos.z)] = bot
 	bot_holder.add_child(bot)
 
+
 func bot_move(bot: Bot) -> int:
 #	var increaser = Variables.GenTransition.EMPTY
 	if _validate_move(bot):
@@ -47,8 +51,22 @@ func bot_move(bot: Bot) -> int:
 	return bot_sense(bot)
 #		increaser = _get_transition_gen(map_type[bot.translation.x][bot.translation.z])
 #	return increaser
-func bot_eat(bot: Bot) -> void:
-	pass
+
+
+func bot_eat(bot: Bot) -> int:
+	var pos = Vector3(bot.translation.x + bot.look_at_pos.x, \
+		map_manager.get_y(bot.translation.x, bot.translation.z), \
+		bot.translation.z + bot.look_at_pos.z)
+	
+	if map_manager.is_out_of_bounds(pos.x, pos.z):
+		return Variables.GenTransition.IMPASSABLE
+	
+	if map_manager.block_is_food(pos.x, pos.z):
+		FoodManager.remove_food(pos)
+		bot.energy += Variables.FOOD_COST
+	return sense(pos)
+
+
 func bot_eat_bot(bot: Bot) -> int:
 	var pos = Vector3(bot.translation.x + bot.look_at_pos.x, \
 		map_manager.get_y(bot.translation.x, bot.translation.z), \
@@ -65,6 +83,7 @@ func bot_eat_bot(bot: Bot) -> int:
 #		return Variables.GenTransition.BOT
 #	return Variables.GenTransition.EMPTY
 	return sense(pos)
+
 
 func kill_bot(bot: Bot) -> void:
 #	last_bots.push_back(bot.last_duplicate())

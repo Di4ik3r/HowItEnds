@@ -10,7 +10,7 @@ var map_pos: Array
 var map_type: Array
 var map_bots: Dictionary
 var food_blocks: Dictionary = {}
-
+var FoodManager = null
 
 
 
@@ -26,7 +26,7 @@ func place_food(pos: Vector3) -> void:
 func remove_food(pos: Vector3) -> void:
 	map_type[pos.x][pos.z] = food_blocks[Vector3(pos.x, 0, pos.z)]
 	food_blocks.erase(Vector3(pos.x, 0, pos.z))
-	
+
 
 func get_y(x: int, z: int) -> float:
 	return map_pos[x][z].y
@@ -58,8 +58,15 @@ func is_block_reproduce_valid(pos: Vector3) -> bool:
 
 
 func block_is_bot(x: int, z: int) -> bool:
-	var value = null if map_bots[Vector3(x, 0, z)] is int else map_bots[Vector3(x, 0, z)]
+#	var value = null if map_bots[Vector3(x, 0, z)] is int else map_bots[Vector3(x, 0, z)]
+	var value = map_bots[Vector3(x, 0, z)]
 	if value:
+		return true
+	return false
+
+
+func block_is_food(x: int, z: int) -> bool:
+	if FoodManager.foods.has(Vector3(x, 0, z)):
 		return true
 	return false
 

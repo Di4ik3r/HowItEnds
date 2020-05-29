@@ -2,16 +2,16 @@
 
 [ext_resource path="res://scenes/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/simulation/Simulation.gd" type="Script" id=2]
-[ext_resource path="res://scenes/simulation/fp_camera/FirstPerson.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/simulation/bot/tests/TestBotUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/simulation/food/FoodManager.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/staff/CircleCamera.tscn" type="PackedScene" id=6]
 
 [node name="Simulation" type="Spatial"]
 script = ExtResource( 2 )
 MapPath = NodePath("Map")
+CircleCameraPath = NodePath("CircleCamera")
 
 [node name="TestBotUI" parent="." instance=ExtResource( 4 )]
-visible = false
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
 
@@ -20,13 +20,13 @@ visible = false
 [node name="FoodManager" parent="." instance=ExtResource( 5 )]
 
 [node name="BotTimer" type="Timer" parent="."]
-wait_time = 0.034
+wait_time = 0.001
 autostart = true
 
 [node name="BotSpawnTimer" type="Timer" parent="."]
 wait_time = 7.0
 
-[node name="FirstPerson" parent="." instance=ExtResource( 3 )]
+[node name="CircleCamera" parent="." instance=ExtResource( 6 )]
 [connection signal="eat_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_bot_pressed"]
 [connection signal="eat_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_pressed"]
 [connection signal="move_pressed" from="TestBotUI" to="." method="_on_TestBotUI_move_pressed"]
@@ -51,6 +51,7 @@ wait_time = 7.0
 [connection signal="skip_8_pressed" from="TestBotUI" to="." method="_on_TestBotUI_skip_8_pressed"]
 [connection signal="skip_9_pressed" from="TestBotUI" to="." method="_on_TestBotUI_skip_9_pressed"]
 [connection signal="spawn_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_spawn_bot_pressed"]
+[connection signal="spawn_food_pressed" from="TestBotUI" to="." method="_on_TestBotUI_spawn_food_pressed"]
 [connection signal="stay_pressed" from="TestBotUI" to="." method="_on_TestBotUI_stay_pressed"]
 [connection signal="timeout" from="BotTimer" to="." method="_on_BotTimer_timeout"]
 [connection signal="timeout" from="BotSpawnTimer" to="." method="_on_BotSpawnTimer_timeout"]

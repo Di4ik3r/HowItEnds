@@ -2,7 +2,7 @@ extends Spatial
 
 
 export(NodePath) var MapPath
-#export(NodePath) var CircleCameraPath
+export(NodePath) var CircleCameraPath
 
 var resource: MapExport = null setget _set_resource
 var bot_manager = BotManager.new()
@@ -10,20 +10,24 @@ var map_manager = MapManager.new()
 
 onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
-#onready var CircleCamera = get_node(CircleCameraPath)
+onready var CircleCamera = get_node(CircleCameraPath)
+
+
 
 func _ready():
 	pass
 
 
 func start() -> void:
-	for i in range(0, 100):
+	FoodManager.start()
+	for i in range(0, 1):
 		bot_manager.spawn_bot()
+
 
 func _set_resource(value: MapExport) -> void:
 	resource = value
 	Map.resource = resource
-#	CircleCamera.update(resource)
+	CircleCamera.update(resource)
 	
 	map_manager.map_pos = Map.map_pos
 	map_manager.map_type = Map.map_type
@@ -32,6 +36,7 @@ func _set_resource(value: MapExport) -> void:
 #	bot_manager.map_pos = Map.map_pos
 #	bot_manager.map_type = Map.map_type
 #	bot_manager.map_export = resource
+	bot_manager.FoodManager = FoodManager
 	bot_manager.map_manager = map_manager
 	bot_manager.init_map_bots()
 	bot_manager.bot_holder = get_node("BotHolder")
@@ -39,11 +44,14 @@ func _set_resource(value: MapExport) -> void:
 #	FoodManager.map_pos = Map.map_pos
 	FoodManager.map_manager = map_manager
 	map_manager.map_bots = bot_manager.map_bots
+	map_manager.FoodManager = FoodManager
 	
 	start()
 
+
 func _on_BotTimer_timeout():
 	bot_manager.cycle()
+
 
 func _on_TestBotUI_eat_bot_pressed():
 	bot_manager.bots[0]._eat_bot()
@@ -98,6 +106,10 @@ func _on_TestBotUI_spawn_bot_pressed():
 
 
 func _on_BotSpawnTimer_timeout():
-	for i in range(0, 150):
-		bot_manager.spawn_bot()
+#	for i in range(0, 150):
+#		bot_manager.spawn_bot()
+	pass
 
+
+func _on_TestBotUI_spawn_food_pressed():
+	FoodManager.spawn_food()

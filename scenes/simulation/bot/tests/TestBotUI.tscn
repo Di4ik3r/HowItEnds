@@ -149,12 +149,24 @@ custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
 
-[node name="ButtonSpawnBot" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 491.0
 margin_bottom = 25.0
+
+[node name="ButtonSpawnBot" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/HBoxContainer"]
+margin_right = 241.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
 text = "Spawn bot"
+
+[node name="ButtonSpawnBot2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/HBoxContainer"]
+margin_left = 245.0
+margin_right = 486.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Spawn food"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 96.0
@@ -369,7 +381,8 @@ margin_bottom = 5.0
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateES" to="." method="_on_ButtonRotateES_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateE" to="." method="_on_ButtonRotateE_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelRotation/MarginContainer/VBoxContainer/HBoxContainer3/ButtonRotateEN" to="." method="_on_ButtonRotateEN_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/ButtonSpawnBot" to="." method="_on_ButtonSpawnBot_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/HBoxContainer/ButtonSpawnBot" to="." method="_on_ButtonSpawnBot_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/PanelSpecs/MarginContainer/HBoxContainer/ButtonSpawnBot2" to="." method="_on_ButtonSpawnBot2_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonSense" to="." method="_on_ButtonSense_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonMove" to="." method="_on_ButtonMove_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/PanelGeneral/MarginContainer2/VBoxContainer/HBoxContainer2/ButtonStay" to="." method="_on_ButtonStay_pressed"]
