@@ -44,4 +44,3 @@ func update(resource: MapExport) -> void:
 	
 	circle_center = Vector3(a / 2, -20, b / 2)
 	PositionCenter.translation = circle_center
-"""
