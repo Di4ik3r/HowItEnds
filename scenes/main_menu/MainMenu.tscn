@@ -4,40 +4,42 @@
 [ext_resource path="res://scenes/main_menu/HoverableItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/map/MapGenerating.tscn" type="PackedScene" id=3]
 
-[node name="MainMenu" type="Spatial"]
+[node name="Spatial" type="Spatial"]
+
+[node name="MainMenu" type="Spatial" parent="."]
 script = ExtResource( 1 )
 
-[node name="Options" type="Spatial" parent="."]
+[node name="Options" type="Spatial" parent="MainMenu"]
 transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -68.2637, 31.8734, -23.3586 )
 
-[node name="ItemPlay" parent="Options" instance=ExtResource( 2 )]
+[node name="ItemPlay" parent="MainMenu/Options" instance=ExtResource( 2 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739127, 1.04303, 0.555511 )
 text = "Play"
 color = Color( 0.0784314, 1, 0, 1 )
 
-[node name="ItemExit" parent="Options" instance=ExtResource( 2 )]
+[node name="ItemExit" parent="MainMenu/Options" instance=ExtResource( 2 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739127, -0.470821, 0.555511 )
 text = "Exit"
 color = Color( 1, 0, 0, 1 )
 
-[node name="OptionsCamera" type="Camera" parent="Options"]
+[node name="OptionsCamera" type="Camera" parent="MainMenu/Options"]
 transform = Transform( 0.883071, 0, -0.46924, 0, 1, 0, 0.46924, 0, 0.883071, 2.37988, -0.205526, 6.39762 )
 current = true
 far = 8192.0
 
-[node name="TransitionCamera" type="InterpolatedCamera" parent="Options"]
+[node name="TransitionCamera" type="InterpolatedCamera" parent="MainMenu/Options"]
 transform = Transform( 0.883071, 0, -0.46924, 0, 1, 0, 0.46924, 0, 0.883071, 2.37988, -0.205526, 6.39762 )
 far = 8192.0
 target = NodePath("../../MapGenerating/InterpolatedCamera")
 speed = 2.0
 
-[node name="Timer" type="Timer" parent="Options/TransitionCamera"]
+[node name="Timer" type="Timer" parent="MainMenu/Options/TransitionCamera"]
 wait_time = 1.5
 one_shot = true
 
-[node name="MapGenerating" parent="." instance=ExtResource( 3 )]
+[node name="MapGenerating" parent="MainMenu" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2 )
-[connection signal="pressed" from="Options/ItemPlay" to="." method="_on_ItemPlay_pressed"]
-[connection signal="pressed" from="Options/ItemExit" to="." method="_on_ItemExit_pressed"]
-[connection signal="timeout" from="Options/TransitionCamera/Timer" to="." method="_on_Timer_timeout"]
-[connection signal="map_back_button_pressed" from="MapGenerating" to="." method="_on_MapGenerating_map_back_button_pressed"]
+[connection signal="pressed" from="MainMenu/Options/ItemPlay" to="MainMenu" method="_on_ItemPlay_pressed"]
+[connection signal="pressed" from="MainMenu/Options/ItemExit" to="MainMenu" method="_on_ItemExit_pressed"]
+[connection signal="timeout" from="MainMenu/Options/TransitionCamera/Timer" to="MainMenu" method="_on_Timer_timeout"]
+[connection signal="map_back_button_pressed" from="MainMenu/MapGenerating" to="MainMenu" method="_on_MapGenerating_map_back_button_pressed"]
