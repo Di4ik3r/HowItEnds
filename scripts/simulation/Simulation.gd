@@ -36,7 +36,8 @@ func _set_resource(value: MapExport) -> void:
 	bot_manager.init_map_bots()
 	bot_manager.bot_holder = get_node("BotHolder")
 	
-	FoodManager.map_pos = Map.map_pos
+#	FoodManager.map_pos = Map.map_pos
+	FoodManager.map_manager = map_manager
 	map_manager.map_bots = bot_manager.map_bots
 	
 	start()

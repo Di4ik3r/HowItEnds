@@ -25,7 +25,6 @@ autostart = true
 
 [node name="BotSpawnTimer" type="Timer" parent="."]
 wait_time = 7.0
-autostart = true
 
 [node name="FirstPerson" parent="." instance=ExtResource( 3 )]
 [connection signal="eat_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_bot_pressed"]

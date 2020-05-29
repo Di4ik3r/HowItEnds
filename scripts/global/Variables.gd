@@ -7,6 +7,7 @@ enum BlockType {
 	WATER,
 	FOREST,
 	BOT,
+	FOOD,
 }
 enum MapBots {
 	EMPTY, BOT

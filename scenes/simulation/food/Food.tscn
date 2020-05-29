@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CylinderMesh" id=1]
+radial_segments = 6
+
+[node name="Food" type="Spatial"]
+
+[node name="MeshHolder" type="Spatial" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MeshHolder"]
+mesh = SubResource( 1 )
+material/0 = null

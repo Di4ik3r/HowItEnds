@@ -124,12 +124,6 @@ func _get_bot_by_pos(_pos: Vector3) -> Bot:
 	return null
 
 
-func _is_bot_ahead(x: int, z: int) -> bool:
-	var value = null if map_bots[Vector3(x, 0, z)] is int else map_bots[Vector3(x, 0, z)]
-	if value:
-		return true
-	return false
-
 func _validate_move(bot: Bot) -> bool:
 	var predictable_pos = bot.translation + bot.look_at_pos
 	var x = predictable_pos.x
@@ -140,14 +134,14 @@ func _validate_move(bot: Bot) -> bool:
 	
 	if !map_manager.is_out_of_bounds(x, z):
 		if map_manager.validate_block(x, z):
-			if !_is_bot_ahead(x, z):
+#			if !map_manager.block_is_bot(x, z):
 #		if (map_type[x][z] == Variables.BlockType.SAND
 #		or map_type[x][z] == Variables.BlockType.GRASS):
-				return true
+			return true
 	return false
 
 func _get_transition_gen(block_type: int) -> int:
-	match block_type:
+	match block_type:               
 		Variables.BlockType.BOT:
 			return Variables.GenTransition.BOT
 		Variables.BlockType.FOREST,\
@@ -157,5 +151,7 @@ func _get_transition_gen(block_type: int) -> int:
 		Variables.BlockType.GRASS,\
 		Variables.BlockType.SAND:
 			return Variables.GenTransition.EMPTY
+		Variables.BlockType.FOOD:
+			return Variables.GenTransition.FOOD
 	
 	return Variables.GenTransition.EMPTY

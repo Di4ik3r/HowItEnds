@@ -9,6 +9,7 @@ var map_export: MapExport = null
 var map_pos: Array
 var map_type: Array
 var map_bots: Dictionary
+var food_blocks: Dictionary = {}
 
 
 
@@ -16,6 +17,16 @@ var map_bots: Dictionary
 func _ready():
 	pass
 
+
+func place_food(pos: Vector3) -> void:
+	food_blocks[Vector3(pos.x, 0, pos.z)] = map_type[pos.x][pos.z]
+	map_type[pos.x][pos.z] = Variables.BlockType.FOOD
+
+
+func remove_food(pos: Vector3) -> void:
+	map_type[pos.x][pos.z] = food_blocks[Vector3(pos.x, 0, pos.z)]
+	food_blocks.erase(Vector3(pos.x, 0, pos.z))
+	
 
 func get_y(x: int, z: int) -> float:
 	return map_pos[x][z].y
@@ -46,19 +57,29 @@ func is_block_reproduce_valid(pos: Vector3) -> bool:
 	return false
 
 
+func block_is_bot(x: int, z: int) -> bool:
+	var value = null if map_bots[Vector3(x, 0, z)] is int else map_bots[Vector3(x, 0, z)]
+	if value:
+		return true
+	return false
+
+
 func validate_block(x, z) -> bool:
 	if !is_out_of_bounds(x, z):
+#		if !map_bots[Vector3(x, 0, z)]:
 		if (map_type[x][z] == Variables.BlockType.SAND
-			or map_type[x][z] == Variables.BlockType.GRASS):
-				return true
+		or map_type[x][z] == Variables.BlockType.GRASS):
+				if !block_is_bot(x, z):
+					return true
 	return false
 
 
-func validate_block_vector(pos: Vector3) -> bool:
-	if (map_type[pos.x][pos.z] == Variables.BlockType.SAND
-		or map_type[pos.x][pos.z] == Variables.BlockType.GRASS):
-			return true
-	return false
+#func validate_block_vector(pos: Vector3) -> bool:
+#	if (map_type[pos.x][pos.z] == Variables.BlockType.SAND
+#	or map_type[pos.x][pos.z] == Variables.BlockType.GRASS):
+#		if !map_bots[Vector3(pos.x, 0, pos.z)]:
+#			return true
+#	return false
 
 
 func get_available_pos() -> Vector3:
