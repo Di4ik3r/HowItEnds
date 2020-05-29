@@ -6,4 +6,5 @@
 script = ExtResource( 1 )
 
 [node name="FoodTimer" type="Timer" parent="."]
+autostart = true
 [connection signal="timeout" from="FoodTimer" to="." method="_on_FoodTimer_timeout"]

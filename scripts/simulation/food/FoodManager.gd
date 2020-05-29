@@ -10,19 +10,19 @@ export(bool) var spawning = true setget _set_spawning
 var map_manager: MapManager
 var foods: Dictionary = {}
 
-onready var FoodTimer: = $FoodTimer as Timer
+onready var FoodTimer: = $FoodTimer as Timer setget _set_food_timer
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
 func _ready():
-	_set_time(time)
-	_set_time(spawning)
+	pass
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
-func start() -> void:
-	for i in range(0, 30):
+func start(amount: int) -> void:
+	for i in range(0, amount):
 		spawn_food()
 #	FoodTimer.start()
+
 
 func spawn_food() -> void:
 	var pos = map_manager.get_available_pos()
@@ -45,6 +45,9 @@ func remove_food(pos: Vector3) -> void:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE
 func _set_spawning(value: bool) -> void:
+	if !FoodTimer:
+		return
+	
 	spawning = false
 	match spawning:
 		true:
@@ -55,9 +58,17 @@ func _set_spawning(value: bool) -> void:
 
 func _set_time(value: float) -> void:
 	time = value
-	FoodTimer.wait_time = time
+	if FoodTimer:
+		FoodTimer.wait_time = time
 
 
 func _on_FoodTimer_timeout():
 #	emit_signal("food_timer_timeout")
 	spawn_food()
+
+
+func _set_food_timer(value) -> void:
+	FoodTimer = value
+	print(FoodTimer, value)
+	_set_time(time)
+	_set_time(spawning)

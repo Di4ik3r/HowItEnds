@@ -19,15 +19,17 @@ func _ready():
 
 
 func start() -> void:
-	FoodManager.start()
-	for i in range(0, 1):
+	var amount = resource.a_side * resource.b_side
+	amount *= 0.03
+#	FoodManager.start(amount)
+	for i in range(0, 0):
 		bot_manager.spawn_bot()
 
 
 func _set_resource(value: MapExport) -> void:
 	resource = value
 	Map.resource = resource
-	CircleCamera.update(resource)
+#	CircleCamera.update(resource)
 	
 	map_manager.map_pos = Map.map_pos
 	map_manager.map_type = Map.map_type
@@ -43,6 +45,10 @@ func _set_resource(value: MapExport) -> void:
 	
 #	FoodManager.map_pos = Map.map_pos
 	FoodManager.map_manager = map_manager
+	var amount = resource.a_side * resource.b_side
+	amount *= 0.01
+	FoodManager.time = 1 / amount
+	
 	map_manager.map_bots = bot_manager.map_bots
 	map_manager.FoodManager = FoodManager
 	

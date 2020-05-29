@@ -22,6 +22,9 @@ func cycle() -> void:
 		(bot as Bot).make_choice()
 
 
+
+
+
 func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	if !bot:
 		bot = load("res://scenes/simulation/bot/Bot.tscn").instance()

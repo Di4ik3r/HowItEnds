@@ -63,6 +63,5 @@ const START_ENERGY = 140
 const UNIT = 1
 
 
-
 func _ready():
 	pass
