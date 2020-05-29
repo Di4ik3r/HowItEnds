@@ -6,6 +6,7 @@ export(NodePath) var MapPath
 
 var resource: MapExport = null setget _set_resource
 var bot_manager = BotManager.new()
+var map_manager = MapManager.new()
 
 onready var Map = get_node(MapPath)
 #onready var CircleCamera = get_node(CircleCameraPath)
@@ -23,11 +24,18 @@ func _set_resource(value: MapExport) -> void:
 	Map.resource = resource
 #	CircleCamera.update(resource)
 	
-	bot_manager.map_pos = Map.map_pos
-	bot_manager.map_type = Map.map_type
-	bot_manager.map_export = resource
+	map_manager.map_pos = Map.map_pos
+	map_manager.map_type = Map.map_type
+	map_manager.map_export = resource
+	
+#	bot_manager.map_pos = Map.map_pos
+#	bot_manager.map_type = Map.map_type
+#	bot_manager.map_export = resource
+	bot_manager.map_manager = map_manager
 	bot_manager.init_map_bots()
 	bot_manager.bot_holder = get_node("BotHolder")
+	
+	map_manager.map_bots = bot_manager.map_bots
 	
 	start()
 

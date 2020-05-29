@@ -8,7 +8,6 @@
 [node name="Simulation" type="Spatial"]
 script = ExtResource( 2 )
 MapPath = NodePath("Map")
-CircleCameraPath = NodePath("")
 
 [node name="TestBotUI" parent="." instance=ExtResource( 4 )]
 visible = false

@@ -2,14 +2,12 @@ extends Node
 class_name BotManager
 
 
-var map_export: MapExport = null
-var map_pos: Array
-var map_type: Array
 var map_bots: Dictionary
 
 var bot_holder: Spatial
 var bots: Array
 
+var map_manager: MapManager
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
 func _init() -> void:
@@ -26,7 +24,7 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 		bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
 	
 	if pos == Vector3.INF:
-		pos = _get_available_pos()
+		pos = map_manager.get_available_pos()
 		
 	bot.translation = pos
 	bot.manager = self
@@ -42,7 +40,7 @@ func bot_move(bot: Bot) -> int:
 		
 		map_bots[Vector3(bot.translation.x, 0, bot.translation.z)] = null
 		bot.translation += bot.look_at_pos
-		bot.translation.y = map_pos[bot.translation.x][bot.translation.z].y
+		bot.translation.y = map_manager.get_y(bot.translation.x, bot.translation.z)
 		map_bots[Vector3(bot.translation.x, 0, bot.translation.z)] = bot
 		
 		return increaser
@@ -53,10 +51,10 @@ func bot_eat(bot: Bot) -> void:
 	pass
 func bot_eat_bot(bot: Bot) -> int:
 	var pos = Vector3(bot.translation.x + bot.look_at_pos.x, \
-		map_pos[bot.translation.x][bot.translation.z].y, \
+		map_manager.get_y(bot.translation.x, bot.translation.z), \
 		bot.translation.z + bot.look_at_pos.z)
 	
-	if _is_out_of_bounds(pos.x, pos.z):
+	if map_manager.is_out_of_bounds(pos.x, pos.z):
 		return Variables.GenTransition.IMPASSABLE
 	
 	var bot_for_eat = map_bots[Vector3(pos.x, 0, pos.z)]
@@ -84,7 +82,7 @@ func kill_bot(bot: Bot) -> void:
 func reproduce_bot(bot: Bot) -> void:
 	pass
 func bot_reproduce(bot: Bot) -> void:
-	var reproduce_block = _get_block_for_reproduce(bot)
+	var reproduce_block = map_manager.get_block_for_reproduce(bot)
 	if reproduce_block == Vector3.INF ||\
 	bot.energy <= Variables.REPRODUCE_BOUND:
 		return
@@ -102,43 +100,21 @@ func bot_sense(bot: Bot) -> int:
 	return sense(pos)
 
 func sense(pos: Vector3) -> int:
-	if _is_out_of_bounds(pos.x, pos.z):
+	if map_manager.is_out_of_bounds(pos.x, pos.z):
 		return Variables.GenTransition.IMPASSABLE
 	if map_bots[Vector3(pos.x, 0, pos.z)]:
 		return Variables.GenTransition.BOT
-	return _get_transition_gen(map_type[pos.x][pos.z])
+	return _get_transition_gen(map_manager.map_type[pos.x][pos.z])
 
 func init_map_bots() -> void:
 	map_bots = Dictionary()
-	for blocks in map_pos:
+	for blocks in map_manager.map_pos:
 		for block in blocks:
 			var pos = Vector3(block.x, 0, block.z)
 #			map_bots[pos] = Variables.MapBots.EMPTY
 			map_bots[pos] = null
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE
-func _get_block_for_reproduce(bot: Bot) -> Vector3:
-	var pos = bot.translation
-	var range_x = range(pos.x - Variables.UNIT, pos.x + (Variables.UNIT * 2), Variables.UNIT)
-	var range_z = range(pos.z - Variables.UNIT, pos.z + (Variables.UNIT * 2), Variables.UNIT)
-	
-	var iteration = 0
-	for x in range_x:
-		for z in range_z:
-			if _is_out_of_bounds(x, z):
-				continue
-			var block = map_pos[x][z]
-			if _is_block_reproduce_valid(block):
-				return block
-			iteration += 1
-	return Vector3.INF
-func _is_block_reproduce_valid(pos: Vector3) -> bool:
-	if _validate_block(pos.x, pos.z):
-		if !map_bots[Vector3(pos.x, 0, pos.z)]:
-#		if value == BlockType.EMPTY || value == BlockType.FOOD:
-			return true
-	return false
-
 func _get_bot_by_pos(_pos: Vector3) -> Bot:
 	for bot in bots:
 		var bot_pos = Vector3(bot.translation.x, 0, bot.translation.z)
@@ -147,45 +123,8 @@ func _get_bot_by_pos(_pos: Vector3) -> Bot:
 			return bot
 	return null
 
-func _get_available_pos() -> Vector3:
-	var block
-	var iteration = 0
-	while(true):
-		var x = Tools.random_int_range(0, map_export.a_side - 1)
-		var z = Tools.random_int_range(0, map_export.b_side - 1)
-		
-		iteration += 1
-		if iteration >= 100:
-			break
-		
-		if _validate_block(x, z):
-			var y = map_pos[x][z].y
-			block = Vector3(x, y, z)
-			return block
-	return Vector3.INF
 
-func _is_out_of_bounds(x, z) -> bool:
-	var x_limit = map_export.a_side
-	var z_limit = map_export.b_side
-	
-	if x >= 0 and x < x_limit and z >= 0 and z < z_limit:
-		return false
-	return true
-
-func _validate_block(x, z) -> bool:
-	if !_is_out_of_bounds(x, z):
-		if (map_type[x][z] == Variables.BlockType.SAND
-			or map_type[x][z] == Variables.BlockType.GRASS):
-				return true
-	return false
-
-func _validate_block_vector(pos: Vector3) -> bool:
-	if (map_type[pos.x][pos.z] == Variables.BlockType.SAND
-		or map_type[pos.x][pos.z] == Variables.BlockType.GRASS):
-			return true
-	return false
-
-func _there_is_bot(x: int, z: int) -> bool:
+func _is_bot_ahead(x: int, z: int) -> bool:
 	var value = null if map_bots[Vector3(x, 0, z)] is int else map_bots[Vector3(x, 0, z)]
 	if value:
 		return true
@@ -196,12 +135,12 @@ func _validate_move(bot: Bot) -> bool:
 	var x = predictable_pos.x
 	var z = predictable_pos.z
 	
-	var x_limit = map_export.a_side
-	var z_limit = map_export.b_side
+	var x_limit = map_manager.map_export.a_side
+	var z_limit = map_manager.map_export.b_side
 	
-	if !_is_out_of_bounds(x, z):
-		if _validate_block(x, z):
-			if !_there_is_bot(x, z):
+	if !map_manager.is_out_of_bounds(x, z):
+		if map_manager.validate_block(x, z):
+			if !_is_bot_ahead(x, z):
 #		if (map_type[x][z] == Variables.BlockType.SAND
 #		or map_type[x][z] == Variables.BlockType.GRASS):
 				return true
