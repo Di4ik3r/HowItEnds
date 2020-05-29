@@ -7,6 +7,8 @@ export(NodePath) var MapPath
 var resource: MapExport = null setget _set_resource
 var bot_manager = BotManager.new()
 
+
+onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
 #onready var CircleCamera = get_node(CircleCameraPath)
 
@@ -28,6 +30,8 @@ func _set_resource(value: MapExport) -> void:
 	bot_manager.map_export = resource
 	bot_manager.init_map_bots()
 	bot_manager.bot_holder = get_node("BotHolder")
+	
+	FoodManager.map_pos = Map.map_pos
 	
 	start()
 
