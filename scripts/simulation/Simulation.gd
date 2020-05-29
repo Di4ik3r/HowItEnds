@@ -2,13 +2,13 @@ extends Spatial
 
 
 export(NodePath) var MapPath
-export(NodePath) var CircleCameraPath
+#export(NodePath) var CircleCameraPath
 
 var resource: MapExport = null setget _set_resource
 var bot_manager = BotManager.new()
 
 onready var Map = get_node(MapPath)
-onready var CircleCamera = get_node(CircleCameraPath)
+#onready var CircleCamera = get_node(CircleCameraPath)
 
 func _ready():
 	pass
@@ -21,7 +21,7 @@ func start() -> void:
 func _set_resource(value: MapExport) -> void:
 	resource = value
 	Map.resource = resource
-	CircleCamera.update(resource)
+#	CircleCamera.update(resource)
 	
 	bot_manager.map_pos = Map.map_pos
 	bot_manager.map_type = Map.map_type
@@ -89,3 +89,4 @@ func _on_TestBotUI_spawn_bot_pressed():
 func _on_BotSpawnTimer_timeout():
 	for i in range(0, 150):
 		bot_manager.spawn_bot()
+
