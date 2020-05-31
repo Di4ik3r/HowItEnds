@@ -7,7 +7,7 @@ signal refresh_ui
 const CAMERA_HEIGHT = 45
 
 var mapGenerator: MapGenerator = MapGenerator.new()
-var mapVars: Resource = mapGenerator.MapVars
+var mapVars: Resource = mapGenerator.MapVars setget _set_map_vars
 
 var circle_center: Vector3 = Vector3.ZERO
 var current_angle: float = 0
@@ -25,9 +25,9 @@ func _ready() -> void:
 	mapGenerator.set_mminstance(Terrain, Trees1, Trees2)
 	_update()
 	mapGenerator.update_Terrain()
-	_include_signals()
+	link()
 
-func _include_signals() -> void:
+func link() -> void:
 	(mapGenerator as MapGenerator).connect("refresh_ui", UI, "_on_refresh_ui")
 
 func _update() -> void:
@@ -89,9 +89,10 @@ func _on_MapGeneratingUI_back_button_pressed():
 func _on_MapGeneratingUI_randomize_button_pressed():
 	mapGenerator.randomize()
 func _on_MapGeneratingUI_start_button_pressed():
+	mapGenerator.update_Terrain(true)
 	var data = mapGenerator.export_map()
 	var map_export_resource = MapExport.new(data)
-	SceneSwitcher.goto_scene(SceneSwitcher.SCENES.Simulation, map_export_resource)
+	SceneSwitcher.goto_scene(SceneSwitcher.SCENES.Simulation, map_export_resource, mapVars)
 	pass # Replace with function body.
 func _on_MapGeneratingUI_generate_button_pressed():
 	mapGenerator.update_Terrain(true)
@@ -100,3 +101,15 @@ func _on_MapGeneratingUI_generate_button_pressed():
 func _on_refresh_ui(value) -> void:
 	emit_signal("refresh_ui", value)
 
+func _set_map_vars(value) -> void:
+	mapVars = value
+	print(mapVars.a_side)
+	print(mapVars.b_side)
+	mapGenerator.MapVars = value
+	mapGenerator.link()
+	mapGenerator.update_Terrain(true)
+	
+	_update()
+	
+	UI.refresh(mapVars)
+#	emit_signal("refresh_ui", value)

@@ -7,6 +7,7 @@ export(NodePath) var TreesMM2Path
 
 
 var resource: MapExport = null setget _set_resource
+var resource1: Resource = null
 var mapBuilder: MapBuilder
 var map_pos: Array
 var map_type: Array

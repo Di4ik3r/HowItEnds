@@ -11,7 +11,7 @@ func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
 
-func goto_scene(scene, resource: Resource = null):
+func goto_scene(scene, resource: Resource = null, resource1: Resource = null):
 # This function will usually be called from a signal callback,
 # or some other function in the current scene.
 # Deleting the current scene at this point is
@@ -29,9 +29,9 @@ func goto_scene(scene, resource: Resource = null):
 		_:
 			path = "res://scenes/main_menu/MainMenu.tscn"
 	 
-	call_deferred("_deferred_goto_scene", path, resource)
+	call_deferred("_deferred_goto_scene", path, resource, resource1)
 
-func _deferred_goto_scene(path, resource: Resource = null):
+func _deferred_goto_scene(path, resource: Resource = null, resource1: Resource = null):
 	# It is now safe to remove the current scene
 	current_scene.free()
 	# Load the new scene.
@@ -43,5 +43,7 @@ func _deferred_goto_scene(path, resource: Resource = null):
 	# Optionally, to make it compatible with the SceneTree.change_scene() API.
 	get_tree().set_current_scene(current_scene)
 	
+	if resource1:
+		current_scene.resource1 = resource1
 	if resource:
 		current_scene.resource = resource

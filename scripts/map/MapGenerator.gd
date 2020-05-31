@@ -18,11 +18,16 @@ var map_blocks: Array
 var map_trees: Array
 
 func _init() -> void:
-	MapVars.connect("refresh_ui", self, "_on_refresh_ui")
+	link()
 #	MapVars.connect("noise_seed_changed", self, "_on_noise_seed_changed")
 #	MapVars.connect("forest_comparison_changed", self, "_on_forest_comparison_changed")
 #	MapVars.connect("forest_percent_changed", self, "_on_forest_percent_changed")
 #	MapVars.connect("forest_period_changed", self, "_on_forest_period_changed")
+
+
+func link() -> void:
+	MapVars.connect("refresh_ui", self, "_on_refresh_ui")
+
 
 func set_mminstance(_Terrain: MultiMeshInstance, _Trees1: MultiMeshInstance, _Trees2: MultiMeshInstance) -> void:
 	Terrain = _Terrain

@@ -6,6 +6,8 @@
 
 [node name="MapGenPanelGroup" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
+ASidePath = NodePath("MarginContainer/VBoxContainer/ASideParamUI/MarginContainer/VBoxContainer/HSlider")
+BSidePath = NodePath("MarginContainer/VBoxContainer/BSideParamUI/MarginContainer/VBoxContainer/HSlider")
 NoiseSpinBoxPath = NodePath("MarginContainer/VBoxContainer/NoiseParmUI/MarginContainer/VBoxContainer/SpinBox")
 
 [node name="Panel" parent="." index="0"]

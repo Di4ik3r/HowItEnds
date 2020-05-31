@@ -9,6 +9,7 @@ onready var TransitionCamera = $Options/TransitionCamera
 onready var OptionsCamera = $Options/OptionsCamera
 
 onready var TransitionCameraTimer: Timer = $Options/TransitionCamera/Timer as Timer
+onready var MapGen: Spatial = $MapGenerating
 onready var MapGenCamera: InterpolatedCamera = $MapGenerating/InterpolatedCamera as InterpolatedCamera
 onready var MapGenUI = $MapGenerating/MapGeneratingUI
 
@@ -16,7 +17,20 @@ onready var PositionLoad = $Options/PositionLoad
 
 
 func _ready():
+	load_last_save()
 	pass # Replace with function body.
+
+
+func load_last_save() -> void:
+	var saves = Tools.get_all_saves()
+	print(saves)
+	if saves.size() > 0:
+		var save = saves[saves.size() - 1]
+		print(save)
+		var result = Tools.sim_stats.read(save)
+		if result == OK:
+			MapGen.mapVars = Tools.sim_stats.map_vars
+
 
 
 func _on_ItemPlay_pressed():
