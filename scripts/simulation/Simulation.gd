@@ -7,23 +7,33 @@ export(NodePath) var CircleCameraPath
 var resource: MapExport = null setget _set_resource
 var bot_manager = BotManager.new()
 var map_manager = MapManager.new()
+var sim_stats = preload("res://resources/simulation/SimStats.tres")
+
+var timestamp = str(OS.get_time())
 
 onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
-onready var CircleCamera = get_node(CircleCameraPath)
+#onready var CircleCamera = get_node(CircleCameraPath)
 
 
 
 func _ready():
-	pass
+	_link_signals()
 
 
 func start() -> void:
-	var amount = resource.a_side * resource.b_side
-	amount *= 0.03
-#	FoodManager.start(amount)
-	for i in range(0, 0):
-		bot_manager.spawn_bot()
+	FoodManager.start_spawn()
+	bot_manager.start_spawn()
+
+
+func restart() -> void:
+	FoodManager.clear_food()
+	FoodManager.start_spawn()
+	
+	bot_manager.restart()
+	if sim_stats:
+#		sim_stats.auto_write_data("restart_" + bot_manager.bots_buff)
+		sim_stats.auto_write_data(bot_manager.bots_buff, "restart_" + timestamp)
 
 
 func _set_resource(value: MapExport) -> void:
@@ -46,7 +56,7 @@ func _set_resource(value: MapExport) -> void:
 #	FoodManager.map_pos = Map.map_pos
 	FoodManager.map_manager = map_manager
 	var amount = resource.a_side * resource.b_side
-	amount *= 0.01
+	amount *= 0.001
 	FoodManager.time = 1 / amount
 	
 	map_manager.map_bots = bot_manager.map_bots
@@ -119,3 +129,8 @@ func _on_BotSpawnTimer_timeout():
 
 func _on_TestBotUI_spawn_food_pressed():
 	FoodManager.spawn_food()
+
+
+func _link_signals() -> void:
+	bot_manager.connect("bots_died", self, "restart")
+	pass

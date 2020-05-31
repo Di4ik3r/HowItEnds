@@ -5,9 +5,9 @@ export var genotypes: Array
 
 const FILE_PATH: String = "BotSim"
 
-func auto_write_data(bots: Array) -> int:
+func auto_write_data(bots: Array, file_name: String = "_backup") -> int:
 	genotypes = get_genotypes_by_array(bots)
-	return save()
+	return save(file_name)
 
 func write_data(file_name: String, bots: Dictionary) -> int:
 	var _genotypes = get_genotypes_by_dictionary(bots)

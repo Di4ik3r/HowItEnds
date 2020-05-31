@@ -114,3 +114,19 @@ func is_out_of_bounds(x, z) -> bool:
 	if x >= 0 and x < x_limit and z >= 0 and z < z_limit:
 		return false
 	return true
+
+
+
+func export_map_to_csv() -> void:
+	var file = File.new()
+	file.open("user://map_export.csv", File.WRITE)
+	
+	var array = []
+	var buff = []
+	for row in map_type:
+		for cell in row:
+			buff.append(str(cell) + ",")
+		file.store_csv_line(PoolStringArray(buff))
+		buff.clear()
+	
+	file.close()

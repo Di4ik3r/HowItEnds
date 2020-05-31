@@ -2,13 +2,20 @@ extends Node
 class_name BotManager
 
 
+signal bots_died
+
 var map_bots: Dictionary
 
 var bot_holder: Spatial
 var bots: Array
+var bots_buff: Array = Array()
+var restart_count = 0
 
 var map_manager: MapManager
 var FoodManager = null
+var sim_stats = null
+
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
 func _init() -> void:
@@ -16,13 +23,42 @@ func _init() -> void:
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
+func start_spawn() -> void:
+	if sim_stats:
+		if sim_stats.genotypes.size() == 0:
+			print("empty")
+			for i in range(0, Variables.BOTS_BUFF_SIZE * Variables.BOTS_BUFF_MULTIPLIER):
+				spawn_bot()
+		else:
+			print("loading")
+			var amount = sim_stats.genotypes.size()
+			for i in range(0, amount):
+				spawn_bot_with_genotype(sim_stats.genotypes[i])
+	
+	var a = map_manager.map_export.a_side
+	var b = map_manager.map_export.b_side
+	var amount = a * b
+	amount *= 0.002
+	for i in range(0, amount):
+		spawn_bot()
+
+
+func restart() -> void:
+	restart_count += 1
+	print("restart #%d : %s" % [restart_count, str(OS.get_time())])
+	
+	for i in range(0, bots_buff.size()):
+		var bot: Bot = bots_buff.pop_back()
+		var amount_of_copy = randi() % (Variables.BOTS_BUFF_MULTIPLIER + 1)
+		for j in range(0, amount_of_copy):
+			var bot_copy = bot.last_duplicate()
+			spawn_bot(bot_copy)
+		spawn_bot(bot)
+
 
 func cycle() -> void:
 	for bot in bots:
 		(bot as Bot).make_choice()
-
-
-
 
 
 func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
@@ -37,6 +73,20 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	
 	bots.append(bot)
 	map_bots[Vector3(pos.x, 0, pos.z)] = bot
+	bot_holder.add_child(bot)
+
+
+func spawn_bot_with_genotype(genotype: Array) -> void:
+	var bot = load("res://scenes/Bot.tscn").instance()
+	var pos = map_manager.get_available_pos()
+	
+	bot.genotype = genotype.duplicate()
+	
+	bot.translation = pos
+	
+	bots.append(bot)
+	map_bots[Vector3(pos.x, 0, pos.z)] = bot
+	
 	bot_holder.add_child(bot)
 
 
@@ -89,17 +139,21 @@ func bot_eat_bot(bot: Bot) -> int:
 
 
 func kill_bot(bot: Bot) -> void:
-#	last_bots.push_back(bot.last_duplicate())
-#	if last_bots.size() > TEST_BOT_BOUND:
-#		var bot_to_remove = last_bots.pop_front()
-#		bot_to_remove.queue_free()
+	bots_buff.push_back(bot.last_duplicate())
+	if bots_buff.size() > Variables.BOTS_BUFF_SIZE:
+		var bot_to_remove = bots_buff.pop_front()
+		bot_to_remove.queue_free()
+
 	var pos = bot.translation
 	map_bots[Vector3(pos.x, 0, pos.z)] = null
 	var result = bots.erase(bot)
 	bot_holder.remove_child(bot)
 	bot.kill()
-#	if bots.size() == 0:
+	
+	if bots.size() == 0:
+		emit_signal("bots_died")
 #		restart()
+
 
 func reproduce_bot(bot: Bot) -> void:
 	pass
@@ -114,6 +168,7 @@ func bot_reproduce(bot: Bot) -> void:
 	
 	spawn_bot(child, reproduce_block)
 
+
 func bot_sense(bot: Bot) -> int:
 	var pos = Vector3(\
 		bot.translation.x + bot.look_at_pos.x,\
@@ -121,12 +176,14 @@ func bot_sense(bot: Bot) -> int:
 		bot.translation.z + bot.look_at_pos.z)
 	return sense(pos)
 
+
 func sense(pos: Vector3) -> int:
 	if map_manager.is_out_of_bounds(pos.x, pos.z):
 		return Variables.GenTransition.IMPASSABLE
 	if map_bots[Vector3(pos.x, 0, pos.z)]:
 		return Variables.GenTransition.BOT
 	return _get_transition_gen(map_manager.map_type[pos.x][pos.z])
+
 
 func init_map_bots() -> void:
 	map_bots = Dictionary()
@@ -161,6 +218,7 @@ func _validate_move(bot: Bot) -> bool:
 #		or map_type[x][z] == Variables.BlockType.GRASS):
 			return true
 	return false
+
 
 func _get_transition_gen(block_type: int) -> int:
 	match block_type:               

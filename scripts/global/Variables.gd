@@ -62,6 +62,9 @@ const START_ENERGY = 140
 
 const UNIT = 1
 
+const BOTS_BUFF_SIZE = 5
+const BOTS_BUFF_MULTIPLIER = 10
+
 
 func _ready():
 	pass

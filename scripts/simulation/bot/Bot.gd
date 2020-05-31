@@ -169,7 +169,7 @@ func mutate(_genotype: Array) -> Array:
 	return _genotype
 
 func last_duplicate() -> Bot:
-	var bot: Bot = load("res://scenes/Bot.tscn").instance()
+	var bot: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
 	bot.genotype = mutate_restart(genotype)
 	bot.energy = Variables.START_ENERGY
 	return bot
@@ -259,7 +259,7 @@ func _rotate_en() -> void:
 func _init_genotype() -> void:
 	if genotype.size() == 0:
 		randomize()
-		generate_genotype()
+		generate_my_genotype()
 #		generate_genotype()
 
 func _get_category_bounds(category: int) -> Array:
