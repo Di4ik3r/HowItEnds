@@ -44,7 +44,7 @@ func start_spawn() -> void:
 
 func restart() -> void:
 #	restart_count += 1
-	var restart_count = Tools.sim_stats.restart_count
+	var restart_count = Tools.sim_stats.restart_count - 1
 	print("restart #%d : %s" % [restart_count, str(OS.get_time())])
 	
 	for i in range(0, bots_buff.size()):

@@ -10,6 +10,12 @@ export var map_vars: Resource = null
 export var restart_count: int = 1
 
 
+func refresh() -> void:
+	genotypes = []
+	restart_count = 1
+	map_vars = preload("res://resources/map/MapVars.tres")
+
+
 func auto_write_data(bots: Array, file_name: String = "_backup") -> int:
 	genotypes = get_genotypes_by_array(bots)
 	return auto_save()
