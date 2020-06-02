@@ -89,6 +89,8 @@ func _on_MapGeneratingUI_back_button_pressed():
 func _on_MapGeneratingUI_randomize_button_pressed():
 	mapGenerator.randomize()
 func _on_MapGeneratingUI_start_button_pressed():
+	if !_check_save_name():
+		return
 	mapGenerator.update_Terrain(true)
 	var data = mapGenerator.export_map()
 	var map_export_resource = MapExport.new(data)
@@ -103,8 +105,6 @@ func _on_refresh_ui(value) -> void:
 
 func _set_map_vars(value) -> void:
 	mapVars = value
-	print(mapVars.a_side)
-	print(mapVars.b_side)
 	mapGenerator.MapVars = value
 	mapGenerator.link()
 	mapGenerator.update_Terrain(true)
@@ -113,3 +113,13 @@ func _set_map_vars(value) -> void:
 	
 	UI.refresh(mapVars)
 #	emit_signal("refresh_ui", value)
+
+
+func _check_save_name() -> bool:
+	var save_name: String = UI.get_save_name()
+#	print("name: ", save_name, ";")
+	if !save_name or save_name.begins_with(" "):
+		return false
+	
+	Variables.save_name = save_name
+	return true

@@ -23,11 +23,11 @@ func _ready():
 
 func load_last_save() -> void:
 	var saves = Tools.get_all_saves()
-	print(saves)
+#	print(saves)
 	if saves.size() > 0:
 		var save = saves[saves.size() - 1]
-		print(save)
-		var result = Tools.sim_stats.read(save)
+		Variables.save_name = save
+		var result = Tools.sim_stats.auto_read()
 		if result == OK:
 			MapGen.mapVars = Tools.sim_stats.map_vars
 

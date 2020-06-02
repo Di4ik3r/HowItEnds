@@ -62,3 +62,11 @@ func refresh(map_vars) -> void:
 	EnvPanel.set_forest_comparison(map_vars.forest_comparison)
 	EnvPanel.set_forest_percent(map_vars.forest_percent)
 	EnvPanel.set_forest_period(map_vars.forest_period)
+	set_save_name(Variables.save_name)
+
+
+func set_save_name(value: String) -> void:
+	ControlPanel.set_save_name(value)
+
+func get_save_name() -> String:
+	return ControlPanel.get_save_name()

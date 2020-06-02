@@ -9,7 +9,6 @@ var map_bots: Dictionary
 var bot_holder: Spatial
 var bots: Array
 var bots_buff: Array = Array()
-var restart_count = 0
 
 var map_manager: MapManager
 var FoodManager = null
@@ -24,16 +23,16 @@ func _init() -> void:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
 func start_spawn() -> void:
-	if sim_stats:
-		if sim_stats.genotypes.size() == 0:
+	if Tools.sim_stats:
+		if Tools.sim_stats.genotypes.size() == 0:
 			print("empty")
 			for i in range(0, Variables.BOTS_BUFF_SIZE * Variables.BOTS_BUFF_MULTIPLIER):
 				spawn_bot()
 		else:
 			print("loading")
-			var amount = sim_stats.genotypes.size()
+			var amount = Tools.sim_stats.genotypes.size()
 			for i in range(0, amount):
-				spawn_bot_with_genotype(sim_stats.genotypes[i])
+				spawn_bot_with_genotype(Tools.sim_stats.genotypes[i])
 	
 	var a = map_manager.map_export.a_side
 	var b = map_manager.map_export.b_side
@@ -44,7 +43,8 @@ func start_spawn() -> void:
 
 
 func restart() -> void:
-	restart_count += 1
+#	restart_count += 1
+	var restart_count = Tools.sim_stats.restart_count
 	print("restart #%d : %s" % [restart_count, str(OS.get_time())])
 	
 	for i in range(0, bots_buff.size()):
@@ -77,11 +77,11 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 
 
 func spawn_bot_with_genotype(genotype: Array) -> void:
-	var bot = load("res://scenes/Bot.tscn").instance()
+	var bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
 	var pos = map_manager.get_available_pos()
 	
 	bot.genotype = genotype.duplicate()
-	
+	bot.manager = self
 	bot.translation = pos
 	
 	bots.append(bot)

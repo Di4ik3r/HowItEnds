@@ -1,5 +1,5 @@
 #class_name Tools
-tool
+#tool
 extends Node
 
 const NOISE_A = -1
@@ -11,6 +11,28 @@ var sim_stats = preload("res://resources/simulation/SimStats.tres")
 func _ready():
 	pass
 
+
+func sort_restarts(a: int, b: int):
+		if a < b:
+			return true
+		return false
+
+func get_save_restarts() -> Array:
+	var files = []
+	var dir = Directory.new()
+	dir.open("user://saves/%s/" % [Variables.save_name])
+	dir.list_dir_begin()
+
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif not file.begins_with("."):
+			files.append(int(file))
+
+	files.sort()
+	dir.list_dir_end()
+	return files
 
 func get_all_saves() -> Array:
 	var files = []

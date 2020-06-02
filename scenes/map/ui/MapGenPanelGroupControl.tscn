@@ -12,6 +12,7 @@ font_data = ExtResource( 1 )
 script = ExtResource( 3 )
 AutoLoadCBPath = NodePath("MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/CenterContainer/AutoLoadCheckButton")
 ButtonGeneratePath = NodePath("MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/MarginContainer3/ButtonGenerate")
+LESavePath = NodePath("MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer3/HBoxContainer/LESave")
 
 [node name="Panel" parent="." index="0"]
 margin_right = 1024.0
@@ -40,11 +41,11 @@ text = "Controls"
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer" index="1"]
 margin_top = 43.0
 margin_right = 994.0
-margin_bottom = 156.0
+margin_bottom = 194.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2" index="0"]
 margin_right = 994.0
-margin_bottom = 113.0
+margin_bottom = 151.0
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="0"]
 margin_right = 994.0
@@ -68,10 +69,47 @@ size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 text = "Start"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="1"]
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="1"]
 margin_top = 34.0
 margin_right = 994.0
-margin_bottom = 74.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 120
+custom_constants/margin_top = 5
+custom_constants/margin_left = 120
+custom_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer3" index="0"]
+margin_left = 120.0
+margin_top = 5.0
+margin_right = 874.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer3/HBoxContainer" index="0"]
+margin_top = 5.0
+margin_right = 73.0
+margin_bottom = 19.0
+size_flags_vertical = 6
+text = "Save name:"
+align = 2
+
+[node name="LESave" type="LineEdit" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer3/HBoxContainer" index="1"]
+margin_left = 77.0
+margin_right = 754.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+clear_button_enabled = true
+placeholder_text = "save name"
+placeholder_alpha = 0.197
+caret_blink = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="2"]
+margin_top = 72.0
+margin_right = 994.0
+margin_bottom = 112.0
 
 [node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer" index="0"]
 margin_right = 328.0
@@ -125,10 +163,10 @@ size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 text = "Generate"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="2"]
-margin_top = 78.0
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer" index="3"]
+margin_top = 116.0
 margin_right = 994.0
-margin_bottom = 113.0
+margin_bottom = 151.0
 custom_constants/margin_right = 15
 custom_constants/margin_top = 5
 custom_constants/margin_left = 15
