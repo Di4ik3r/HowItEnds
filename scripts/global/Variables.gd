@@ -51,6 +51,9 @@ enum GenTransition {
 	BOT = 4,
 	IMPASSABLE = 5,
 }
+enum BotType {
+	A, B
+}
 
 const FOOD_COST = 45
 const BOT_COST = 14

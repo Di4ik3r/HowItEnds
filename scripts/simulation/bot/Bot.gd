@@ -41,13 +41,17 @@ var current_gen: int = 0 setget _set_current_gen
 var current_gen_increaser: int = 1
 
 var energy: int = Variables.START_ENERGY setget _set_energy
+var type = Variables.BotType.A setget _set_type
 
+onready var ModelA = $BotModelA
+onready var ModelB = $BotModelB
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
 func _ready() -> void:
 	_set_cardinal(Direction.W)
 	_init_genotype()
+	_set_type(type)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
@@ -56,6 +60,9 @@ func generate_genotype() -> void:
 	
 	var genes = Variables.Genes.values()
 	var genes_size = Variables.Genes.size()
+	
+	var types = Variables.BotType.values()
+	_set_type(types[Tools.random_int_range(0, types.size() - 1)])
 	
 	for i in range(0, 64):
 		var category = _get_random_category()
@@ -158,6 +165,9 @@ func generate_genotype_by_parent(parent: Bot) -> Array:
 	var result: Array = parent.genotype.duplicate()
 	var chance: int = randi() % 11 + 1
 	if chance <= 2:
+		var types = Variables.BotType.values()
+		type = types[Tools.random_int_range(0, types.size() - 1)]
+		
 		result = mutate(result)
 	return result
 func mutate(_genotype: Array) -> Array:
@@ -170,6 +180,7 @@ func mutate(_genotype: Array) -> Array:
 
 func last_duplicate() -> Bot:
 	var bot: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
+	bot.type = type
 	bot.genotype = mutate_restart(genotype)
 	bot.energy = Variables.START_ENERGY
 	return bot
@@ -177,6 +188,9 @@ func mutate_restart(_genotype: Array) -> Array:
 	var result: Array = _genotype.duplicate()
 	var chance: int = randi() % 11 + 1
 	if chance <= 2:
+		var types = Variables.BotType.values()
+		type = types[Tools.random_int_range(0, types.size() - 1)]
+		
 		result = mutate(result)
 	return result
 
@@ -316,3 +330,16 @@ func _set_energy(value: int) -> void:
 	energy = value
 	if energy <= 0:
 		_kill()
+
+
+func _set_type(value: int) -> void:
+	type = value
+	
+	if ModelA:
+		ModelA.hide()
+		ModelB.hide()
+		match type:
+			Variables.BotType.A:
+				ModelA.show()
+			Variables.BotType.B:
+				ModelB.show()
