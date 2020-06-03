@@ -55,18 +55,19 @@ enum BotType {
 	A, B
 }
 
-const FOOD_COST = 45
+#const FOOD_COST = 45
+const FOOD_COST = 75
 const BOT_COST = 14
 const MOVE_COST = 0
 const ROTATE_COST = 0
 const REPRODUCE_COST = 35
-const REPRODUCE_BOUND = 225
-const START_ENERGY = 140
+const REPRODUCE_BOUND = 625
+const START_ENERGY = 440
 
 const UNIT = 1
 
-const BOTS_BUFF_SIZE = 10
-const BOTS_BUFF_MULTIPLIER = 0
+const BOTS_BUFF_SIZE = 12
+const BOTS_BUFF_MULTIPLIER = 5
 
 
 var timestamp = OS.get_time()

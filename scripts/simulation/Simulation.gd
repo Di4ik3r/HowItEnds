@@ -10,9 +10,11 @@ var bot_manager = BotManager.new()
 var map_manager = MapManager.new()
 
 var timestamp = Variables.timestamp
+var time_restart = 1
 
 onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
+onready var TimerRestart: = $TimerRestart as Timer
 #onready var CircleCamera = get_node(CircleCameraPath)
 
 
@@ -37,6 +39,13 @@ func restart() -> void:
 #	var stamp = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
 	Tools.sim_stats.auto_write_data(bot_manager.bots_buff, Variables.save_name)
 	bot_manager.restart()
+	
+	TimerRestart.stop()
+	print("time: ", time_restart)
+	
+	time_restart = 1
+	TimerRestart.start()
+	
 
 
 func _set_resource(value: MapExport) -> void:
@@ -140,3 +149,7 @@ func _on_TestBotUI_spawn_food_pressed():
 
 func _link_signals() -> void:
 	bot_manager.connect("bots_died", self, "restart")
+
+
+func _on_TimerRestart_timeout():
+	time_restart += 1

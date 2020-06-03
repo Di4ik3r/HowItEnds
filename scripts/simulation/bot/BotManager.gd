@@ -53,10 +53,12 @@ func restart() -> void:
 #		var amount_of_copy = Variables.BOTS_BUFF_MULTIPLIER
 		var amount_of_copy = Tools.random_int_range(0, Variables.BOTS_BUFF_MULTIPLIER)
 		for j in range(0, amount_of_copy):
-			print("copied")
+#			print("copied")
 			var bot_copy = bot.last_duplicate()
 			spawn_bot(bot_copy)
 		spawn_bot(bot)
+	
+	print(bots.size())
 
 
 func cycle() -> void:
@@ -136,7 +138,8 @@ func bot_eat_bot(bot: Bot) -> int:
 	if bot_for_eat:
 #		print(bot_for_eat)
 		kill_bot(bot_for_eat)
-		bot.energy += round(bot_for_eat.energy / 4)
+#		bot.energy += round(bot_for_eat.energy / 4)
+		bot.energy += round(bot_for_eat.energy / 2)
 #		return Variables.GenTransition.BOT
 #	return Variables.GenTransition.EMPTY
 	return sense(pos)

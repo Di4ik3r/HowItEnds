@@ -27,6 +27,8 @@ autostart = true
 [node name="BotSpawnTimer" type="Timer" parent="."]
 wait_time = 7.0
 
+[node name="TimerRestart" type="Timer" parent="."]
+
 [node name="FirstPerson" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577, -5, 15, 0 )
 [connection signal="eat_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_bot_pressed"]
@@ -57,3 +59,4 @@ transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577,
 [connection signal="stay_pressed" from="TestBotUI" to="." method="_on_TestBotUI_stay_pressed"]
 [connection signal="timeout" from="BotTimer" to="." method="_on_BotTimer_timeout"]
 [connection signal="timeout" from="BotSpawnTimer" to="." method="_on_BotSpawnTimer_timeout"]
+[connection signal="timeout" from="TimerRestart" to="." method="_on_TimerRestart_timeout"]

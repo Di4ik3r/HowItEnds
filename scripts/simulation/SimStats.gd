@@ -67,7 +67,6 @@ func auto_read() -> int:
 #	if file_name == "autosave 17:3:54 map_vars":
 	var save_name = Variables.save_name
 	var restarts = Tools.get_save_restarts()
-	print(restarts)
 	var restart = str(restarts[restarts.size() - 1])
 	var load1 = str("user://saves/%s/%s/sim_stats.tres" % [save_name, restart])
 	var load2 = str("user://saves/%s/%s/map_vars.tres" % [save_name, restart])

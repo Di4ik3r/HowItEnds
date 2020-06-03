@@ -157,7 +157,8 @@ func _kill() -> void:
 
 func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
-	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
+#	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
+	parent._set_energy(parent.energy / 2)
 	genotype = generate_genotype_by_parent(parent)
 #	energy = 80 + randi() % 10 - 11
 	energy = round(parent.energy / 2)
@@ -198,8 +199,10 @@ func mutate_restart(_genotype: Array) -> Array:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE
 func _move() -> void:
 	current_gen_increaser = manager.bot_move(self)
+	_set_energy(energy + Tools.random_int_range(0, 1))
 func _stay() -> void:
-	_set_energy(energy + 1)
+#	_set_energy(energy + 1)
+	pass
 func _eat() -> void:
 	manager.bot_eat(self)
 #	if !manager.is_block_ahead(Env.BlockType.FOOD, position, current_rotation):
@@ -299,6 +302,8 @@ func _get_random_category() -> int:
 	return randi() % 6
 
 func _set_cardinal(value) -> void:
+	randomize()
+	_set_energy(energy + Tools.random_int_range(0, 1))
 	cardinal = value
 	match cardinal:
 		Direction.N:
