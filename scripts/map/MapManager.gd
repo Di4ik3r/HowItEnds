@@ -90,6 +90,7 @@ func validate_block(x, z) -> bool:
 
 
 func get_available_pos() -> Vector3:
+	randomize()
 	var block
 	var iteration = 0
 	while(true):

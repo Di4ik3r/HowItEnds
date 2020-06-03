@@ -67,7 +67,7 @@ func _set_resource(value: MapExport) -> void:
 	
 	Tools.sim_stats.map_vars = resource1
 	
-	if Tools.sim_stats.genotypes.size() > 0:
+	if Tools.sim_stats.info.size() > 0:
 		load_start()
 	start()
 

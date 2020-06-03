@@ -65,8 +65,8 @@ const START_ENERGY = 140
 
 const UNIT = 1
 
-const BOTS_BUFF_SIZE = 5
-const BOTS_BUFF_MULTIPLIER = 10
+const BOTS_BUFF_SIZE = 10
+const BOTS_BUFF_MULTIPLIER = 0
 
 
 var timestamp = OS.get_time()

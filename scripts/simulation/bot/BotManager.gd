@@ -24,22 +24,22 @@ func _init() -> void:
 
 func start_spawn() -> void:
 	if Tools.sim_stats:
-		if Tools.sim_stats.genotypes.size() == 0:
+		if Tools.sim_stats.info.size() == 0:
 			print("empty")
 			for i in range(0, Variables.BOTS_BUFF_SIZE * Variables.BOTS_BUFF_MULTIPLIER):
 				spawn_bot()
 		else:
 			print("loading")
-			var amount = Tools.sim_stats.genotypes.size()
+			var amount = Tools.sim_stats.info.size()
 			for i in range(0, amount):
-				spawn_bot_with_genotype(Tools.sim_stats.genotypes[i])
+				spawn_bot_with_genotype(Tools.sim_stats.info[i])
 	
-	var a = map_manager.map_export.a_side
-	var b = map_manager.map_export.b_side
-	var amount = a * b
-	amount *= 0.002
-	for i in range(0, amount):
-		spawn_bot()
+#	var a = map_manager.map_export.a_side
+#	var b = map_manager.map_export.b_side
+#	var amount = a * b
+#	amount *= 0.002
+#	for i in range(0, amount):
+#		spawn_bot()
 
 
 func restart() -> void:
@@ -49,8 +49,11 @@ func restart() -> void:
 	
 	for i in range(0, bots_buff.size()):
 		var bot: Bot = bots_buff.pop_back()
-		var amount_of_copy = randi() % (Variables.BOTS_BUFF_MULTIPLIER + 1)
+#		var amount_of_copy = randi() % (Variables.BOTS_BUFF_MULTIPLIER + 1)
+#		var amount_of_copy = Variables.BOTS_BUFF_MULTIPLIER
+		var amount_of_copy = Tools.random_int_range(0, Variables.BOTS_BUFF_MULTIPLIER)
 		for j in range(0, amount_of_copy):
+			print("copied")
 			var bot_copy = bot.last_duplicate()
 			spawn_bot(bot_copy)
 		spawn_bot(bot)
@@ -76,11 +79,12 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	bot_holder.add_child(bot)
 
 
-func spawn_bot_with_genotype(genotype: Array) -> void:
+func spawn_bot_with_genotype(info: Dictionary) -> void:
 	var bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
 	var pos = map_manager.get_available_pos()
 	
-	bot.genotype = genotype.duplicate()
+	bot.genotype = info.genotype.duplicate()
+	bot.type = info.type
 	bot.manager = self
 	bot.translation = pos
 	

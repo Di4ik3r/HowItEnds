@@ -5,25 +5,25 @@ extends Resource
 const FILE_PATH: String = "BotSim"
 const MAP_VARS_STR: String = " map_vars"
 
-export var genotypes: Array
+export var info: Array
 export var map_vars: Resource = null
 export var restart_count: int = 1
 
 
 func refresh() -> void:
-	genotypes = []
+	info = []
 	restart_count = 1
 	map_vars = preload("res://resources/map/MapVars.tres")
 
 
 func auto_write_data(bots: Array, file_name: String = "_backup") -> int:
-	genotypes = get_genotypes_by_array(bots)
+	info = get_info_by_array(bots)
 	return auto_save()
 #	return save(file_name)
 
 
 func write_data(file_name: String, bots: Dictionary) -> int:
-	var _genotypes = get_genotypes_by_dictionary(bots)
+	var _info = get_info_by_dictionary(bots)
 	return save(file_name)
 
 
@@ -78,7 +78,7 @@ func auto_read() -> int:
 		return ERR_FILE_NOT_FOUND
 #		return "Can't load %s resource" % file_name
 	
-	genotypes = readed.genotypes
+	info = readed.info
 	restart_count = readed.restart_count + 1
 	var script = load("res://resources/map/MapVars.gd")
 	map_vars = readed1
@@ -98,7 +98,7 @@ func read(file_name: String = "_backup") -> int:
 		return ERR_FILE_NOT_FOUND
 #		return "Can't load %s resource" % file_name
 	
-	genotypes = readed.genotypes
+	info = readed.info
 	var script = load("res://resources/map/MapVars.gd")
 	map_vars = readed1
 	map_vars.set_script(script)
@@ -106,15 +106,18 @@ func read(file_name: String = "_backup") -> int:
 	return OK
 
 
-func get_genotypes_by_array(bots: Array) -> Array:
-	var _genotypes = Array()
+func get_info_by_array(bots: Array) -> Array:
+	var _info = Array()
 	for bot in bots:
-		_genotypes.append(bot.genotype.duplicate())
-	return _genotypes
+		_info.append({
+			"genotype": bot.genotype.duplicate(),
+			"type": bot.type,
+		})
+	return _info
 
 
-func get_genotypes_by_dictionary(bots: Dictionary) -> Array:
-	var _genotypes = Array()
+func get_info_by_dictionary(bots: Dictionary) -> Array:
+	var _info = Array()
 	for bot in bots:
-		_genotypes.append(bot.genotype.duplicate())
-	return _genotypes
+		_info.append(bot.genotype.duplicate())
+	return _info

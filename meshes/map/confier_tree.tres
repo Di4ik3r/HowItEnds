@@ -3,7 +3,6 @@
 [ext_resource path="res://models/idkwtfisthis/coniferTreedarkbrown.material" type="Material" id=1]
 [ext_resource path="res://models/idkwtfisthis/coniferTree.material" type="Material" id=2]
 
-
 [resource]
 resource_name = "conifertree"
 surfaces/0 = {
