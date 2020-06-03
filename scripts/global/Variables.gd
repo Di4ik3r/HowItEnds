@@ -66,5 +66,8 @@ const BOTS_BUFF_SIZE = 5
 const BOTS_BUFF_MULTIPLIER = 10
 
 
+var timestamp = OS.get_time()
+var save_name: String = ""
+
 func _ready():
 	pass

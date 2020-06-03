@@ -1,62 +1,69 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://scenes/main_menu/HoverableItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/map/MapGenerating.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/main_menu/load/LoadPane.tscn" type="PackedScene" id=4]
 
-[node name="Spatial" type="Spatial"]
-
-[node name="MainMenu" type="Spatial" parent="."]
+[node name="MainMenu" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="Options" type="Spatial" parent="MainMenu"]
+[node name="Options" type="Spatial" parent="."]
 transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -68.2637, 31.8734, -23.3586 )
 
-[node name="ItemPlay" parent="MainMenu/Options" instance=ExtResource( 2 )]
+[node name="PositionLoad" type="Position3D" parent="Options"]
+transform = Transform( -1, 0, -3.27826e-07, 0, 1, 0, 3.27826e-07, 0, -1, 2.38, -0.206, 6.398 )
+
+[node name="LoadPane" parent="Options" instance=ExtResource( 4 )]
+transform = Transform( -0.981627, 0, -0.190809, 0, 1, 0, 0.190809, 0, -0.981627, 3.02692, 0, 9.72205 )
+
+[node name="ItemContinue" parent="Options" instance=ExtResource( 2 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, 1.2, 0.556 )
-text = "Play"
-color = Color( 0.0784314, 1, 0, 1 )
+text = "Continue"
+color = Color( 0.0313726, 0, 1, 0.207843 )
 
-[node name="ItemPlay2" parent="MainMenu/Options" instance=ExtResource( 2 )]
-transform = Transform( -0.5, 0, -1.62921e-07, 0, 0.5, 0, 1.62921e-07, 0, -0.5, 0.739002, 1.2, 11.556 )
-text = "Play"
-color = Color( 0.0784314, 1, 0, 1 )
-
-[node name="ItemLoad" parent="MainMenu/Options" instance=ExtResource( 2 )]
+[node name="ItemPlay" parent="Options" instance=ExtResource( 2 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, 0, 0.556 )
-text = "Load"
-color = Color( 1, 0.984314, 0, 1 )
+text = "New"
+color = Color( 0, 1, 0, 0.207843 )
 
-[node name="ItemExit" parent="MainMenu/Options" instance=ExtResource( 2 )]
+[node name="ItemLoad" parent="Options" instance=ExtResource( 2 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, -1.2, 0.556 )
+text = "Load"
+color = Color( 0.968627, 1, 0, 1 )
+
+[node name="ItemExit" parent="Options" instance=ExtResource( 2 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, -2.4, 0.556 )
 text = "Exit"
 color = Color( 1, 0, 0, 1 )
 
-[node name="OptionsCamera" type="Camera" parent="MainMenu/Options"]
+[node name="OptionsCamera" type="Camera" parent="Options"]
 transform = Transform( 0.883071, 0, -0.46924, 0, 1, 0, 0.46924, 0, 0.883071, 2.37988, -0.205526, 6.39762 )
-visible = false
 current = true
 far = 8192.0
 
-[node name="TransitionCamera" type="InterpolatedCamera" parent="MainMenu/Options"]
+[node name="TransitionCamera" type="InterpolatedCamera" parent="Options"]
 transform = Transform( 0.883071, 0, -0.46924, 0, 1, 0, 0.46924, 0, 0.883071, 2.37988, -0.205526, 6.39762 )
 visible = false
 far = 8192.0
 target = NodePath("../../MapGenerating/InterpolatedCamera")
-speed = 2.0
+speed = 2.5
 
-[node name="Timer" type="Timer" parent="MainMenu/Options/TransitionCamera"]
+[node name="Timer" type="Timer" parent="Options/TransitionCamera"]
 wait_time = 1.5
 one_shot = true
 
-[node name="PositionLoad" type="Position3D" parent="MainMenu/Options"]
-transform = Transform( -0.88307, 0, 0.469241, 0, 1, 0, -0.469241, 0, -0.88307, 2.38, -0.205999, 6.39801 )
+[node name="MapGenerating" parent="." instance=ExtResource( 3 )]
 
-[node name="MapGenerating" parent="MainMenu" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2 )
-[connection signal="pressed" from="MainMenu/Options/ItemPlay" to="MainMenu" method="_on_ItemPlay_pressed"]
-[connection signal="pressed" from="MainMenu/Options/ItemPlay2" to="MainMenu" method="_on_ItemPlay_pressed"]
-[connection signal="pressed" from="MainMenu/Options/ItemLoad" to="MainMenu" method="_on_ItemLoad_pressed"]
-[connection signal="pressed" from="MainMenu/Options/ItemExit" to="MainMenu" method="_on_ItemExit_pressed"]
-[connection signal="timeout" from="MainMenu/Options/TransitionCamera/Timer" to="MainMenu" method="_on_Timer_timeout"]
-[connection signal="map_back_button_pressed" from="MainMenu/MapGenerating" to="MainMenu" method="_on_MapGenerating_map_back_button_pressed"]
+[node name="PositionContinue" type="Position3D" parent="."]
+transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577, -5, 15, 0 )
+
+[node name="TimerContinue" type="Timer" parent="PositionContinue"]
+wait_time = 1.5
+[connection signal="pressed" from="Options/ItemContinue" to="." method="_on_ItemContinue_pressed"]
+[connection signal="pressed" from="Options/ItemPlay" to="." method="_on_ItemPlay_pressed"]
+[connection signal="pressed" from="Options/ItemLoad" to="." method="_on_ItemLoad_pressed"]
+[connection signal="pressed" from="Options/ItemExit" to="." method="_on_ItemExit_pressed"]
+[connection signal="timeout" from="Options/TransitionCamera/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="map_back_button_pressed" from="MapGenerating" to="." method="_on_MapGenerating_map_back_button_pressed"]
+[connection signal="timeout" from="PositionContinue/TimerContinue" to="." method="_on_TimerContinue_timeout"]

@@ -55,4 +55,18 @@ func _on_refresh_ui(values) -> void:
 	EnvPanel.set_forest_percent(values.forest_percent)
 	EnvPanel.set_forest_period(values.forest_period)
 
+func refresh(map_vars) -> void:
+	TechPanel.set_a_side(map_vars.a_side)
+	TechPanel.set_b_side(map_vars.b_side)
+	TechPanel.set_noise_seed(map_vars.noise_seed)
+	EnvPanel.set_forest_comparison(map_vars.forest_comparison)
+	EnvPanel.set_forest_percent(map_vars.forest_percent)
+	EnvPanel.set_forest_period(map_vars.forest_period)
+	set_save_name(Variables.save_name)
 
+
+func set_save_name(value: String) -> void:
+	ControlPanel.set_save_name(value)
+
+func get_save_name() -> String:
+	return ControlPanel.get_save_name()

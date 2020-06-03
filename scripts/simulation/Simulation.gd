@@ -5,11 +5,11 @@ export(NodePath) var MapPath
 export(NodePath) var CircleCameraPath
 
 var resource: MapExport = null setget _set_resource
+var resource1: Resource = null
 var bot_manager = BotManager.new()
 var map_manager = MapManager.new()
-var sim_stats = preload("res://resources/simulation/SimStats.tres")
 
-var timestamp = str(OS.get_time())
+var timestamp = Variables.timestamp
 
 onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
@@ -21,6 +21,10 @@ func _ready():
 	_link_signals()
 
 
+func load_start():
+	FoodManager.start_spawn()
+
+
 func start() -> void:
 	FoodManager.start_spawn()
 	bot_manager.start_spawn()
@@ -30,10 +34,9 @@ func restart() -> void:
 	FoodManager.clear_food()
 	FoodManager.start_spawn()
 	
+#	var stamp = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
+	Tools.sim_stats.auto_write_data(bot_manager.bots_buff, Variables.save_name)
 	bot_manager.restart()
-	if sim_stats:
-#		sim_stats.auto_write_data("restart_" + bot_manager.bots_buff)
-		sim_stats.auto_write_data(bot_manager.bots_buff, "restart_" + timestamp)
 
 
 func _set_resource(value: MapExport) -> void:
@@ -62,6 +65,10 @@ func _set_resource(value: MapExport) -> void:
 	map_manager.map_bots = bot_manager.map_bots
 	map_manager.FoodManager = FoodManager
 	
+	Tools.sim_stats.map_vars = resource1
+	
+	if Tools.sim_stats.genotypes.size() > 0:
+		load_start()
 	start()
 
 
@@ -133,4 +140,3 @@ func _on_TestBotUI_spawn_food_pressed():
 
 func _link_signals() -> void:
 	bot_manager.connect("bots_died", self, "restart")
-	pass
