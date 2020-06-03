@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/coniferTree_scaled.glb-586a966c85c8f5fe4ebc9ea8c6242cc0.scn"
+path="res://.import/modelB.glb-d60d82d7eb6b21720d6ff5ed39df5833.scn"
 
 [deps]
 
-source_file="res://models/coniferTree_scaled.glb"
-dest_files=[ "res://.import/coniferTree_scaled.glb-586a966c85c8f5fe4ebc9ea8c6242cc0.scn" ]
+source_file="res://models/bot/b/modelB.glb"
+dest_files=[ "res://.import/modelB.glb-d60d82d7eb6b21720d6ff5ed39df5833.scn" ]
 
 [params]
 

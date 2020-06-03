@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/coniferTree.glb-60f31e1ebe90cd16bb1b388fe0c8efc8.scn"
+path="res://.import/coniferTree.glb-1f5a9e793e89ff3a2e8088723dfda999.scn"
 
 [deps]
 
-source_file="res://models/coniferTree.glb"
-dest_files=[ "res://.import/coniferTree.glb-60f31e1ebe90cd16bb1b388fe0c8efc8.scn" ]
+source_file="res://models/idkwtfisthis/coniferTree.glb"
+dest_files=[ "res://.import/coniferTree.glb-1f5a9e793e89ff3a2e8088723dfda999.scn" ]
 
 [params]
 
