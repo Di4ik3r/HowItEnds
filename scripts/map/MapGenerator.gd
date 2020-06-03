@@ -201,7 +201,7 @@ func _generate_tree(a: int, b: int, min_height: float, height: float, noise: flo
 #	var calc: float = (abs(min_height) + height) * MapVars.BLOCK_HEIGHT_MULTIPLIER / (MapVars.BLOCK_HEIGHT_MULTIPLIER / 2) + 1
 	var calc: float = (abs(min_height) + height) * 2 + 1
 	
-	calc -= 1.5
+	calc -= 1
 #	calc = 10
 	
 	var offset = 0.15
