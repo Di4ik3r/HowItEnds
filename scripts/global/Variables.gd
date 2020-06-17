@@ -55,19 +55,24 @@ enum BotType {
 	A, B
 }
 
+
+var IP = "http://192.168.43.10:5000"
 #const FOOD_COST = 45
 const FOOD_COST = 75
 const BOT_COST = 14
 const MOVE_COST = 0
 const ROTATE_COST = 0
 const REPRODUCE_COST = 35
-const REPRODUCE_BOUND = 625
-const START_ENERGY = 440
+#const REPRODUCE_BOUND = 625
+const REPRODUCE_BOUND = 2
+#const START_ENERGY = 440   # new last was ~100
+const START_ENERGY = 120
 
 const UNIT = 1
 
-const BOTS_BUFF_SIZE = 12
-const BOTS_BUFF_MULTIPLIER = 5
+#const BOTS_BUFF_SIZE = 15
+const BOTS_BUFF_SIZE = 15
+const BOTS_BUFF_MULTIPLIER = 0
 
 
 var timestamp = OS.get_time()

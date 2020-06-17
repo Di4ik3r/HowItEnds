@@ -4,7 +4,7 @@ extends Spatial
 signal map_back_button_pressed
 signal refresh_ui
 
-const CAMERA_HEIGHT = 45
+var CAMERA_HEIGHT = 45
 
 var mapGenerator: MapGenerator = MapGenerator.new()
 var mapVars: Resource = mapGenerator.MapVars setget _set_map_vars
@@ -91,6 +91,7 @@ func _on_MapGeneratingUI_randomize_button_pressed():
 func _on_MapGeneratingUI_start_button_pressed():
 	if !_check_save_name():
 		return
+	Tools.save_last_save()
 	mapGenerator.update_Terrain(true)
 	var data = mapGenerator.export_map()
 	var map_export_resource = MapExport.new(data)

@@ -10,6 +10,40 @@ export var map_vars: Resource = null
 export var restart_count: int = 1
 
 
+func save_test() -> int:
+	var save_name = "unit_test_sim_stats"
+	var dir = Directory.new()
+	dir.open("user://tests/")
+	if !dir.dir_exists(save_name):
+		dir.make_dir(save_name)
+	
+	dir.open("user://tests/%s/" % [save_name])
+	
+	var file_path = "user://tests/%s.tres" % [save_name]
+
+	var result = ResourceSaver.save(file_path, self)
+	
+	return result
+
+
+func read_test() -> int:
+	var save_name = "unit_test_sim_stats"
+	var load1 = str("user://tests/%s.tres" % [save_name])
+	var readed = load(load1)
+	
+	if not readed:
+		return ERR_FILE_NOT_FOUND
+#		return "Can't load %s resource" % file_name
+	
+#	info = readed.info
+#	restart_count = readed.restart_count + 1
+#	var script = load("res://resources/map/MapVars.gd")
+#	map_vars = readed1
+#	map_vars.set_script(script)
+#	return "successfull load file"
+	return OK
+
+
 func refresh() -> void:
 	info = []
 	restart_count = 1
@@ -34,6 +68,9 @@ func auto_save() -> int:
 	dir.open("user://saves/")
 	if !dir.dir_exists(save_name):
 		dir.make_dir(save_name)
+	
+#	var 
+	
 	dir.open("user://saves/%s/" % [save_name])
 	dir.make_dir("%d" % [restart_count])
 	

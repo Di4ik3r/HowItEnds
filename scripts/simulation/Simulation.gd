@@ -25,11 +25,14 @@ func _ready():
 
 func load_start():
 	FoodManager.start_spawn()
+	pass
 
 
 func start() -> void:
 	FoodManager.start_spawn()
 	bot_manager.start_spawn()
+	TimerRestart.start()
+	pass
 
 
 func restart() -> void:

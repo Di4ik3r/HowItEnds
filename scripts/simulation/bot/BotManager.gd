@@ -26,7 +26,10 @@ func start_spawn() -> void:
 	if Tools.sim_stats:
 		if Tools.sim_stats.info.size() == 0:
 			print("empty")
-			for i in range(0, Variables.BOTS_BUFF_SIZE * Variables.BOTS_BUFF_MULTIPLIER):
+			var multiplier = Variables.BOTS_BUFF_MULTIPLIER
+			if multiplier == 0:
+				multiplier = 1
+			for i in range(0, Variables.BOTS_BUFF_SIZE * multiplier):
 				spawn_bot()
 		else:
 			print("loading")
@@ -167,7 +170,7 @@ func reproduce_bot(bot: Bot) -> void:
 func bot_reproduce(bot: Bot) -> void:
 	var reproduce_block = map_manager.get_block_for_reproduce(bot)
 	if reproduce_block == Vector3.INF ||\
-	bot.energy <= Variables.REPRODUCE_BOUND:
+	bot.energy >= Variables.REPRODUCE_BOUND:
 		return
 	
 	var child: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()

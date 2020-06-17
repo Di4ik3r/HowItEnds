@@ -64,7 +64,8 @@ func generate_genotype() -> void:
 	var types = Variables.BotType.values()
 	_set_type(types[Tools.random_int_range(0, types.size() - 1)])
 	
-	for i in range(0, 64):
+#	for i in range(0, 64):
+	for i in range(0, 128):
 		var category = _get_random_category()
 		var category_bounds = _get_category_bounds(category)
 		var gen = Tools.random_array_range(category_bounds)
@@ -164,7 +165,8 @@ func parenting(parent: Bot, pos: Vector3) -> void:
 	energy = round(parent.energy / 2)
 func generate_genotype_by_parent(parent: Bot) -> Array:
 	var result: Array = parent.genotype.duplicate()
-	var chance: int = randi() % 11 + 1
+#	var chance: int = randi() % 11 + 1
+	var chance: int = Tools.random_int_range(1, 10)
 	if chance <= 2:
 		var types = Variables.BotType.values()
 		type = types[Tools.random_int_range(0, types.size() - 1)]
@@ -187,7 +189,8 @@ func last_duplicate() -> Bot:
 	return bot
 func mutate_restart(_genotype: Array) -> Array:
 	var result: Array = _genotype.duplicate()
-	var chance: int = randi() % 11 + 1
+#	var chance: int = randi() % 11 + 1
+	var chance: int = Tools.random_int_range(1, 10)
 	if chance <= 2:
 		var types = Variables.BotType.values()
 		type = types[Tools.random_int_range(0, types.size() - 1)]
@@ -302,6 +305,9 @@ func _get_random_category() -> int:
 	return randi() % 6
 
 func _set_cardinal(value) -> void:
+	if !is_inside_tree():
+		return
+	
 	randomize()
 	_set_energy(energy + Tools.random_int_range(0, 1))
 	cardinal = value
@@ -322,7 +328,9 @@ func _set_cardinal(value) -> void:
 			look_at_pos = Vector3(0, 0, -1)
 		Direction.WN:
 			look_at_pos = Vector3(1, 0, -1)
-	look_at(translation + look_at_pos, Vector3.UP)
+	
+	if is_inside_tree():
+		look_at(translation + look_at_pos, Vector3.UP)
 
 func _set_current_gen(value: int) -> void:
 	var genotype_size = genotype.size()

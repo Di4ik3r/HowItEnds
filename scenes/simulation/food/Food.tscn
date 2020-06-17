@@ -1,46 +1,46 @@
 [gd_scene load_steps=14 format=2]
 
-[sub_resource type="VisualShaderNodeInput" id=3]
+[sub_resource type="VisualShaderNodeInput" id=1]
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeInput" id=4]
+[sub_resource type="VisualShaderNodeInput" id=2]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeScalarFunc" id=5]
+[sub_resource type="VisualShaderNodeScalarFunc" id=3]
 output_port_for_preview = 0
 function = 0
 
-[sub_resource type="OpenSimplexNoise" id=6]
+[sub_resource type="OpenSimplexNoise" id=4]
 seed = 1
 period = 4.0
 persistence = 0.0
 lacunarity = 3.52
 
-[sub_resource type="NoiseTexture" id=7]
+[sub_resource type="NoiseTexture" id=5]
 seamless = true
-noise = SubResource( 6 )
+noise = SubResource( 4 )
 
-[sub_resource type="VisualShaderNodeTexture" id=8]
+[sub_resource type="VisualShaderNodeTexture" id=6]
 output_port_for_preview = 0
-texture = SubResource( 7 )
+texture = SubResource( 5 )
 
-[sub_resource type="VisualShaderNodeScalarOp" id=9]
+[sub_resource type="VisualShaderNodeScalarOp" id=7]
 output_port_for_preview = 0
 default_input_values = [ 0, 0.0, 1, 0.03 ]
 
-[sub_resource type="VisualShaderNodeScalarOp" id=10]
+[sub_resource type="VisualShaderNodeScalarOp" id=8]
 default_input_values = [ 0, 0.0, 1, 2.0 ]
 operator = 3
 
-[sub_resource type="VisualShaderNodeScalarFunc" id=11]
+[sub_resource type="VisualShaderNodeScalarFunc" id=9]
 output_port_for_preview = 0
 function = 15
 
-[sub_resource type="VisualShaderNodeColorConstant" id=13]
+[sub_resource type="VisualShaderNodeColorConstant" id=10]
 output_port_for_preview = 0
 constant = Color( 0.146973, 0.4375, 0, 1 )
 
-[sub_resource type="VisualShader" id=12]
+[sub_resource type="VisualShader" id=11]
 code = "shader_type spatial;
 uniform sampler2D tex_frg_5;
 
@@ -74,6 +74,7 @@ void fragment() {
 // Output:0
 	ALBEDO = n_out9p0;
 	ALPHA = n_out8p0;
+	SPECULAR = n_out8p0;
 
 }
 
@@ -82,31 +83,31 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -160, 36.25 )
+graph_offset = Vector2( -45, -71.25 )
 nodes/fragment/0/position = Vector2( 600, 40 )
-nodes/fragment/2/node = SubResource( 3 )
+nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( -120, 80 )
-nodes/fragment/3/node = SubResource( 4 )
+nodes/fragment/3/node = SubResource( 2 )
 nodes/fragment/3/position = Vector2( -200, 320 )
-nodes/fragment/4/node = SubResource( 5 )
+nodes/fragment/4/node = SubResource( 3 )
 nodes/fragment/4/position = Vector2( -60, 340 )
-nodes/fragment/5/node = SubResource( 8 )
+nodes/fragment/5/node = SubResource( 6 )
 nodes/fragment/5/position = Vector2( 20, 60 )
-nodes/fragment/6/node = SubResource( 9 )
+nodes/fragment/6/node = SubResource( 7 )
 nodes/fragment/6/position = Vector2( 200, 140 )
-nodes/fragment/7/node = SubResource( 10 )
+nodes/fragment/7/node = SubResource( 8 )
 nodes/fragment/7/position = Vector2( 140, 380 )
-nodes/fragment/8/node = SubResource( 11 )
+nodes/fragment/8/node = SubResource( 9 )
 nodes/fragment/8/position = Vector2( 360, 260 )
-nodes/fragment/9/node = SubResource( 13 )
+nodes/fragment/9/node = SubResource( 10 )
 nodes/fragment/9/position = Vector2( 360, -20 )
-nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 2, 0, 5, 0, 5, 0, 6, 0, 4, 0, 7, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 0, 0 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 2, 0, 5, 0, 5, 0, 6, 0, 4, 0, 7, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 0, 0, 8, 0, 0, 4 )
 
-[sub_resource type="ShaderMaterial" id=14]
-shader = SubResource( 12 )
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
 
-[sub_resource type="CylinderMesh" id=15]
-material = SubResource( 14 )
+[sub_resource type="CylinderMesh" id=13]
+material = SubResource( 12 )
 radial_segments = 6
 
 [node name="Food" type="Spatial"]
@@ -116,5 +117,5 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="MeshHolder"]
 transform = Transform( 0.6, 0, 0, 0, 0.5, 0, 0, 0, 0.6, 0, 0, 0 )
-mesh = SubResource( 15 )
+mesh = SubResource( 13 )
 material/0 = null

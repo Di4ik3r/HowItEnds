@@ -5,7 +5,7 @@ const FOOD_PATH = "res://scenes/simulation/food/Food.tscn"
 #signal food_timer_timeout
 
 export(float) var time = 1 setget _set_time
-export(bool) var spawning = true setget _set_spawning
+export(bool) var spawning = false setget _set_spawning
 
 var map_manager: MapManager
 var foods: Dictionary = {}
@@ -85,7 +85,8 @@ func _set_time(value: float) -> void:
 
 func _on_FoodTimer_timeout():
 #	emit_signal("food_timer_timeout")
-	spawn_food()
+	if spawning:
+		spawn_food()
 
 
 func _set_food_timer(value) -> void:

@@ -36,8 +36,13 @@ func load_last_save() -> void:
 	var saves = Tools.get_all_saves()
 	print(saves)
 	if saves.size() > 0:
-		var save = saves[saves.size() - 1]
-		load_save(save)
+		var last_save = Tools.get_last_save()
+		if last_save != "":
+			print(last_save)
+			load_save(last_save)
+		else:
+			var save = saves[saves.size() - 1]
+			load_save(save)
 #		Variables.save_name = save
 #		var result = Tools.sim_stats.auto_read()
 #		if result == OK:
@@ -68,6 +73,8 @@ func _on_ItemPlay_pressed():
 
 
 func _on_ItemContinue_pressed():
+	Tools.save_last_save()
+	
 	ItemContinue.disable()
 	OptionsCamera.current = false
 #

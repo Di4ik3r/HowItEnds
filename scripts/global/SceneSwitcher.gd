@@ -25,6 +25,7 @@ func goto_scene(scene, resource: Resource = null, resource1: Resource = null):
 		SCENES.MainMenu:
 			path = "res://scenes/main_menu/MainMenu.tscn"
 		SCENES.Simulation:
+			Tools.saves_info.last_save_name = Variables.save_name
 			path = "res://scenes/simulation/Simulation.tscn"
 		_:
 			path = "res://scenes/main_menu/MainMenu.tscn"

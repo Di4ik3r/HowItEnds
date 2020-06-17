@@ -18,7 +18,7 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_top = 408.0
+margin_top = 436.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 8
@@ -353,6 +353,7 @@ size_flags_vertical = 9
 text = "S10"
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 168.0
 margin_right = 1024.0
 margin_bottom = 192.0

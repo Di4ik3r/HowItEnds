@@ -6,10 +6,22 @@ const NOISE_A = -1
 const NOISE_B = 1
 
 var sim_stats = preload("res://resources/simulation/SimStats.tres")
+var saves_info = preload("res://resources/saves/SavesInfo.tres")
 
 
 func _ready():
 	pass
+
+
+func save_last_save() -> void:
+	saves_info.last_save_name = Variables.save_name
+	saves_info.auto_save()
+
+
+func get_last_save() -> String:
+#	print("in get last save")
+	saves_info.auto_read()
+	return saves_info.last_save_name
 
 
 func sort_restarts(a: int, b: int):

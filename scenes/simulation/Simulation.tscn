@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/map/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/simulation/Simulation.gd" type="Script" id=2]
-[ext_resource path="res://scenes/simulation/fp_camera/FirstPerson.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/simulation/bot/tests/TestBotUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/simulation/food/FoodManager.tscn" type="PackedScene" id=5]
 
@@ -22,15 +21,19 @@ time = 0.12
 
 [node name="BotTimer" type="Timer" parent="."]
 wait_time = 0.001
-autostart = true
 
 [node name="BotSpawnTimer" type="Timer" parent="."]
 wait_time = 7.0
 
 [node name="TimerRestart" type="Timer" parent="."]
 
-[node name="FirstPerson" parent="." instance=ExtResource( 3 )]
-transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577, -5, 15, 0 )
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.891157, 0.453695, 0, -0.453695, 0.891157, 0, 0, 0 )
+visible = false
+shadow_enabled = true
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.824314, 0.250563, -0.507666, 0, 0.896726, 0.442586, 0.566133, -0.36483, 0.739184, 0.106829, 3.24035, 1.24657 )
 [connection signal="eat_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_bot_pressed"]
 [connection signal="eat_pressed" from="TestBotUI" to="." method="_on_TestBotUI_eat_pressed"]
 [connection signal="move_pressed" from="TestBotUI" to="." method="_on_TestBotUI_move_pressed"]
