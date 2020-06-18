@@ -1,5 +1,11 @@
 extends Node
 
+
+
+enum SimulationState {
+	STOP, NORMAL, FAST
+}
+
 enum BlockType {
 	MOUNTAIN,
 	SAND,
@@ -9,6 +15,7 @@ enum BlockType {
 	BOT,
 	FOOD,
 }
+
 enum MapBots {
 	EMPTY, BOT
 }
@@ -39,22 +46,24 @@ enum Genes {
 	SKIP9,
 	SKIP10,
 }
+
 enum BlockType_depr {
 	EMPTY = 0,
 	FOOD = 1,
 	BOT = 2,
 	IMPASSABLE = -1,
 }
+
 enum GenTransition {
 	EMPTY = 2,
 	FOOD = 3,
 	BOT = 4,
 	IMPASSABLE = 5,
 }
+
 enum BotType {
 	A, B
 }
-
 
 var IP = "http://192.168.43.10:5000"
 #const FOOD_COST = 45
@@ -74,9 +83,22 @@ const UNIT = 1
 const BOTS_BUFF_SIZE = 15
 const BOTS_BUFF_MULTIPLIER = 0
 
+const SIM_STOP_SPEED = 0
+const SIM_NORMAL_SPEED = 1
+const SIM_FAST_SPEED = 0.001
+
 
 var timestamp = OS.get_time()
 var save_name: String = ""
+var sim_state = SimulationState.STOP
+
+var _bots_counter = 0
+
 
 func _ready():
 	pass
+
+
+func bots_counter() -> int:
+	_bots_counter += 1
+	return _bots_counter

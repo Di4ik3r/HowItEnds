@@ -48,16 +48,17 @@ func get_save_restarts() -> Array:
 
 func get_all_saves() -> Array:
 	var files = []
-	var dir = Directory.new()
+	var dir: Directory = Directory.new()
 	dir.open("user://saves/")
 	dir.list_dir_begin()
 
 	while true:
-		var file = dir.get_next()
+		var file: String = dir.get_next()
 		if file == "":
 			break
 		elif not file.begins_with("."):
-			files.append(file)
+			if not (".res" in file or ".tres" in file):
+				files.append(file)
 
 	files.sort()
 	dir.list_dir_end()

@@ -3,6 +3,7 @@ class_name BotManager
 
 
 signal bots_died
+signal bots_refreshed
 
 var map_bots: Dictionary
 
@@ -80,6 +81,7 @@ func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
 	bot.manager = self
 	
 	bots.append(bot)
+	emit_signal("bots_refreshed")
 	map_bots[Vector3(pos.x, 0, pos.z)] = bot
 	bot_holder.add_child(bot)
 
@@ -94,6 +96,7 @@ func spawn_bot_with_genotype(info: Dictionary) -> void:
 	bot.translation = pos
 	
 	bots.append(bot)
+	emit_signal("bots_refreshed")
 	map_bots[Vector3(pos.x, 0, pos.z)] = bot
 	
 	bot_holder.add_child(bot)
@@ -105,9 +108,12 @@ func bot_move(bot: Bot) -> int:
 		var increaser = bot_sense(bot)
 		
 		map_bots[Vector3(bot.translation.x, 0, bot.translation.z)] = null
-		bot.translation += bot.look_at_pos
-		bot.translation.y = map_manager.get_y(bot.translation.x, bot.translation.z)
-		map_bots[Vector3(bot.translation.x, 0, bot.translation.z)] = bot
+		var pos = bot.translation + bot.look_at_pos
+		pos.y = map_manager.get_y(pos.x, pos.z)
+		bot.interpolate_move(pos)
+#		bot.translation += bot.look_at_pos
+#		bot.translation.y = map_manager.get_y(bot.translation.x, bot.translation.z)
+		map_bots[Vector3(pos.x, 0, pos.z)] = bot
 		
 		return increaser
 	return bot_sense(bot)
@@ -126,10 +132,13 @@ func bot_eat(bot: Bot) -> int:
 	if map_manager.block_is_food(pos.x, pos.z):
 		FoodManager.remove_food(pos)
 		bot.energy += Variables.FOOD_COST
+		bot.food_eated += 1
+	
 	return sense(pos)
 
 
 func bot_eat_bot(bot: Bot) -> int:
+	
 	var pos = Vector3(bot.translation.x + bot.look_at_pos.x, \
 		map_manager.get_y(bot.translation.x, bot.translation.z), \
 		bot.translation.z + bot.look_at_pos.z)
@@ -138,17 +147,24 @@ func bot_eat_bot(bot: Bot) -> int:
 		return Variables.GenTransition.IMPASSABLE
 	
 	var bot_for_eat = map_bots[Vector3(pos.x, 0, pos.z)]
-	if bot_for_eat:
-#		print(bot_for_eat)
-		kill_bot(bot_for_eat)
-#		bot.energy += round(bot_for_eat.energy / 4)
-		bot.energy += round(bot_for_eat.energy / 2)
-#		return Variables.GenTransition.BOT
+	
+	if is_instance_valid(bot_for_eat):
+		if bot_for_eat and bot_for_eat is Bot:
+	#		print(bot_for_eat)
+			print("try eating ", bot.id)
+	#		bot.energy += round(bot_for_eat.energy / 4)
+			bot.energy += round(bot_for_eat.energy / 2)
+			kill_bot(bot_for_eat)
+			bot.bots_eated += 1
+	#		return Variables.GenTransition.BOT
 #	return Variables.GenTransition.EMPTY
 	return sense(pos)
 
 
 func kill_bot(bot: Bot) -> void:
+	if !bot:
+		return
+	
 	bots_buff.push_back(bot.last_duplicate())
 	if bots_buff.size() > Variables.BOTS_BUFF_SIZE:
 		var bot_to_remove = bots_buff.pop_front()
@@ -157,6 +173,7 @@ func kill_bot(bot: Bot) -> void:
 	var pos = bot.translation
 	map_bots[Vector3(pos.x, 0, pos.z)] = null
 	var result = bots.erase(bot)
+	emit_signal("bots_refreshed")
 	bot_holder.remove_child(bot)
 	bot.kill()
 	

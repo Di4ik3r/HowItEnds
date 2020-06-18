@@ -12,14 +12,21 @@ var map_manager = MapManager.new()
 var timestamp = Variables.timestamp
 var time_restart = 1
 
+var state = Variables.SimulationState.STOP setget _set_state
+
 onready var FoodManager = $FoodManager
 onready var Map = get_node(MapPath)
 onready var TimerRestart: = $TimerRestart as Timer
+onready var BotTimer: Timer = $BotTimer
+onready var SimUI = $SimulationControlUI
+onready var fps = $FirstPerson
 #onready var CircleCamera = get_node(CircleCameraPath)
 
 
 
 func _ready():
+	SimUI.set_generation(Tools.sim_stats.restart_count)
+	SimUI.set_time(0)
 	_link_signals()
 
 
@@ -31,7 +38,7 @@ func load_start():
 func start() -> void:
 	FoodManager.start_spawn()
 	bot_manager.start_spawn()
-	TimerRestart.start()
+#	TimerRestart.start()
 	pass
 
 
@@ -42,6 +49,7 @@ func restart() -> void:
 #	var stamp = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
 	Tools.sim_stats.auto_write_data(bot_manager.bots_buff, Variables.save_name)
 	bot_manager.restart()
+	SimUI.set_generation(Tools.sim_stats.restart_count - 1)
 	
 	TimerRestart.stop()
 	print("time: ", time_restart)
@@ -76,6 +84,8 @@ func _set_resource(value: MapExport) -> void:
 	
 	map_manager.map_bots = bot_manager.map_bots
 	map_manager.FoodManager = FoodManager
+	
+	SimUI.fps = fps
 	
 	Tools.sim_stats.map_vars = resource1
 	
@@ -151,8 +161,37 @@ func _on_TestBotUI_spawn_food_pressed():
 
 
 func _link_signals() -> void:
+	bot_manager.connect("bots_refreshed", SimUI, "update_bots", [bot_manager.bots])
 	bot_manager.connect("bots_died", self, "restart")
 
 
 func _on_TimerRestart_timeout():
-	time_restart += 1
+	time_restart += Variables.SIM_NORMAL_SPEED
+	SimUI.set_time(time_restart)
+
+
+func _on_SimulationControlUI_stop_pressed():
+	_set_state(Variables.SimulationState.STOP)
+
+
+func _on_SimulationControlUI_normal_pressed():
+	_set_state(Variables.SimulationState.NORMAL)
+
+
+func _on_SimulationControlUI_fast_pressed():
+	_set_state(Variables.SimulationState.FAST)
+
+
+func _set_state(value) -> void:
+	state = value
+	Variables.sim_state = value
+	match(state):
+		Variables.SimulationState.STOP:
+			TimerRestart.stop()
+			BotTimer.stop()
+		Variables.SimulationState.NORMAL:
+			TimerRestart.start(Variables.SIM_NORMAL_SPEED)
+			BotTimer.start(Variables.SIM_NORMAL_SPEED)
+		Variables.SimulationState.FAST:
+			TimerRestart.start(Variables.SIM_FAST_SPEED)
+			BotTimer.start(Variables.SIM_FAST_SPEED)

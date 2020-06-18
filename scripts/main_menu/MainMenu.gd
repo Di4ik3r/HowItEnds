@@ -1,6 +1,9 @@
 extends Spatial
 
 
+
+var last_known_save = ""
+
 onready var Options = $Options
 onready var ItemContinue = $Options/ItemContinue
 onready var ItemPlay = $Options/ItemPlay
@@ -30,6 +33,7 @@ func load_save(save: String) -> void:
 	var result = Tools.sim_stats.auto_read()
 	if result == OK:
 		MapGen.mapVars = Tools.sim_stats.map_vars
+		last_known_save = save
 
 
 func load_last_save() -> void:
@@ -117,6 +121,7 @@ func _on_Timer_timeout():
 
 
 func _on_MapGenerating_map_back_button_pressed():
+	load_save(last_known_save)
 	return_camera()
 	ItemPlay.enable()
 

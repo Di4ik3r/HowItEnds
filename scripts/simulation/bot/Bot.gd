@@ -1,6 +1,11 @@
 extends Spatial
 class_name Bot
 
+
+signal died
+
+const ARC = 1
+
 var function_dict = {
 	Variables.Genes.MOVE: funcref(self, "_move"),
 	Variables.Genes.STAY: funcref(self, "_stay"),
@@ -28,6 +33,10 @@ var function_dict = {
 	Variables.Genes.SKIP10: funcref(self, "_skip10"),
 }
 
+enum State {
+	MOVIMG, EATING, ROTATING, OTHER
+}
+
 enum Direction {
 	N, NE, E, ES, S, SW, W, WN
 }
@@ -43,8 +52,19 @@ var current_gen_increaser: int = 1
 var energy: int = Variables.START_ENERGY setget _set_energy
 var type = Variables.BotType.A setget _set_type
 
+var state = State.OTHER
+var moving_to = Vector3.INF
+
+var food_eated = 0
+var bots_eated = 0
+
+var id = Variables.bots_counter()
+
 onready var ModelA = $BotModelA
 onready var ModelB = $BotModelB
+onready var TweenMotion: Tween = $TweenMotion
+onready var TweenMotionEnd: Tween = $TweenMotionEnd
+onready var TweenRotation: Tween = $TweenRotation
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VIRTUAL
@@ -52,6 +72,25 @@ func _ready() -> void:
 	_set_cardinal(Direction.W)
 	_init_genotype()
 	_set_type(type)
+
+
+func _process(_delta) -> void:
+	if Variables.sim_state == Variables.SimulationState.NORMAL:
+		match state:
+			State.EATING:
+				match type:
+					Variables.BotType.A:
+						ModelA.play_eat()
+					Variables.BotType.B:
+						ModelB.play_eat()
+			State.MOVIMG:
+				match type:
+					Variables.BotType.A:
+						ModelA.play_move()
+					Variables.BotType.B:
+						ModelB.play_move()
+				
+		pass
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
@@ -69,6 +108,10 @@ func generate_genotype() -> void:
 		var category = _get_random_category()
 		var category_bounds = _get_category_bounds(category)
 		var gen = Tools.random_array_range(category_bounds)
+		if gen == 4:
+			category = _get_random_category()
+			category_bounds = _get_category_bounds(category)
+			gen = Tools.random_array_range(category_bounds)
 		genotype.append(Variables.Genes.values()[gen])
 
 func generate_my_genotype() -> void:
@@ -151,10 +194,11 @@ func make_choice() -> void:
 	current_gen_increaser = 1
 
 func kill() -> void:
+	emit_signal("died")
 	queue_free()
 func _kill() -> void:
 	manager.kill_bot(self)
-	self.queue_free()
+#	self.free()
 
 func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
@@ -199,14 +243,40 @@ func mutate_restart(_genotype: Array) -> Array:
 	return result
 
 
+func interpolate_move(end: Vector3) -> void:
+	moving_to = Vector3(end)
+#	end = end.linear_interpolate(translation, 0.5)
+#	end.y += ARC
+	var time = Variables.SIM_FAST_SPEED
+	match Variables.sim_state:
+		Variables.SimulationState.NORMAL:
+			time = Variables.SIM_NORMAL_SPEED
+	TweenMotion.interpolate_property(self, "translation", translation, end, time  * 0.4)
+	TweenMotion.start()
+
+
+func interpolate_rotate(end: Vector3) -> void:
+#	end = end.linear_interpolate(translation, 0.5)
+#	end.y += ARC
+	var time = Variables.SIM_FAST_SPEED
+	match Variables.sim_state:
+		Variables.SimulationState.NORMAL:
+			time = Variables.SIM_NORMAL_SPEED
+	TweenRotation.interpolate_property(self, "rotation", rotation,
+		transform.looking_at(end, Vector3.UP).basis.y, time  * 0.4)
+	TweenRotation.start()
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE
 func _move() -> void:
+	state = State.MOVIMG
 	current_gen_increaser = manager.bot_move(self)
 	_set_energy(energy + Tools.random_int_range(0, 1))
 func _stay() -> void:
 #	_set_energy(energy + 1)
 	pass
 func _eat() -> void:
+	state = State.EATING
 	manager.bot_eat(self)
 #	if !manager.is_block_ahead(Env.BlockType.FOOD, position, current_rotation):
 #		return
@@ -214,6 +284,7 @@ func _eat() -> void:
 #	var _energy = energy + Variables.FOOD_COST
 #	_set_energy(_energy)
 func _eat_bot() -> void:
+	state = State.EATING
 	current_gen_increaser = manager.bot_eat_bot(self)
 	
 #	if Env.is_block_ahead(Env.BlockType.BOT, position, current_rotation) == false:
@@ -221,6 +292,7 @@ func _eat_bot() -> void:
 #	var energy_from_bot = round(manager.eat_bot(self) / 4)
 #	_set_energy(energy + energy_from_bot)
 func _reproduce() -> void:
+	state = State.OTHER
 	manager.bot_reproduce(self)
 #	var reproduce_block = manager.get_block_for_reproduce(self)
 #	if reproduce_block == Vector3.INF:
@@ -232,30 +304,41 @@ func _reproduce() -> void:
 #	bot.parenting(self, reproduce_block)
 
 func _sense() -> void:
+	state = State.OTHER
 	current_gen_increaser = manager.bot_sense(self)
 #	var block_ahead = Env.get_type(position, current_rotation)
 #	current_gen_increaser = Env.GenTransition.values()[block_ahead]
 
 const zero_skip: int = 40
 func _skip1() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 1)
 func _skip2() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 2)
 func _skip3() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 3)
 func _skip4() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 4)
 func _skip5() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 5)
 func _skip6() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 6)
 func _skip7() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 7)
 func _skip8() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 8)
 func _skip9() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 9)
 func _skip10() -> void:
+	state = State.OTHER
 	increase_current_gen(zero_skip + 10)
 
 func _rotate_e() -> void:
@@ -282,7 +365,8 @@ func _init_genotype() -> void:
 #		generate_my_genotype()
 		generate_genotype()
 
-func _get_category_bounds(category: int) -> Array:
+
+func depr_get_category_bounds(category: int) -> Array:
 	var bound: Array
 	match category:
 		0:
@@ -301,8 +385,26 @@ func _get_category_bounds(category: int) -> Array:
 			bound = [63, 64]
 	
 	return bound
+
+
+func _get_category_bounds(category: int) -> Array:
+	var bound: Array
+	match category:
+		0:
+			bound = [0, 5]
+		1:
+			bound = [6, 13]
+		2:
+			bound = [14, 23]
+		_:
+			bound = [63, 64]
+	
+	return bound
+
+
 func _get_random_category() -> int:
-	return randi() % 6
+	return randi() % 3
+
 
 func _set_cardinal(value) -> void:
 	if !is_inside_tree():
@@ -330,6 +432,7 @@ func _set_cardinal(value) -> void:
 			look_at_pos = Vector3(1, 0, -1)
 	
 	if is_inside_tree():
+#		interpolate_rotate(translation + look_at_pos)
 		look_at(translation + look_at_pos, Vector3.UP)
 
 func _set_current_gen(value: int) -> void:
@@ -356,3 +459,13 @@ func _set_type(value: int) -> void:
 				ModelA.show()
 			Variables.BotType.B:
 				ModelB.show()
+
+
+func _on_TweenMotion_tween_completed(object, key):
+	var time = Variables.SIM_FAST_SPEED
+	match Variables.sim_state:
+		Variables.SimulationState.NORMAL:
+			time = Variables.SIM_NORMAL_SPEED
+	TweenMotionEnd.interpolate_property(self, "translation", translation, moving_to, time  * 0.4)
+	TweenMotionEnd.start()
+	pass
