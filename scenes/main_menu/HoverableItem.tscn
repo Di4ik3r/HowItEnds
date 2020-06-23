@@ -55,14 +55,14 @@ func _ready():
 	pass # Replace with function body.
 
 func slide():
-	tween_size.interpolate_property(self, \"scale\", scale, SCALE_END, TWEEN_SPEED, 0, 2)
+#	tween_size.interpolate_property(self, \"scale\", scale, SCALE_END, TWEEN_SPEED, 0, 2)
 	tween_position.interpolate_property(self, \"translation\", translation, TRANSLATION_END, TWEEN_SPEED, 0, 2)
 	tween_size.start()
 	tween_position.start()
 	pass
 
 func unslide():
-	tween_size.interpolate_property(self, \"scale\", scale, SCALE_START, TWEEN_SPEED, 0, 2)
+#	tween_size.interpolate_property(self, \"scale\", scale, SCALE_START, TWEEN_SPEED, 0, 2)
 	tween_position.interpolate_property(self, \"translation\", translation, TRANSLATION_START, TWEEN_SPEED, 0, 2)
 	tween_size.start()
 	tween_position.start()
