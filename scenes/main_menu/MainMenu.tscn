@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/main_menu/MainMenu.gd" type="Script" id=1]
-[ext_resource path="res://scenes/main_menu/HoverableItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/map/MapGenerating.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/main_menu/load/LoadPane.tscn" type="PackedScene" id=4]
 
@@ -16,26 +15,6 @@ transform = Transform( -1, 0, -3.27826e-07, 0, 1, 0, 3.27826e-07, 0, -1, 2.38, -
 
 [node name="LoadPane" parent="Options" instance=ExtResource( 4 )]
 transform = Transform( -0.981627, 0, -0.190809, 0, 1, 0, 0.190809, 0, -0.981627, 3.02692, 0, 9.72205 )
-
-[node name="ItemContinue" parent="Options" instance=ExtResource( 2 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, 1.2, 0.556 )
-text = "Continue"
-color = Color( 0.0313726, 0, 1, 0.207843 )
-
-[node name="ItemPlay" parent="Options" instance=ExtResource( 2 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, 0, 0.556 )
-text = "New"
-color = Color( 0, 1, 0, 0.207843 )
-
-[node name="ItemLoad" parent="Options" instance=ExtResource( 2 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, -1.2, 0.556 )
-text = "Load"
-color = Color( 0.968627, 1, 0, 1 )
-
-[node name="ItemExit" parent="Options" instance=ExtResource( 2 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.739, -2.4, 0.556 )
-text = "Exit"
-color = Color( 1, 0, 0, 1 )
 
 [node name="OptionsCamera" type="Camera" parent="Options"]
 transform = Transform( 0.883071, 0, -0.46924, 0, 1, 0, 0.46924, 0, 0.883071, 2.37988, -0.205526, 6.39762 )
@@ -60,10 +39,6 @@ transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577,
 
 [node name="TimerContinue" type="Timer" parent="PositionContinue"]
 wait_time = 1.5
-[connection signal="pressed" from="Options/ItemContinue" to="." method="_on_ItemContinue_pressed"]
-[connection signal="pressed" from="Options/ItemPlay" to="." method="_on_ItemPlay_pressed"]
-[connection signal="pressed" from="Options/ItemLoad" to="." method="_on_ItemLoad_pressed"]
-[connection signal="pressed" from="Options/ItemExit" to="." method="_on_ItemExit_pressed"]
 [connection signal="timeout" from="Options/TransitionCamera/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="map_back_button_pressed" from="MapGenerating" to="." method="_on_MapGenerating_map_back_button_pressed"]
 [connection signal="timeout" from="PositionContinue/TimerContinue" to="." method="_on_TimerContinue_timeout"]

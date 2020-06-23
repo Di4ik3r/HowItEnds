@@ -5,10 +5,10 @@ extends Spatial
 var last_known_save = ""
 
 onready var Options = $Options
-onready var ItemContinue = $Options/ItemContinue
-onready var ItemPlay = $Options/ItemPlay
-onready var ItemLoad = $Options/ItemLoad
-onready var ItemExit = $Options/ItemExit
+#onready var ItemContinue = $Options/ItemContinue
+#onready var ItemPlay = $Options/ItemPlay
+#onready var ItemLoad = $Options/ItemLoad
+#onready var ItemExit = $Options/ItemExit
 onready var TransitionCamera = $Options/TransitionCamera
 onready var OptionsCamera = $Options/OptionsCamera
 
@@ -28,6 +28,21 @@ func _ready():
 	load_last_save()
 	export_commands()
 	pass # Replace with function body.
+
+
+func _input(event) -> void:
+	if Input.is_action_just_pressed("continue_game"):
+		_on_ItemContinue_pressed()
+	
+	if Input.is_action_just_pressed("new_game"):
+		_on_ItemPlay_pressed()
+	
+	if Input.is_action_just_pressed("load_game"):
+		_on_ItemLoad_pressed()
+	
+	if Input.is_action_just_pressed("exit"):
+		_on_ItemExit_pressed()
+
 
 func load_save(save: String) -> void:
 	Variables.save_name = save
@@ -62,8 +77,8 @@ func _on_ItemPlay_pressed():
 	Variables.save_name = ""
 	Tools.sim_stats.refresh()
 	MapGen.mapVars = Tools.sim_stats.map_vars
-	
-	ItemPlay.disable()
+
+#	ItemPlay.disable()
 	OptionsCamera.current = false
 	
 	TransitionCamera.target = MapGenCamera.get_path()
@@ -80,7 +95,7 @@ func _on_ItemPlay_pressed():
 func _on_ItemContinue_pressed():
 	Tools.save_last_save()
 	
-	ItemContinue.disable()
+#	ItemContinue.disable()
 	OptionsCamera.current = false
 #
 	TransitionCamera.target = PositionContinue.get_path()
@@ -96,7 +111,7 @@ func _on_TimerContinue_timeout():
 
 
 func _on_ItemLoad_pressed():
-	ItemLoad.disable()
+#	ItemLoad.disable()
 	OptionsCamera.current = false
 	
 	PositionLoad.look_at(Vector3(-76.568, 31.873, -14.661), Vector3.UP)
@@ -124,7 +139,7 @@ func _on_Timer_timeout():
 func _on_MapGenerating_map_back_button_pressed():
 	load_save(last_known_save)
 	return_camera()
-	ItemPlay.enable()
+#	ItemPlay.enable()
 
 
 func return_camera() -> void:
