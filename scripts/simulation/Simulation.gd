@@ -47,7 +47,7 @@ func restart() -> void:
 	FoodManager.start_spawn()
 	
 #	var stamp = "%02d:%02d:%02d" % [timestamp.hour, timestamp.minute, timestamp.second]
-	Tools.sim_stats.auto_write_data(bot_manager.bots_buff, Variables.save_name)
+	Tools.sim_stats.auto_write_data(time_restart, bot_manager.bots_buff, Variables.save_name)
 	bot_manager.restart()
 	SimUI.set_generation(Tools.sim_stats.restart_count - 1)
 	

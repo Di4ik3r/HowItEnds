@@ -8,6 +8,7 @@ const MAP_VARS_STR: String = " map_vars"
 export var info: Array
 export var map_vars: Resource = null
 export var restart_count: int = 1
+export var bot_last_id: int = -1
 
 
 func save_test() -> int:
@@ -50,9 +51,9 @@ func refresh() -> void:
 	map_vars = preload("res://resources/map/MapVars.tres")
 
 
-func auto_write_data(bots: Array, file_name: String = "_backup") -> int:
+func auto_write_data(time: int, bots: Array, file_name: String = "_backup") -> int:
 	info = get_info_by_array(bots)
-	return auto_save()
+	return auto_save(time)
 #	return save(file_name)
 
 
@@ -61,7 +62,8 @@ func write_data(file_name: String, bots: Dictionary) -> int:
 	return save(file_name)
 
 
-func auto_save() -> int:
+func auto_save(time: int) -> int:
+	bot_last_id = Variables._bots_counter
 	var save_name = Variables.save_name
 	
 	var dir = Directory.new()
@@ -76,9 +78,14 @@ func auto_save() -> int:
 	
 	var file_path = "user://saves/%s/%d/sim_stats.tres" % [save_name, restart_count]
 	var map_vars_file_path = "user://saves/%s/%d/map_vars.tres" % [save_name, restart_count]
+	
 
 	var result = ResourceSaver.save(file_path, self)
 	var result1 = ResourceSaver.save(map_vars_file_path, map_vars)
+#	var result2 = ResourceSaver.
+	export_genetypes(save_name, restart_count, info)
+	
+	save_info(time, save_name)
 	
 	restart_count += 1
 	return result
@@ -115,6 +122,8 @@ func auto_read() -> int:
 #		return "Can't load %s resource" % file_name
 	
 	info = readed.info
+	bot_last_id = readed.bot_last_id
+	Variables._bots_counter = bot_last_id
 	restart_count = readed.restart_count + 1
 	var script = load("res://resources/map/MapVars.gd")
 	map_vars = readed1
@@ -158,3 +167,68 @@ func get_info_by_dictionary(bots: Dictionary) -> Array:
 	for bot in bots:
 		_info.append(bot.genotype.duplicate())
 	return _info
+
+
+func export_genetypes(save_name, restart, info) -> void:
+	var file: File = File.new()
+	var dir: Directory = Directory.new()
+	var load1 = str("user://saves/%s/%s/genotypes.csv" % [save_name, restart])
+	file.open(load1, File.WRITE)
+	
+	var array = []
+	var buff = []
+	var indexer = 0
+	for instance in info:
+		var genotype = instance.genotype
+		for gene in genotype:
+			var data = str(gene)
+			buff.append(data)
+		
+		file.store_csv_line(PoolStringArray(buff))
+		indexer += 1
+		buff.clear()
+	
+	file.close()
+
+
+func save_info(time, save_name) -> void:
+	var save_info_path = "user://saves/%s/save_info.csv" % [save_name]
+	var file: File = File.new()
+	
+	var readed: Array = []
+	if file.file_exists(save_info_path):
+		readed = read_save_info(save_name)
+	
+	var dir: Directory = Directory.new()
+	file.open(save_info_path, File.WRITE)
+	
+	var buff = []
+	var indexer = 0
+	
+	
+	if readed.size() != 0:
+		for line in readed:
+			if line.size() == 2:
+				file.store_csv_line(line)
+	
+	buff.append(restart_count - 1)
+	buff.append(time)
+	
+	file.store_csv_line(PoolStringArray(buff))
+	buff.clear()
+	
+	file.close()
+	pass
+
+
+func read_save_info(save_name: String) -> Array:
+	var result = []
+	var file = File.new()
+	file.open("user://saves/%s/save_info.csv" % save_name, file.READ)
+	while !file.eof_reached():
+		var csv = file.get_csv_line ()
+#		csv.append("\n")
+		result.append(csv)
+	file.close()
+	
+	return result

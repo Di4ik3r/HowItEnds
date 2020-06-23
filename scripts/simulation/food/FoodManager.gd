@@ -21,7 +21,7 @@ func _ready():
 
 func start_spawn() -> void:
 	var amount = map_manager.map_export.a_side * map_manager.map_export.b_side
-	amount *= 0.03
+	amount *= 0.06
 	start(amount)
 
 

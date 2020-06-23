@@ -6,3 +6,4 @@
 script = ExtResource( 1 )
 info = [  ]
 restart_count = 1
+bot_last_id = -1

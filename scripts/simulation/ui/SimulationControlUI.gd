@@ -19,6 +19,7 @@ onready var BotsEated = $VBoxContainer/BotInfoContainer/PanelContainer/VBoxConta
 onready var BotHolder = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/BotHolder
 onready var Time = $VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer/Time
 onready var Generation = $VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2/Generation
+onready var BotCount = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/BotCount
 
 
 func _ready():
@@ -87,6 +88,8 @@ func delink_bot() -> void:
 
 
 func update_bots(_bots: Array) -> void:
+	BotCount.text = str(_bots.size())
+	
 	clear_holder()
 	bots = _bots
 	for bot in bots:

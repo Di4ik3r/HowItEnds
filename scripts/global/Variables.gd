@@ -76,13 +76,13 @@ const REPRODUCE_COST = 35
 #const REPRODUCE_BOUND = 625
 const REPRODUCE_BOUND = 2
 #const START_ENERGY = 440   # new last was ~100
-const START_ENERGY = 120
+const START_ENERGY = 140
 
 const UNIT = 1
 
 #const BOTS_BUFF_SIZE = 15
-const BOTS_BUFF_SIZE = 10
-const BOTS_BUFF_MULTIPLIER = 2
+const BOTS_BUFF_SIZE = 15
+const BOTS_BUFF_MULTIPLIER = 4
 
 const SIM_STOP_SPEED = 0
 const SIM_NORMAL_SPEED = 1

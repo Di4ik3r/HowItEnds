@@ -73,6 +73,7 @@ func _ready() -> void:
 	_set_cardinal(Direction.W)
 	_init_genotype()
 	_set_type(type)
+	_set_current_gen(Tools.random_int_range(0, genotype.size()))
 
 
 #func _process(_delta) -> void:
@@ -223,7 +224,7 @@ func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
 #	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
 	var parent_energy = parent.energy * 0.2
-	var child_energy = parent.energy * 0.3
+	var child_energy = parent.energy * 0.6
 	parent._set_energy(parent_energy)
 	genotype = generate_genotype_by_parent(parent)
 #	energy = 80 + randi() % 10 - 11

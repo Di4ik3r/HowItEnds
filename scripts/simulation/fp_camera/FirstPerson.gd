@@ -38,7 +38,7 @@ func _input(event):
 #	if event is InputEventMouseButton:
 	
 	
-	if Input.is_mouse_button_pressed(2):
+	if Input.is_mouse_button_pressed(2) and event.is_pressed():
 		print("blyat")
 		mouse_visible = !mouse_visible
 		match mouse_visible:

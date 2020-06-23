@@ -79,3 +79,9 @@ func random_array_range(bounds: Array) -> int:
 	return randi() % (bounds[1] - bounds[0] + 1) + bounds[0]
 func random_int_range(a: int, b: int) -> int:
 	return randi() % (b - a + 1) + a
+
+
+func get_time_from_sec(sec: int) -> String:
+	var minutes = floor(sec / 60)
+	var seconds = sec - (sec * 60)
+	return "%02d:%02d" % [minutes, seconds]

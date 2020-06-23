@@ -163,7 +163,7 @@ func bot_eat_bot(bot: Bot) -> int:
 	if is_instance_valid(bot_for_eat):
 		if bot_for_eat and bot_for_eat is Bot:
 	#		print(bot_for_eat)
-#			print("try eating ", bot.id)
+#			print("try eating ", bot.id, " -> ", bot_for_eat.id)
 	#		bot.energy += round(bot_for_eat.energy / 4)
 			bot.energy += round(bot_for_eat.energy / 2)
 			kill_bot(bot_for_eat)
@@ -192,7 +192,12 @@ func kill_bot(bot: Bot) -> void:
 	map_bots[Vector3(pos.x, 0, pos.z)] = null
 	var result = bots.erase(bot)
 	emit_signal("bots_refreshed")
-	bot_holder.remove_child(bot)
+	
+	if is_instance_valid(bot):
+		if bot.is_inside_tree():
+			if bot_holder.has_node(bot.get_path()):
+				bot_holder.remove_child(bot)
+		
 	bot.kill()
 	
 	if bots.size() == 0:
