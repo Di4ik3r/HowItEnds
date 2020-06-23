@@ -58,7 +58,8 @@ func restart() -> void:
 		var bot: Bot = _bot
 #		var amount_of_copy = randi() % (Variables.BOTS_BUFF_MULTIPLIER + 1)
 #		var amount_of_copy = Variables.BOTS_BUFF_MULTIPLIER
-		var amount_of_copy = Tools.random_int_range(0, Variables.BOTS_BUFF_MULTIPLIER)
+#		var amount_of_copy = Tools.random_int_range(0, Variables.BOTS_BUFF_MULTIPLIER)
+		var amount_of_copy = Variables.BOTS_BUFF_MULTIPLIER
 		for j in range(0, amount_of_copy):
 #			print("copied")
 			var bot_copy = bot.last_duplicate()

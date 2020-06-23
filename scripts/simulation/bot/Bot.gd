@@ -222,10 +222,12 @@ func _kill() -> void:
 func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
 #	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
-	parent._set_energy(parent.energy / 2)
+	var parent_energy = parent.energy * 0.2
+	var child_energy = parent.energy * 0.3
+	parent._set_energy(parent_energy)
 	genotype = generate_genotype_by_parent(parent)
 #	energy = 80 + randi() % 10 - 11
-	energy = round(parent.energy / 2)
+	energy = round(parent_energy)
 
 
 func generate_genotype_by_parent(parent: Bot) -> Array:
