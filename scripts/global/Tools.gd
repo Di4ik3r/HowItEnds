@@ -49,6 +49,8 @@ func get_save_restarts() -> Array:
 func get_all_saves() -> Array:
 	var files = []
 	var dir: Directory = Directory.new()
+#	if !dir.dir_exists("user://saves/"):
+#		dir.make_dir("saves")
 	dir.open("user://saves/")
 	dir.list_dir_begin()
 

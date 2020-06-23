@@ -189,9 +189,12 @@ func _set_state(value) -> void:
 		Variables.SimulationState.STOP:
 			TimerRestart.stop()
 			BotTimer.stop()
+			FoodManager.spawning = false
 		Variables.SimulationState.NORMAL:
+			FoodManager.spawning = false
 			TimerRestart.start(Variables.SIM_NORMAL_SPEED)
 			BotTimer.start(Variables.SIM_NORMAL_SPEED)
 		Variables.SimulationState.FAST:
+			FoodManager.spawning = true
 			TimerRestart.start(Variables.SIM_FAST_SPEED)
 			BotTimer.start(Variables.SIM_FAST_SPEED)

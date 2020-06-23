@@ -62,10 +62,11 @@ enum GenTransition {
 }
 
 enum BotType {
-	A, B
+	A, B, C
 }
 
 var IP = "http://192.168.43.10:5000"
+var IP_REG = "http://192.168.43.10:3000"
 #const FOOD_COST = 45
 const FOOD_COST = 75
 const BOT_COST = 14

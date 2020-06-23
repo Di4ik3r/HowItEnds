@@ -38,4 +38,4 @@ func _on_ButtonPost_pressed():
 	}
 	var query = JSON.print(data)
 	var headers = ["Content-Type: application/json"]
-	HTTPRequester.request(, headers, use_ssl, HTTPClient.METHOD_POST, query)
+	HTTPRequester.request(ip_post, headers, use_ssl, HTTPClient.METHOD_POST, query)

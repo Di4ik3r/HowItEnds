@@ -22,6 +22,7 @@ visible = false
 
 [node name="FoodManager" parent="." instance=ExtResource( 5 )]
 time = 0.12
+spawning = false
 
 [node name="BotTimer" type="Timer" parent="."]
 wait_time = 0.001

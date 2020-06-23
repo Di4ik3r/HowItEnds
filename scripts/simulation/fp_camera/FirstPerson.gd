@@ -47,9 +47,11 @@ func _input(event):
 	
 	if Input.is_mouse_button_pressed(1):
 		if Ray.is_colliding():
-			var obj = Ray.get_collider().get_parent()
-			if obj is Bot:
-				select_bot(obj)
+			var obj = Ray.get_collider()
+			if obj:
+				obj = obj.get_parent()
+				if obj is Bot:
+					select_bot(obj)
 	
 	if Input.is_action_pressed("ui_cancel"):
 		delink_bot()

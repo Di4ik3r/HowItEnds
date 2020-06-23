@@ -52,7 +52,10 @@ func restart() -> void:
 	print("restart #%d : %s" % [restart_count, str(OS.get_time())])
 	
 	for i in range(0, bots_buff.size()):
-		var bot: Bot = bots_buff.pop_back()
+		var _bot = bots_buff.pop_back()
+		if !(_bot is Bot):
+			continue
+		var bot: Bot = _bot
 #		var amount_of_copy = randi() % (Variables.BOTS_BUFF_MULTIPLIER + 1)
 #		var amount_of_copy = Variables.BOTS_BUFF_MULTIPLIER
 		var amount_of_copy = Tools.random_int_range(0, Variables.BOTS_BUFF_MULTIPLIER)
@@ -67,7 +70,8 @@ func restart() -> void:
 
 func cycle() -> void:
 	for bot in bots:
-		(bot as Bot).make_choice()
+		if bot and is_instance_valid(bot) and bot is Bot:
+			(bot as Bot).make_choice()
 
 
 func spawn_bot(bot: Bot = null, pos: Vector3 = Vector3.INF) -> void:
@@ -108,11 +112,16 @@ func bot_move(bot: Bot) -> int:
 		var increaser = bot_sense(bot)
 		
 		map_bots[Vector3(bot.translation.x, 0, bot.translation.z)] = null
+		
 		var pos = bot.translation + bot.look_at_pos
 		pos.y = map_manager.get_y(pos.x, pos.z)
-		bot.interpolate_move(pos)
+		
+		bot.translation += bot.look_at_pos
+		bot.translation.y = pos.y
+#		bot.interpolate_move(pos)
 #		bot.translation += bot.look_at_pos
 #		bot.translation.y = map_manager.get_y(bot.translation.x, bot.translation.z)
+		
 		map_bots[Vector3(pos.x, 0, pos.z)] = bot
 		
 		return increaser
@@ -142,6 +151,8 @@ func bot_eat_bot(bot: Bot) -> int:
 	var pos = Vector3(bot.translation.x + bot.look_at_pos.x, \
 		map_manager.get_y(bot.translation.x, bot.translation.z), \
 		bot.translation.z + bot.look_at_pos.z)
+	pos.x = floor(pos.x)
+	pos.z = floor(pos.z)
 	
 	if map_manager.is_out_of_bounds(pos.x, pos.z):
 		return Variables.GenTransition.IMPASSABLE
@@ -165,10 +176,14 @@ func kill_bot(bot: Bot) -> void:
 	if !bot:
 		return
 	
-	bots_buff.push_back(bot.last_duplicate())
-	if bots_buff.size() > Variables.BOTS_BUFF_SIZE:
-		var bot_to_remove = bots_buff.pop_front()
-		bot_to_remove.queue_free()
+	if is_instance_valid(bot):
+		bots_buff.push_back(bot.last_duplicate())
+		if bots_buff.size() > Variables.BOTS_BUFF_SIZE:
+			if is_instance_valid(bot):
+				var bot_to_remove = bots_buff.pop_front()
+				if is_instance_valid(bot_to_remove):
+					if bot_to_remove is Bot:
+						bot_to_remove.queue_free()
 
 	var pos = bot.translation
 	map_bots[Vector3(pos.x, 0, pos.z)] = null
@@ -187,7 +202,7 @@ func reproduce_bot(bot: Bot) -> void:
 func bot_reproduce(bot: Bot) -> void:
 	var reproduce_block = map_manager.get_block_for_reproduce(bot)
 	if reproduce_block == Vector3.INF ||\
-	bot.energy >= Variables.REPRODUCE_BOUND:
+	bot.energy <= Variables.REPRODUCE_BOUND:
 		return
 	
 	var child: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
@@ -205,11 +220,11 @@ func bot_sense(bot: Bot) -> int:
 
 
 func sense(pos: Vector3) -> int:
-	if map_manager.is_out_of_bounds(pos.x, pos.z):
+	if map_manager.is_out_of_bounds(floor(pos.x), floor(pos.z)):
 		return Variables.GenTransition.IMPASSABLE
-	if map_bots[Vector3(pos.x, 0, pos.z)]:
+	if map_bots[Vector3(floor(pos.x), 0, floor(pos.z))]:
 		return Variables.GenTransition.BOT
-	return _get_transition_gen(map_manager.map_type[pos.x][pos.z])
+	return _get_transition_gen(map_manager.map_type[floor(pos.x)][floor(pos.z)])
 
 
 func init_map_bots() -> void:

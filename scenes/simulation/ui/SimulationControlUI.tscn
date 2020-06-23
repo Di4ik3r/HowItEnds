@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/fonts/symbol_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/simulation/ui/SimulationControlUI.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color( 0.678431, 0.00784314, 0.00784314, 1 )
 
 [node name="SimulationControlUI" type="MarginContainer"]
 anchor_right = 1.0
@@ -15,58 +20,62 @@ __meta__ = {
 margin_right = 1024.0
 margin_bottom = 600.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_left = 315.0
-margin_right = 708.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
 margin_bottom = 38.0
-size_flags_horizontal = 4
 
-[node name="ButtonStop" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 286.0
+margin_right = 679.0
+margin_bottom = 38.0
+size_flags_horizontal = 6
+
+[node name="ButtonStop" type="Button" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
 margin_right = 36.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 1 )
 text = "u"
 
-[node name="ButtonNormal" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonNormal" type="Button" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
 margin_left = 40.0
 margin_right = 76.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 1 )
 text = "P"
 
-[node name="ButtonFast" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonFast" type="Button" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
 margin_left = 80.0
 margin_right = 116.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 1 )
 text = "F"
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
 margin_left = 120.0
 margin_right = 393.0
 margin_bottom = 38.0
 size_flags_horizontal = 6
 size_flags_vertical = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 266.0
 margin_bottom = 31.0
 size_flags_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer"]
 margin_right = 102.0
 margin_bottom = 24.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
 margin_top = 5.0
 margin_right = 40.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = " Time:"
 
-[node name="Time" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
+[node name="Time" type="LineEdit" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
 margin_left = 44.0
 margin_right = 102.0
 margin_bottom = 24.0
@@ -74,23 +83,36 @@ max_length = 300
 editable = false
 placeholder_text = "time"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer"]
 margin_left = 106.0
 margin_right = 259.0
 margin_bottom = 24.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2"]
 margin_top = 5.0
 margin_right = 91.0
 margin_bottom = 19.0
 text = ";  Generation: "
 
-[node name="Generation" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2"]
+[node name="Generation" type="LineEdit" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2"]
 margin_left = 95.0
 margin_right = 153.0
 margin_bottom = 24.0
 editable = false
 placeholder_text = "generation"
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 970.0
+margin_right = 1024.0
+margin_bottom = 38.0
+
+[node name="ButtonBack" type="Button" parent="VBoxContainer/HBoxContainer2/PanelContainer2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 47.0
+margin_bottom = 31.0
+custom_styles/normal = SubResource( 1 )
+text = "Back"
 
 [node name="Expander" type="Control" parent="VBoxContainer"]
 visible = false
@@ -227,8 +249,8 @@ margin_bottom = 112.0
 size_flags_horizontal = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/BotInfoContainer"]
-margin_left = 908.0
-margin_top = 54.0
+margin_left = 969.0
+margin_top = 78.0
 margin_right = 1024.0
 margin_bottom = 112.0
 size_flags_horizontal = 10
@@ -237,23 +259,26 @@ size_flags_vertical = 8
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BotInfoContainer/PanelContainer2"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 109.0
-margin_bottom = 51.0
+margin_right = 48.0
+margin_bottom = 27.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BotInfoContainer/PanelContainer2/MarginContainer"]
-margin_right = 102.0
-margin_bottom = 44.0
+margin_right = 41.0
+margin_bottom = 20.0
 
-[node name="Button" type="Button" parent="VBoxContainer/BotInfoContainer/PanelContainer2/MarginContainer/VBoxContainer"]
-margin_right = 102.0
+[node name="ButtonSave" type="Button" parent="VBoxContainer/BotInfoContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_right = 41.0
 margin_bottom = 20.0
 text = "Save"
 
 [node name="Button2" type="Button" parent="VBoxContainer/BotInfoContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 24.0
 margin_right = 102.0
 margin_bottom = 44.0
 text = "Save to server"
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonStop" to="." method="_on_ButtonStop_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonNormal" to="." method="_on_ButtonNormal_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonFast" to="." method="_on_ButtonFast_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/HBoxContainer/ButtonStop" to="." method="_on_ButtonStop_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/HBoxContainer/ButtonNormal" to="." method="_on_ButtonNormal_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/HBoxContainer/ButtonFast" to="." method="_on_ButtonFast_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/PanelContainer2/ButtonBack" to="." method="_on_ButtonBack_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotInfoContainer/PanelContainer2/MarginContainer/VBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]

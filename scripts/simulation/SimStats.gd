@@ -145,10 +145,11 @@ func read(file_name: String = "_backup") -> int:
 func get_info_by_array(bots: Array) -> Array:
 	var _info = Array()
 	for bot in bots:
-		_info.append({
-			"genotype": bot.genotype.duplicate(),
-			"type": bot.type,
-		})
+		if bot is Bot:
+			_info.append({
+				"genotype": bot.genotype.duplicate(),
+				"type": bot.type,
+			})
 	return _info
 
 

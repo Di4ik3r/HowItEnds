@@ -62,6 +62,7 @@ var id = Variables.bots_counter()
 
 onready var ModelA = $BotModelA
 onready var ModelB = $BotModelB
+onready var ModelC = $BotModelC
 onready var TweenMotion: Tween = $TweenMotion
 onready var TweenMotionEnd: Tween = $TweenMotionEnd
 onready var TweenRotation: Tween = $TweenRotation
@@ -74,23 +75,27 @@ func _ready() -> void:
 	_set_type(type)
 
 
-func _process(_delta) -> void:
-	if Variables.sim_state == Variables.SimulationState.NORMAL:
-		match state:
-			State.EATING:
-				match type:
-					Variables.BotType.A:
-						ModelA.play_eat()
-					Variables.BotType.B:
-						ModelB.play_eat()
-			State.MOVIMG:
-				match type:
-					Variables.BotType.A:
-						ModelA.play_move()
-					Variables.BotType.B:
-						ModelB.play_move()
-				
-		pass
+#func _process(_delta) -> void:
+#	if Variables.sim_state == Variables.SimulationState.NORMAL:
+#		match state:
+#			State.EATING:
+#				match type:
+#					Variables.BotType.A:
+#						ModelA.play_eat()
+#					Variables.BotType.B:
+#						ModelB.play_eat()
+#					Variables.BotType.C:
+#						ModelC.play_eat()
+#			State.MOVIMG:
+#				match type:
+#					Variables.BotType.A:
+#						ModelA.play_move()
+#					Variables.BotType.B:
+#						ModelB.play_move()
+#					Variables.BotType.C:
+#						ModelC.play_move()
+#
+#		pass
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
 
@@ -411,7 +416,7 @@ func _set_cardinal(value) -> void:
 		return
 	
 	randomize()
-	_set_energy(energy + Tools.random_int_range(0, 1))
+#	_set_energy(energy + Tools.random_int_range(0, 1))
 	cardinal = value
 	match cardinal:
 		Direction.N:
@@ -449,16 +454,22 @@ func _set_energy(value: int) -> void:
 
 
 func _set_type(value: int) -> void:
+	if !self:
+		return
+	
 	type = value
 	
-	if ModelA:
+	if ModelA and ModelB and ModelC:
 		ModelA.hide()
 		ModelB.hide()
+		ModelC.hide()
 		match type:
 			Variables.BotType.A:
 				ModelA.show()
 			Variables.BotType.B:
 				ModelB.show()
+			Variables.BotType.C:
+				ModelC.show()
 
 
 func _on_TweenMotion_tween_completed(object, key):

@@ -17,8 +17,8 @@ onready var EnergyCount = $VBoxContainer/BotInfoContainer/PanelContainer/VBoxCon
 onready var FoodEated = $VBoxContainer/BotInfoContainer/PanelContainer/VBoxContainer/HBoxContainer2/FoodEated
 onready var BotsEated = $VBoxContainer/BotInfoContainer/PanelContainer/VBoxContainer/HBoxContainer3/BotsEated
 onready var BotHolder = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/BotHolder
-onready var Time = $VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer/Time
-onready var Generation = $VBoxContainer/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2/Generation
+onready var Time = $VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer/Time
+onready var Generation = $VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2/Generation
 
 
 func _ready():
@@ -119,3 +119,12 @@ func set_time(time: int) -> void:
 
 func set_generation(generation: int) -> void:
 	Generation.text = str(generation)
+
+
+func _on_ButtonBack_pressed():
+	SceneSwitcher.goto_scene(SceneSwitcher.SCENES.MainMenu)
+
+
+func _on_ButtonSave_pressed():
+	
+	pass
