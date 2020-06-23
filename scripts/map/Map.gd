@@ -30,6 +30,7 @@ func _set_resource(value: MapExport) -> void:
 	
 	export_map_to_csv()
 
+
 func export_map_to_csv() -> void:
 	var blocks = resource.blocks
 	var divider = resource.b_side

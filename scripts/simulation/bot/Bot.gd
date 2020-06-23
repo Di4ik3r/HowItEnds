@@ -98,6 +98,19 @@ func _ready() -> void:
 #		pass
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
+func generate_blank_genotype() -> void:
+	current_gen = 0
+	
+	var genes = Variables.Genes.values()
+	var genes_size = Variables.Genes.size()
+	
+#	var types = Variables.BotType.values()
+	_set_type(Variables.BotType.A)
+	
+#	for i in range(0, 64):
+	for i in range(0, 128):
+		genotype.append(Variables.Genes.STAY)
+
 
 func generate_genotype() -> void:
 	current_gen = 0
@@ -205,6 +218,7 @@ func _kill() -> void:
 	manager.kill_bot(self)
 #	self.free()
 
+
 func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
 #	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
@@ -212,16 +226,21 @@ func parenting(parent: Bot, pos: Vector3) -> void:
 	genotype = generate_genotype_by_parent(parent)
 #	energy = 80 + randi() % 10 - 11
 	energy = round(parent.energy / 2)
+
+
 func generate_genotype_by_parent(parent: Bot) -> Array:
 	var result: Array = parent.genotype.duplicate()
 #	var chance: int = randi() % 11 + 1
 	var chance: int = Tools.random_int_range(1, 10)
 	if chance <= 2:
-		var types = Variables.BotType.values()
-		type = types[Tools.random_int_range(0, types.size() - 1)]
+#		var types = Variables.BotType.values()
+#		type = types[Tools.random_int_range(0, types.size() - 1)]
+		_set_type(Variables.BotType.C)
 		
 		result = mutate(result)
 	return result
+
+
 func mutate(_genotype: Array) -> Array:
 	var rand_gene = randi() % _genotype.size()
 	var category = _get_random_category()
@@ -230,19 +249,26 @@ func mutate(_genotype: Array) -> Array:
 	_genotype[rand_gene] = Variables.Genes.values()[gen]
 	return _genotype
 
+
 func last_duplicate() -> Bot:
 	var bot: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
-	bot.type = type
-	bot.genotype = mutate_restart(genotype)
+#	bot.type = type
+	bot._set_type(Variables.BotType.A)
+	bot.genotype = genotype.duplicate()
+	bot.genotype = mutate_restart(bot)
 	bot.energy = Variables.START_ENERGY
 	return bot
-func mutate_restart(_genotype: Array) -> Array:
-	var result: Array = _genotype.duplicate()
+
+
+func mutate_restart(bot: Bot) -> Array:
+	var result: Array = bot.genotype.duplicate()
 #	var chance: int = randi() % 11 + 1
 	var chance: int = Tools.random_int_range(1, 10)
 	if chance <= 2:
+		bot._set_type(Variables.BotType.B)
 		var types = Variables.BotType.values()
 		type = types[Tools.random_int_range(0, types.size() - 1)]
+		_set_type(Variables.BotType.B)
 		
 		result = mutate(result)
 	return result
@@ -368,7 +394,8 @@ func _init_genotype() -> void:
 	if genotype.size() == 0:
 		randomize()
 #		generate_my_genotype()
-		generate_genotype()
+#		generate_genotype()
+		generate_blank_genotype()
 
 
 func depr_get_category_bounds(category: int) -> Array:

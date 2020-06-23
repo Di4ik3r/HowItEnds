@@ -162,7 +162,7 @@ func bot_eat_bot(bot: Bot) -> int:
 	if is_instance_valid(bot_for_eat):
 		if bot_for_eat and bot_for_eat is Bot:
 	#		print(bot_for_eat)
-			print("try eating ", bot.id)
+#			print("try eating ", bot.id)
 	#		bot.energy += round(bot_for_eat.energy / 4)
 			bot.energy += round(bot_for_eat.energy / 2)
 			kill_bot(bot_for_eat)
@@ -177,6 +177,8 @@ func kill_bot(bot: Bot) -> void:
 		return
 	
 	if is_instance_valid(bot):
+		if bot.genotype.size() == 0:
+			print("syka")
 		bots_buff.push_back(bot.last_duplicate())
 		if bots_buff.size() > Variables.BOTS_BUFF_SIZE:
 			if is_instance_valid(bot):

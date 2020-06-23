@@ -26,6 +26,7 @@ onready var TimerContinue = $PositionContinue/TimerContinue
 
 func _ready():
 	load_last_save()
+	export_commands()
 	pass # Replace with function body.
 
 func load_save(save: String) -> void:
@@ -135,3 +136,25 @@ func return_camera() -> void:
 	
 	MapGenCamera.current = false
 	MapGenUI.visible = false
+
+
+func export_commands() -> void:
+	var commands = Variables.Genes.keys()
+	var file: File = File.new()
+	var dir: Directory = Directory.new()
+	dir.open("user://")
+	if !dir.dir_exists("exports"):
+		dir.make_dir("exports")
+	file.open("user://exports/commands_export.csv", File.WRITE)
+	
+	var array = []
+	var buff = []
+	var indexer = 0
+	for command in commands:
+		buff.append(str(indexer) + ":" + str(command))
+		file.store_csv_line(PoolStringArray(buff))
+		
+		indexer += 1
+		buff.clear()
+	
+	file.close()
