@@ -51,6 +51,9 @@ func get_all_saves() -> Array:
 	var dir: Directory = Directory.new()
 #	if !dir.dir_exists("user://saves/"):
 #		dir.make_dir("saves")
+	dir.open("user://")
+	if !dir.dir_exists("user://saves"):
+		dir.make_dir("user://saves/")
 	dir.open("user://saves/")
 	dir.list_dir_begin()
 

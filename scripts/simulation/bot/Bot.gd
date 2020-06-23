@@ -302,7 +302,7 @@ func interpolate_rotate(end: Vector3) -> void:
 func _move() -> void:
 	state = State.MOVIMG
 	current_gen_increaser = manager.bot_move(self)
-	_set_energy(energy + Tools.random_int_range(0, 1))
+#	_set_energy(energy + Tools.random_int_range(0, 1))
 func _stay() -> void:
 #	_set_energy(energy + 1)
 	pass

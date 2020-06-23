@@ -68,7 +68,7 @@ enum BotType {
 var IP = "http://192.168.43.10:5000"
 var IP_REG = "http://192.168.43.10:3000"
 #const FOOD_COST = 45
-const FOOD_COST = 75
+const FOOD_COST = 45
 const BOT_COST = 14
 const MOVE_COST = 0
 const ROTATE_COST = 0
@@ -81,7 +81,7 @@ const START_ENERGY = 120
 const UNIT = 1
 
 #const BOTS_BUFF_SIZE = 15
-const BOTS_BUFF_SIZE = 15
+const BOTS_BUFF_SIZE = 20
 const BOTS_BUFF_MULTIPLIER = 0
 
 const SIM_STOP_SPEED = 0

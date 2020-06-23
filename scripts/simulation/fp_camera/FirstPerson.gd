@@ -37,7 +37,9 @@ func _input(event):
 		head.rotation.x = clamp(head.rotation.x, deg2rad(-90), deg2rad(90))
 #	if event is InputEventMouseButton:
 	
+	
 	if Input.is_mouse_button_pressed(2):
+		print("blyat")
 		mouse_visible = !mouse_visible
 		match mouse_visible:
 			true:

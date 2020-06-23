@@ -78,10 +78,6 @@ Tools="*res://scripts/global/Tools.gd"
 SceneSwitcher="*res://scripts/global/SceneSwitcher.gd"
 Variables="*res://scripts/global/Variables.gd"
 
-[display]
-
-window/size/always_on_top=true
-
 [editor_plugins]
 
 enabled=PoolStringArray( "gut" )
