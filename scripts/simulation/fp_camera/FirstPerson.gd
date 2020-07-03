@@ -22,7 +22,7 @@ var mouse_visible: bool = false
 var follow_bot: Bot = null
 
 onready var head = $Head
-onready var camera = $Head/FpsGameCamera
+onready var camera: Camera = $Head/FpsGameCamera
 onready var Ray = $Head/RayCast
 
 
@@ -57,6 +57,16 @@ func _input(event):
 	
 	if Input.is_action_pressed("ui_cancel"):
 		delink_bot()
+	
+#	if event.is_pressed():
+	if Input.is_action_pressed("perspective_mode"):
+		camera.projection = Camera.PROJECTION_PERSPECTIVE
+	
+	if Input.is_action_pressed("orthoghonal_mode"):
+		camera.projection = Camera.PROJECTION_ORTHOGONAL
+		camera.size = 60
+		translation = Vector3(25, 60, 21)
+		head.rotation.x = -90
 
 
 func _physics_process(delta):

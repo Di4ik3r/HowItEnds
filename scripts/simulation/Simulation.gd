@@ -52,7 +52,7 @@ func restart() -> void:
 	SimUI.set_generation(Tools.sim_stats.restart_count - 1)
 	
 	TimerRestart.stop()
-	print("time: ", time_restart)
+	print("time: %d; mins: %d" % [time_restart, floor(time_restart / 60)])
 	
 	time_restart = 1
 	TimerRestart.start()
@@ -79,8 +79,9 @@ func _set_resource(value: MapExport) -> void:
 #	FoodManager.map_pos = Map.map_pos
 	FoodManager.map_manager = map_manager
 	var amount = resource.a_side * resource.b_side
-	amount *= 0.001
-	FoodManager.time = 1 / amount
+#	amount *= 0.001
+#	FoodManager.time = 1 / amount
+	FoodManager.amount = amount
 	
 	map_manager.map_bots = bot_manager.map_bots
 	map_manager.FoodManager = FoodManager

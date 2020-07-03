@@ -34,6 +34,7 @@ collide_with_areas = true
 
 [node name="FpsGameCamera" type="Camera" parent="Head"]
 current = true
+fov = 80.0
 far = 8192.0
 
 [node name="Control" type="Control" parent="."]

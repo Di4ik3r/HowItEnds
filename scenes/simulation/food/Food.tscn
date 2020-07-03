@@ -123,7 +123,6 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="MeshHolder"]
 transform = Transform( 0.6, 0, 0, 0, 0.5, 0, 0, 0, 0.6, 0, 0, 0 )
-visible = false
 mesh = SubResource( 13 )
 material/0 = null
 

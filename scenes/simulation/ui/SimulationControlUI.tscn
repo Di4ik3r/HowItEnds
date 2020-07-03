@@ -18,15 +18,15 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 605.0
+margin_bottom = 661.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 38.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 286.0
-margin_right = 679.0
+margin_left = 240.0
+margin_right = 725.0
 margin_bottom = 38.0
 size_flags_horizontal = 6
 
@@ -52,7 +52,7 @@ text = "F"
 
 [node name="PanelContainer3" type="PanelContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer"]
 margin_left = 120.0
-margin_right = 393.0
+margin_right = 485.0
 margin_bottom = 38.0
 size_flags_horizontal = 6
 size_flags_vertical = 10
@@ -60,12 +60,12 @@ size_flags_vertical = 10
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 266.0
+margin_right = 358.0
 margin_bottom = 31.0
 size_flags_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer"]
-margin_right = 102.0
+margin_right = 194.0
 margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
@@ -77,15 +77,16 @@ text = " Time:"
 
 [node name="Time" type="LineEdit" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer"]
 margin_left = 44.0
-margin_right = 102.0
+margin_right = 194.0
 margin_bottom = 24.0
+rect_min_size = Vector2( 150, 0 )
 max_length = 300
 editable = false
 placeholder_text = "time"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer"]
-margin_left = 106.0
-margin_right = 259.0
+margin_left = 198.0
+margin_right = 351.0
 margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/HBoxContainer/PanelContainer3/HBoxContainer/HBoxContainer2"]
@@ -121,64 +122,156 @@ margin_right = 1024.0
 margin_bottom = 179.0
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 42.0
+margin_right = 1024.0
+margin_bottom = 545.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 margin_right = 143.0
-margin_bottom = 489.0
+margin_bottom = 503.0
 size_flags_horizontal = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 136.0
-margin_bottom = 440.0
+margin_bottom = 496.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 124.0
-margin_bottom = 433.0
+margin_bottom = 489.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 margin_right = 119.0
 margin_bottom = 24.0
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_top = 5.0
 margin_right = 57.0
 margin_bottom = 19.0
 text = "Bots list:"
 
-[node name="BotCount" type="LineEdit" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="BotCount" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 61.0
 margin_right = 119.0
 margin_bottom = 24.0
 editable = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 margin_top = 28.0
 margin_right = 119.0
-margin_bottom = 428.0
+margin_bottom = 52.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 5.0
+margin_right = 57.0
+margin_bottom = 19.0
+text = "Mutated:"
+
+[node name="MutatedCount" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 61.0
+margin_right = 119.0
+margin_bottom = 24.0
+editable = false
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 119.0
+margin_bottom = 80.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_top = 5.0
+margin_right = 42.0
+margin_bottom = 19.0
+text = "Foods:"
+
+[node name="FoodCount" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 46.0
+margin_right = 104.0
+margin_bottom = 24.0
+editable = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 119.0
+margin_bottom = 484.0
 rect_min_size = Vector2( 0, 400 )
 size_flags_vertical = 3
 
-[node name="BotHolder" type="VBoxContainer" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="BotHolder" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 119.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/BotHolder"]
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/BotHolder"]
 margin_right = 119.0
 margin_bottom = 20.0
 
-[node name="BotInfoContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 493.0
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 850.0
 margin_right = 1024.0
-margin_bottom = 605.0
+margin_bottom = 503.0
+size_flags_horizontal = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 167.0
+margin_bottom = 496.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 155.0
+margin_bottom = 489.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_right = 150.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 59.0
+margin_bottom = 19.0
+text = "Amount: "
+
+[node name="GenotypesHashCount" type="LineEdit" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 63.0
+margin_right = 121.0
+margin_bottom = 24.0
+editable = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 150.0
+margin_bottom = 484.0
+rect_min_size = Vector2( 150, 400 )
+size_flags_vertical = 3
+
+[node name="GenotypesHashHolder" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ScrollContainer"]
+margin_right = 150.0
+margin_bottom = 456.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer/ScrollContainer/GenotypesHashHolder"]
+margin_right = 150.0
+margin_bottom = 20.0
+
+[node name="BotInfoContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 549.0
+margin_right = 1024.0
+margin_bottom = 661.0
 size_flags_vertical = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/BotInfoContainer"]

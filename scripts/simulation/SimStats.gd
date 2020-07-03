@@ -191,7 +191,7 @@ func export_genetypes(save_name, restart, info) -> void:
 	file.close()
 
 
-func save_info(time, save_name) -> void:
+func save_info(time: int, save_name) -> void:
 	var save_info_path = "user://saves/%s/save_info.csv" % [save_name]
 	var file: File = File.new()
 	
@@ -212,7 +212,8 @@ func save_info(time, save_name) -> void:
 				file.store_csv_line(line)
 	
 	buff.append(restart_count - 1)
-	buff.append(time)
+	buff.append(str(time))
+	print(buff)
 	
 	file.store_csv_line(PoolStringArray(buff))
 	buff.clear()

@@ -21,8 +21,9 @@ visible = false
 [node name="BotHolder" type="Spatial" parent="."]
 
 [node name="FoodManager" parent="." instance=ExtResource( 5 )]
-time = 0.12
+time = 0.01
 spawning = false
+amount_multiplier = 0.15
 
 [node name="BotTimer" type="Timer" parent="."]
 wait_time = 0.001
@@ -68,6 +69,7 @@ transform = Transform( -0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573577,
 [connection signal="spawn_bot_pressed" from="TestBotUI" to="." method="_on_TestBotUI_spawn_bot_pressed"]
 [connection signal="spawn_food_pressed" from="TestBotUI" to="." method="_on_TestBotUI_spawn_food_pressed"]
 [connection signal="stay_pressed" from="TestBotUI" to="." method="_on_TestBotUI_stay_pressed"]
+[connection signal="food_size_changed" from="FoodManager" to="SimulationControlUI" method="_on_FoodManager_food_size_changed"]
 [connection signal="timeout" from="BotTimer" to="." method="_on_BotTimer_timeout"]
 [connection signal="timeout" from="BotSpawnTimer" to="." method="_on_BotSpawnTimer_timeout"]
 [connection signal="timeout" from="TimerRestart" to="." method="_on_TimerRestart_timeout"]

@@ -99,6 +99,20 @@ func _ready() -> void:
 #		pass
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC
+
+func hash_genotype() -> int:
+	return hash(genotype)
+
+
+func genotype_sum() -> int:
+	var result = 0
+	
+	for gen in genotype:
+		result += gen
+	
+	return result
+
+
 func generate_blank_genotype() -> void:
 	current_gen = 0
 	
@@ -223,8 +237,8 @@ func _kill() -> void:
 func parenting(parent: Bot, pos: Vector3) -> void:
 	randomize()
 #	parent._set_energy(parent.energy - Variables.REPRODUCE_COST)
-	var parent_energy = parent.energy * 0.2
-	var child_energy = parent.energy * 0.6
+	var parent_energy = parent.energy * 0.3
+	var child_energy = parent.energy * 0.5
 	parent._set_energy(parent_energy)
 	genotype = generate_genotype_by_parent(parent)
 #	energy = 80 + randi() % 10 - 11
@@ -234,8 +248,8 @@ func parenting(parent: Bot, pos: Vector3) -> void:
 func generate_genotype_by_parent(parent: Bot) -> Array:
 	var result: Array = parent.genotype.duplicate()
 #	var chance: int = randi() % 11 + 1
-	var chance: int = Tools.random_int_range(1, 10)
-	if chance <= 2:
+	var chance: int = Tools.random_int_range(0, 100)
+	if chance <= 25:
 #		var types = Variables.BotType.values()
 #		type = types[Tools.random_int_range(0, types.size() - 1)]
 		_set_type(Variables.BotType.C)
@@ -246,19 +260,21 @@ func generate_genotype_by_parent(parent: Bot) -> Array:
 
 func mutate(_genotype: Array) -> Array:
 	var rand_gene = randi() % _genotype.size()
-	var category = _get_random_category()
-	var category_bounds = _get_category_bounds(category)
-	var gen = Tools.random_array_range(category_bounds)
-	_genotype[rand_gene] = Variables.Genes.values()[gen]
+#	var category = _get_random_category()
+#	var category_bounds = _get_category_bounds(category)
+#	var gen = Tools.random_array_range(category_bounds)
+#	_genotype[rand_gene] = Variables.Genes.values()[gen]
+	_genotype[rand_gene] = Variables.Genes.values()[Tools.random_int_range(0, Variables.Genes.size() - 1)]
 	return _genotype
 
 
-func last_duplicate() -> Bot:
+func last_duplicate(mutate: bool = false) -> Bot:
 	var bot: Bot = load("res://scenes/simulation/bot/Bot.tscn").instance()
 #	bot.type = type
 	bot._set_type(Variables.BotType.A)
 	bot.genotype = genotype.duplicate()
-	bot.genotype = mutate_restart(bot)
+	if mutate:
+		bot.genotype = mutate_restart(bot)
 	bot.energy = Variables.START_ENERGY
 	return bot
 
@@ -266,8 +282,8 @@ func last_duplicate() -> Bot:
 func mutate_restart(bot: Bot) -> Array:
 	var result: Array = bot.genotype.duplicate()
 #	var chance: int = randi() % 11 + 1
-	var chance: int = Tools.random_int_range(1, 10)
-	if chance <= 2:
+	var chance: int = Tools.random_int_range(0, 100)
+	if chance <= 25:
 		bot._set_type(Variables.BotType.B)
 		var types = Variables.BotType.values()
 		type = types[Tools.random_int_range(0, types.size() - 1)]
@@ -305,7 +321,10 @@ func interpolate_rotate(end: Vector3) -> void:
 func _move() -> void:
 	state = State.MOVIMG
 	current_gen_increaser = manager.bot_move(self)
-#	_set_energy(energy + Tools.random_int_range(0, 1))
+	
+#	randomize()
+#	if Tools.random_int_range(0, 3) <= 1:
+#		_set_energy(energy + Tools.random_int_range(1, 10))
 func _stay() -> void:
 #	_set_energy(energy + 1)
 	pass
